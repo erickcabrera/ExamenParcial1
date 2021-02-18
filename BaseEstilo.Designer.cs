@@ -50,9 +50,9 @@
             this.btnsalir.BackColor = System.Drawing.SystemColors.HotTrack;
             this.btnsalir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnsalir.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnsalir.Location = new System.Drawing.Point(470, 302);
+            this.btnsalir.Location = new System.Drawing.Point(470, 238);
             this.btnsalir.Name = "btnsalir";
-            this.btnsalir.Size = new System.Drawing.Size(91, 35);
+            this.btnsalir.Size = new System.Drawing.Size(91, 99);
             this.btnsalir.TabIndex = 1;
             this.btnsalir.Text = "Salir";
             this.btnsalir.UseVisualStyleBackColor = false;
