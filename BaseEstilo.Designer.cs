@@ -37,9 +37,9 @@
             this.btnmenu.BackColor = System.Drawing.SystemColors.HotTrack;
             this.btnmenu.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnmenu.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnmenu.Location = new System.Drawing.Point(361, 302);
+            this.btnmenu.Location = new System.Drawing.Point(353, 302);
             this.btnmenu.Name = "btnmenu";
-            this.btnmenu.Size = new System.Drawing.Size(91, 35);
+            this.btnmenu.Size = new System.Drawing.Size(99, 35);
             this.btnmenu.TabIndex = 0;
             this.btnmenu.Text = "Menú";
             this.btnmenu.UseVisualStyleBackColor = false;
