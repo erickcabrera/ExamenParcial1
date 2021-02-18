@@ -102,7 +102,7 @@
             this.txtexistencia.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtexistencia.MaxLength = 4;
             this.txtexistencia.Name = "txtexistencia";
-            this.txtexistencia.Size = new System.Drawing.Size(50, 23);
+            this.txtexistencia.Size = new System.Drawing.Size(87, 23);
             this.txtexistencia.TabIndex = 4;
             this.txtexistencia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtexistencia_KeyPress);
             // 
