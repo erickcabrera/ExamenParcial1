@@ -52,13 +52,9 @@
             // 
             // btnmenu
             // 
-            this.btnmenu.Location = new System.Drawing.Point(745, 588);
-            this.btnmenu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             // 
             // btnsalir
             // 
-            this.btnsalir.Location = new System.Drawing.Point(866, 588);
-            this.btnsalir.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             // 
             // label1
             // 
@@ -242,8 +238,6 @@
             this.Controls.SetChildIndex(this.btnborrar, 0);
             this.Controls.SetChildIndex(this.btncargar, 0);
             this.Controls.SetChildIndex(this.pictureBox1, 0);
-            this.Controls.SetChildIndex(this.btnmenu, 0);
-            this.Controls.SetChildIndex(this.btnsalir, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();

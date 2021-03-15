@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ExamenParcial1
 {
-    public partial class Inventario_form : BaseEstilo
+    public partial class Inventario_form : Form
     {
         private int edit_indice;
         private int id_inventario = 0;
@@ -24,13 +24,16 @@ namespace ExamenParcial1
         {
             InitializeComponent();
         }
+        
         private void Inventario_form_Load(object sender, EventArgs e)
         {
+            /*
             Conexion cn = new Conexion();
             cn.ConsultasLlenar(dgvmostrar, "Inventario");
             cantidad = dgvmostrar.RowCount;
+            */
         }
-
+        /*
         //Metodos
         private void ActualizarDataGrid()
         {
@@ -38,6 +41,7 @@ namespace ExamenParcial1
             Conexion cn = new Conexion();
             cn.ConsultasLlenar(dgvmostrar, "Inventario");
         }
+        */
         private void reseteo()
         {
             txtdescripcion.Clear();
@@ -47,6 +51,7 @@ namespace ExamenParcial1
         }
         private void btnagregar_Click(object sender, EventArgs e)
         {
+            /*
             if (validaciones())
             {
                 errorProvider1.Clear();
@@ -91,6 +96,7 @@ namespace ExamenParcial1
                     }
                 }
             }
+            */
         }
 
         private void dgvmostrar_Click(object sender, EventArgs e)
@@ -112,6 +118,7 @@ namespace ExamenParcial1
 
         private void btnborrar_Click(object sender, EventArgs e)
         {
+            /*
             if (validaciones())
             {
                 errorProvider1.Clear();
@@ -134,6 +141,7 @@ namespace ExamenParcial1
                     MessageBox.Show("Debe seleccionar una fila de datos primero");
                 }
             }  
+            */
         }
 
         private void btncargar_Click(object sender, EventArgs e)

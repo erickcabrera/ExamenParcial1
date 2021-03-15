@@ -31,11 +31,14 @@ namespace ExamenParcial1
         //Loguearse
         private void button1_Click(object sender, EventArgs e)
         {
+            /*
             Conexion cn = new Conexion();
             //Validar el usuario y el password
             if (cn.Consultas(Convert.ToString(txtuser.Text), Convert.ToString(txtpass.Text)) > 0) 
                 {
-                    MessageBox.Show("Ingreso exitoso, bienvenido");                  
+                    MessageBox.Show("Ingreso exitoso, bienvenido");    
+                
+                ///Esto no
                 //Agregar swich para cada tipo de usuario
                 /*switch (Login.Usuario)
                 {
@@ -56,7 +59,7 @@ namespace ExamenParcial1
                         formulario4.Show();
                         break;
                 }
-                */
+                
                 Menú menu = new Menú();
                 menu.Show();
                 this.Hide();
@@ -65,7 +68,7 @@ namespace ExamenParcial1
             {
                 MessageBox.Show("Usuario o contraseña incorrectos");
             }
-
+            */
         }
 
         private void button3_Click(object sender, EventArgs e)

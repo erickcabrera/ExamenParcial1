@@ -11,7 +11,7 @@ using System.IO;
 
 namespace ExamenParcial1
 {
-    public partial class Factura_form : BaseEstilo
+    public partial class Factura_form : Form
     {
         private int opcion = -1;
         private string nombre;
@@ -29,8 +29,11 @@ namespace ExamenParcial1
         }
 
         //Metodos
+        
         private void agregarImagen()
         {
+            /*
+
             ImageList imagenes = new ImageList();
             imagenes.ImageSize = new Size(50, 50);
 
@@ -58,6 +61,7 @@ namespace ExamenParcial1
 
             //Uniendo imagenes al listview
             lv1.SmallImageList = imagenes;
+            */
         }
 
         //Funcionalidades
@@ -111,6 +115,7 @@ namespace ExamenParcial1
                 }
                 else
                 {
+                    /*
                     Conexion cn = new Conexion();
                     Factura factura = new Factura();
                     factura.Nombre = nombre;
@@ -148,7 +153,9 @@ namespace ExamenParcial1
                         {
                             txttotal.Text = Convert.ToString(float.Parse(txtcosto.Text) + mano_obra);
                         }
+                    
                     }
+                    */
                 }
 
             }
@@ -286,6 +293,7 @@ namespace ExamenParcial1
         {
             if (dgv.Rows.Count > 0)
             {
+                /*
                 Conexion cn = new Conexion();
                 Factura2 factura = new Factura2();
                 factura.Id_repuestos = "";
@@ -333,6 +341,7 @@ namespace ExamenParcial1
                     MessageBox.Show(factura.Id_repuestos.ToString());
 
                 }
+                */
             }
         }
         //Abriendo el formulario que muestra las facturas
@@ -343,4 +352,5 @@ namespace ExamenParcial1
             this.Hide();
         }
     }
-}
+        
+    }

@@ -27,5 +27,10 @@ namespace ExamenParcial1
             menu.Show();
             this.Hide();
         }
+
+        private void BaseEstilo_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

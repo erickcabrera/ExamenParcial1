@@ -49,13 +49,9 @@
             // 
             // btnmenu
             // 
-            this.btnmenu.Location = new System.Drawing.Point(555, 558);
-            this.btnmenu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             // 
             // btnsalir
             // 
-            this.btnsalir.Location = new System.Drawing.Point(667, 558);
-            this.btnsalir.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             // 
             // btnagregar
             // 
@@ -261,8 +257,6 @@
             this.Controls.SetChildIndex(this.dgv, 0);
             this.Controls.SetChildIndex(this.txtmanoobra, 0);
             this.Controls.SetChildIndex(this.btnverfacturas, 0);
-            this.Controls.SetChildIndex(this.btnmenu, 0);
-            this.Controls.SetChildIndex(this.btnsalir, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

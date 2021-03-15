@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ExamenParcial1
 {
-    public partial class Factura_mostrar : BaseEstilo
+    public partial class Factura_mostrar : Form
     {
         public Factura_mostrar()
         {
@@ -19,8 +19,10 @@ namespace ExamenParcial1
 
         private void Factura_mostrar_Load(object sender, EventArgs e)
         {
+            /*
             Conexion cn = new Conexion();
-            cn.ConsultasLlenar(dgv, "Factura");
+            cn.ConsultasLlenar(dgvmostrar, "Factura");
+            */
         }
 
         private void btnvolver_Click(object sender, EventArgs e)

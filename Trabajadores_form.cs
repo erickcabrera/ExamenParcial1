@@ -7,33 +7,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.OleDb;
+using System.IO;
 
 namespace ExamenParcial1
 {
-    public partial class Trabajadores_form : BaseEstilo
+    public partial class Trabajadores_form : Form
     {
-        private int edit_indice = -1;
         private int id_trabajador = 0;
-        private int cantidad = 0;
         private int fecha_seleccionada = 0;
+        //El validador me permite saber si un dato va a ser ingresado, o caso contrario, va a ser modificado
+        private int validador = -1;
+        private string dui = "";
+        Lista lista = new Lista();
+
         public Trabajadores_form()
         {
             InitializeComponent();
         }
-        private void Gerente_Platform_Load(object sender, EventArgs e)
-        {
-            Conexion cn = new Conexion();
-            cn.ConsultasLlenar(dgvmostrar, "Trabajador");
-            cantidad = dgvmostrar.RowCount;
-            cbtipo.SelectedIndex = 0;
-        }
-        
+
         //Metodos
-        private void ActualizarDataGrid()
+
+        //El metodo tiene como parametro un objeto de tipo lista. El cual luego ocupo el método Mostrar la Lista
+        //Esto me devuelve una cola y la uso como DataSource
+        private void ActualizarDataGrid(Lista lista)
         {
             dgvmostrar.DataSource = null;
-            Conexion cn = new Conexion();
-            cn.ConsultasLlenar(dgvmostrar, "Trabajador");
+            dgvmostrar.DataSource = lista.Mostrar().ToList();
         }
         private void reseteo()
         {
@@ -50,99 +50,187 @@ namespace ExamenParcial1
         }
         private void btnagregar_Click(object sender, EventArgs e)
         {
-            if (validaciones())
+            try
             {
-                Conexion cn = new Conexion();
+                //Faltan validaciones
+                //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
+
+                //Creo un objeto del tipo trabajador y lleno los datos de este
                 Trabajadores trabajador = new Trabajadores();
                 trabajador.Nombre = txtnombre.Text;
-                trabajador.Telefono = txttelefono.Text;
-                trabajador.Tipo = Convert.ToString(cbtipo.SelectedItem);
                 trabajador.Dui = txtdui.Text;
+                trabajador.Nit = txtnit.Text;
                 trabajador.Afp = txtafp.Text;
                 trabajador.Seguro = txtseguro.Text;
-                trabajador.Nit = txtnit.Text;
                 trabajador.Direccion = txtdireccion.Text;
-                trabajador.Pago = float.Parse((txtpago.Text));
-                DateTime fecha = fechanacimiento.SelectionStart;
-                trabajador.Fecha = fecha;
+                trabajador.Telefono = txttelefono.Text;
+                trabajador.Tipo = cbtipo.SelectedItem.ToString();
+                trabajador.Pago = float.Parse(txtpago.Text);
+                trabajador.Fecha = fechanacimiento.SelectionStart;
 
-                if (id_trabajador != 0)
+                //Si el validador == -1 significa que un dato será INGRESADO
+                if (validador == -1)
                 {
-
-                    if (cn.ConsultasActualizar(trabajador, id_trabajador) == 0)
-                    {
-                        MessageBox.Show("No se pudo actualizar en la base de datos");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Datos actualizados");
-                        ActualizarDataGrid();
-                        reseteo();
-                        id_trabajador = 0;
-                    }
+                    //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
+                    lista.InsertarF(trabajador);
+                    //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
+                    ActualizarDataGrid(lista);
+                    //Limpio pantalla
+                    reseteo();
                 }
                 else
                 {
-                    Conexion cn2 = new Conexion();
-                    if (cn2.ConsultasInsertar(trabajador) == 0)
-                    {
-                        MessageBox.Show("No se pudo ingresar a la base de datos");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Registro agregado correctamente");
-                        ActualizarDataGrid();
-                        reseteo();
-                        id_trabajador = 0;
-                    }
+                    //Caso contrario, significa que el usuario está modificando un trabajador existente
+                    //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
+                    txtdui.ReadOnly = false;
+                    txtafp.ReadOnly = false;
+                    txtnit.ReadOnly = false;
+                    txtseguro.ReadOnly = false;
+                    //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
+                    lista.Editar(dui, trabajador);
+                    //Actualizo el datagrid
+                    ActualizarDataGrid(lista);
+                    reseteo();
+                    //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
+                    validador = -1;
+                    dui = "";
                 }
-            }     
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void btnborrar_Click(object sender, EventArgs e)
         {
-            if (validaciones())
+            //Faltan validaciones
+
+            //Pruebo si ha sido seleccionado un dato del datagrid
+            if (validador != -1)
             {
-                if (id_trabajador != 0) //verifica si hay un índice seleccionado
+                try
                 {
-                    Conexion cn = new Conexion();
-                    if (cn.ConsultasBorrar(id_trabajador, "Trabajador") == 1)
+                    //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
+
+                    //Creo un nuevo objeto del tipo lista
+                    Lista lista2 = new Lista();
+
+                    //Le paso todos los valores que no sean los que se quieren borrar de la lista global
+                    foreach (Trabajadores trabajador in lista.EnCola(dui))
                     {
-                        MessageBox.Show("Registro borrado exitosamente");
-                        reseteo();
-                        ActualizarDataGrid();
+                        lista2.InsertarF(trabajador);
                     }
-                    else
-                    {
-                        MessageBox.Show("Hubo un problema al borrar el registro");
-                    }
+                    //Hago que la lista global sea igual a la nueva lista, es decir, que tenga los valores nuevos excepto el borrado
+                    lista = lista2;
+                    //Actualizo el datagrid
+                    ActualizarDataGrid(lista);
+                    //Reinicio los validadores
+                    validador = -1;
+                    reseteo();
+                    dui = "";
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Debe seleccionar una fila de datos primero");
+                    MessageBox.Show(ex.Message);
                 }
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar una row primero");
             }
         }
 
-        private void dgvmostrar_Click(object sender, EventArgs e)
+        DataView ImportarDatos(string nombrearchivo)
         {
-            if (dgvmostrar.Rows.Count > 0)
+            //Este código lo copié de internet, pero le entiendo. Lo que importa es que funciona
+            string conexion = string.Format("Provider = Microsoft.ACE.OLEDB.12.0; Data Source = {0}; Extended Properties = 'Excel 12.0;'", nombrearchivo);
+
+            OleDbConnection conector = new OleDbConnection(conexion);
+
+            conector.Open();
+
+            //Asegurense que el documento excel que van a importar tenga Hoja1 como nombre. No Hoja 1, debe estar unido Hoja1
+            OleDbCommand consulta = new OleDbCommand("select * from [Hoja1$]", conector);
+
+            OleDbDataAdapter adaptador = new OleDbDataAdapter
             {
-                edit_indice = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
-                id_trabajador = Convert.ToInt32(dgvmostrar.Rows[edit_indice].Cells[0].Value);
-                txtnombre.Text = dgvmostrar.Rows[edit_indice].Cells[1].Value.ToString();
-                DateTime fecha = Convert.ToDateTime(dgvmostrar.Rows[edit_indice].Cells[2].Value);
-                fechanacimiento.SelectionStart = fecha;
-                fechanacimiento.SelectionEnd = fecha;
-                txtdui.Text = dgvmostrar.Rows[edit_indice].Cells[3].Value.ToString();
-                txtnit.Text = dgvmostrar.Rows[edit_indice].Cells[4].Value.ToString();
-                txtafp.Text = dgvmostrar.Rows[edit_indice].Cells[5].Value.ToString();
-                txtseguro.Text = dgvmostrar.Rows[edit_indice].Cells[6].Value.ToString();
-                txtdireccion.Text = dgvmostrar.Rows[edit_indice].Cells[7].Value.ToString();
-                txtpago.Text = Convert.ToString(dgvmostrar.Rows[edit_indice].Cells[8].Value);
-                txttelefono.Text = dgvmostrar.Rows[edit_indice].Cells[9].Value.ToString();
-                cbtipo.SelectedItem = dgvmostrar.Rows[edit_indice].Cells[10].Value.ToString();
+                SelectCommand = consulta
+            };
+
+            DataSet ds = new DataSet();
+
+            adaptador.Fill(ds);
+
+            conector.Close();
+
+            return ds.Tables[0].DefaultView;
+        }
+
+        public void ExportarDatos(DataGridView gridIn, string outputFile)
+        {
+            //Tambien lo copié de internet. Este exportar en formato .csv, ya que me dio problemas con una libreria al intentar
+            //Exportar el excel de un solo
+
+            //El archivo .csv, lo pueden abrir desde excel y luego guardarlo así, para luego volverlo a importar a este programa
+            //prueba para ver si DataGridView tiene alguna fila
+            try
+            {
+                if (gridIn.RowCount > 0)
+                {
+                    string value = "";
+                    DataGridViewRow dr = new DataGridViewRow();
+                    StreamWriter swOut = new StreamWriter(outputFile);
+
+                    //escribir filas de encabezado en csv
+                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                    {
+                        if (i > 0)
+                        {
+                            swOut.Write(",");
+                        }
+                        swOut.Write(gridIn.Columns[i].HeaderText);
+                    }
+
+                    swOut.WriteLine();
+
+                    //escribir filas DataGridView en csv
+                    for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
+                    {
+                        if (j > 0)
+                        {
+                            swOut.WriteLine();
+                        }
+
+                        dr = gridIn.Rows[j];
+
+                        for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                        {
+                            if (i > 0)
+                            {
+                                swOut.Write(",");
+                            }
+
+                            value = dr.Cells[i].Value.ToString();
+                            //reemplazar comas con espacios
+                            value = value.Replace(',', ' ');
+                            //reemplazar nuevas líneas incrustadas con espacios
+                            value = value.Replace(Environment.NewLine, " ");
+
+                            swOut.Write(value);
+                        }
+                    }
+                    swOut.Close();
+                }
+                MessageBox.Show("Archivo exportado correctamente");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         //Validaciones
@@ -267,14 +355,6 @@ namespace ExamenParcial1
             }
         }
 
-        private void txtdui_Click(object sender, EventArgs e)
-        {
-            if (id_trabajador == 0)
-            {
-                txtdui.Clear();
-            }
-        }
-
         private void txtnit_Click(object sender, EventArgs e)
         {
             if (id_trabajador == 0)
@@ -310,5 +390,92 @@ namespace ExamenParcial1
                 fecha_seleccionada = 1;
             }
         }
+
+        private void dgvmostrar_Click(object sender, EventArgs e)
+        {
+            if (dgvmostrar.Rows.Count > 0)
+            {
+                try
+                {
+                    //Le paso los datos del datagrid a los textbox
+                    validador = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
+                    dui = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
+                    txtnombre.Text = dgvmostrar.Rows[validador].Cells[0].Value.ToString();
+                    txtdui.Text = dui;
+                    txtnit.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
+                    txtafp.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
+                    txtseguro.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
+                    txtdireccion.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
+                    txttelefono.Text = dgvmostrar.Rows[validador].Cells[6].Value.ToString();
+                    cbtipo.SelectedItem = dgvmostrar.Rows[validador].Cells[7].Value.ToString();
+                    txtpago.Text = dgvmostrar.Rows[validador].Cells[8].Value.ToString();
+                    fechanacimiento.SelectionStart = Convert.ToDateTime(dgvmostrar.Rows[validador].Cells[9].Value.ToString());
+                    fechanacimiento.SelectionEnd = Convert.ToDateTime(dgvmostrar.Rows[validador].Cells[9].Value.ToString());
+                    //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
+                    txtdui.ReadOnly = true;
+                    txtafp.ReadOnly = true;
+                    txtnit.ReadOnly = true;
+                    txtseguro.ReadOnly = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void btnImportar_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel | *.xls;*.xlsx;",
+
+                Title = "Seleccionar Archivo"
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                dgvmostrar.DataSource = ImportarDatos(openFileDialog.FileName);
+                Trabajadores trabajador = new Trabajadores();
+                //Lleno la lista con todos los datos que se agregaron del archivo
+                for (int i = 0; i < dgvmostrar.Rows.Count - 1; i++)
+                {
+                    trabajador.Dui = dgvmostrar.Rows[i].Cells[1].Value.ToString();
+                    trabajador.Nombre = dgvmostrar.Rows[i].Cells[0].Value.ToString();
+                    trabajador.Nit = dgvmostrar.Rows[i].Cells[2].Value.ToString();
+                    trabajador.Afp = dgvmostrar.Rows[i].Cells[3].Value.ToString();
+                    trabajador.Seguro = dgvmostrar.Rows[i].Cells[4].Value.ToString();
+                    trabajador.Direccion = dgvmostrar.Rows[i].Cells[5].Value.ToString();
+                    trabajador.Telefono = dgvmostrar.Rows[i].Cells[6].Value.ToString();
+                    trabajador.Tipo = dgvmostrar.Rows[i].Cells[7].Value.ToString();
+                    trabajador.Pago = float.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
+                    trabajador.Fecha = Convert.ToDateTime(dgvmostrar.Rows[i].Cells[9].Value.ToString());
+                    lista.InsertarF(trabajador);
+                }
+                ActualizarDataGrid(lista);
+            }
+
+        }
+
+        private void btnExportar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtArchivo.TextLength != 0)
+                {
+                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
+                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
     }
 }
+

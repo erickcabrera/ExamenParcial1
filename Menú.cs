@@ -31,9 +31,9 @@ namespace ExamenParcial1
 
         private void btnplanillas_Click(object sender, EventArgs e)
         {
-            Planilla_form form = new Planilla_form();
+            /*Planilla_form form = new Planilla_form();
             form.Show();
-            this.Hide();
+            this.Hide();*/
         }
 
         private void btninventario_Click(object sender, EventArgs e)
@@ -45,9 +45,7 @@ namespace ExamenParcial1
 
         private void btnhorarios_Click(object sender, EventArgs e)
         {
-            Horarios_form form = new Horarios_form();
-            form.Show();
-            this.Hide();
+          
         }
         private void button1_Click(object sender, EventArgs e)
         {

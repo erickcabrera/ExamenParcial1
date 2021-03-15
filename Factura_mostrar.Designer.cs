@@ -1,4 +1,5 @@
-﻿namespace ExamenParcial1
+﻿
+namespace ExamenParcial1
 {
     partial class Factura_mostrar
     {
@@ -28,66 +29,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgv = new System.Windows.Forms.DataGridView();
-            this.btnvolver = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            this.dgvmostrar = new System.Windows.Forms.DataGridView();
+            this.btnVolver = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnmenu
+            // dgvmostrar
             // 
-            this.btnmenu.Location = new System.Drawing.Point(824, 507);
-            this.btnmenu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgvmostrar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvmostrar.Location = new System.Drawing.Point(26, 12);
+            this.dgvmostrar.Name = "dgvmostrar";
+            this.dgvmostrar.Size = new System.Drawing.Size(744, 387);
+            this.dgvmostrar.TabIndex = 0;
             // 
-            // btnsalir
+            // btnVolver
             // 
-            this.btnsalir.Location = new System.Drawing.Point(943, 507);
-            this.btnsalir.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            // 
-            // dgv
-            // 
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Location = new System.Drawing.Point(47, 34);
-            this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv.Name = "dgv";
-            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(974, 450);
-            this.dgv.TabIndex = 0;
-            // 
-            // btnvolver
-            // 
-            this.btnvolver.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnvolver.Location = new System.Drawing.Point(106, 511);
-            this.btnvolver.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnvolver.Name = "btnvolver";
-            this.btnvolver.Size = new System.Drawing.Size(99, 28);
-            this.btnvolver.TabIndex = 1;
-            this.btnvolver.Text = "Volver";
-            this.btnvolver.UseVisualStyleBackColor = false;
-            this.btnvolver.Click += new System.EventHandler(this.btnvolver_Click);
+            this.btnVolver.Location = new System.Drawing.Point(26, 415);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 23);
+            this.btnVolver.TabIndex = 1;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
             // 
             // Factura_mostrar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1066, 562);
-            this.Controls.Add(this.btnvolver);
-            this.Controls.Add(this.dgv);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnVolver);
+            this.Controls.Add(this.dgvmostrar);
             this.Name = "Factura_mostrar";
             this.Text = "Factura_mostrar";
-            this.Load += new System.EventHandler(this.Factura_mostrar_Load);
-            this.Controls.SetChildIndex(this.dgv, 0);
-            this.Controls.SetChildIndex(this.btnvolver, 0);
-            this.Controls.SetChildIndex(this.btnmenu, 0);
-            this.Controls.SetChildIndex(this.btnsalir, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.Button btnvolver;
+        private System.Windows.Forms.DataGridView dgvmostrar;
+        private System.Windows.Forms.Button btnVolver;
     }
 }
