@@ -16,7 +16,7 @@ namespace ExamenParcial1
        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormTrabajadores());
+            Application.Run(new FormMenu());
         }
     }
 }

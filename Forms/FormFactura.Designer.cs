@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Factura_form));
             this.btnagregar = new System.Windows.Forms.Button();
             this.lv1 = new System.Windows.Forms.ListView();
             this.btnremover = new System.Windows.Forms.Button();
@@ -236,6 +237,7 @@
             this.Controls.Add(this.btnremover);
             this.Controls.Add(this.lv1);
             this.Controls.Add(this.btnagregar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "Factura_form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
