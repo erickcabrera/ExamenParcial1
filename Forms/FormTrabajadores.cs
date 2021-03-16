@@ -12,7 +12,7 @@ using System.IO;
 
 namespace ExamenParcial1
 {
-    public partial class Trabajadores_form : Form
+    public partial class FormTrabajadores : Form
     {
         private int id_trabajador = 0;
         private int fecha_seleccionada = 0;
@@ -21,7 +21,7 @@ namespace ExamenParcial1
         private string dui = "";
         Lista lista = new Lista();
 
-        public Trabajadores_form()
+        public FormTrabajadores()
         {
             InitializeComponent();
         }

@@ -24,7 +24,7 @@ namespace ExamenParcial1
 
         private void btntrabajadores_Click(object sender, EventArgs e)
         {
-            Trabajadores_form form = new Trabajadores_form();
+            FormTrabajadores form = new FormTrabajadores();
             form.Show();
             this.Hide();
         }

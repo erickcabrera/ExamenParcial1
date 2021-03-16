@@ -59,7 +59,8 @@ namespace ExamenParcial1
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvmostrar);
             this.Name = "Factura_mostrar";
-            this.Text = "Factura_mostrar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Facturas";
             ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).EndInit();
             this.ResumeLayout(false);
 
