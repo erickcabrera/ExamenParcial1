@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ExamenParcial1
+namespace SistemaInventario
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace ExamenParcial1
        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMenu());
+            Application.Run(new FrmMenu());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ExamenParcial1
+﻿namespace SistemaInventario
 {
     partial class FormTrabajadores
     {

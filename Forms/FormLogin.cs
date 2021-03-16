@@ -10,7 +10,7 @@ using System.IO;
 using System.Windows.Forms;
 
 
-namespace ExamenParcial1
+namespace SistemaInventario
 {
     public partial class Form1 : Form
     {   

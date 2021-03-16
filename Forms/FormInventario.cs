@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ExamenParcial1
 {
-    public partial class Inventario_form : Form
+    public partial class FormInventario : Form
     {
         private int edit_indice;
         private int id_inventario = 0;
@@ -20,7 +20,7 @@ namespace ExamenParcial1
         private string Chosen_File = "";
         private bool validado = false;
         private bool exito_imagen_subida = false;
-        public Inventario_form()
+        public FormInventario()
         {
             InitializeComponent();
         }

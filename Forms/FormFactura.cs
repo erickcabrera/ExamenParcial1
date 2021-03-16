@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace ExamenParcial1
+namespace SistemaInventario
 {
-    public partial class Factura_form : Form
+    public partial class FormFactura : Form
     {
         private int opcion = -1;
         private string nombre;
         private string identificador;
         List<Factura> facturas = new List<Factura>();
-        public Factura_form()
+        public FormFactura()
         {
             InitializeComponent();
         }

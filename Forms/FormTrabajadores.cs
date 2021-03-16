@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Data.OleDb;
 using System.IO;
 
-namespace ExamenParcial1
+namespace SistemaInventario
 {
     public partial class FormTrabajadores : Form
     {

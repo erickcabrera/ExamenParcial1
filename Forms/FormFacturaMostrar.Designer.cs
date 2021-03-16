@@ -1,5 +1,5 @@
 ﻿
-namespace ExamenParcial1
+namespace SistemaInventario
 {
     partial class Factura_mostrar
     {
@@ -51,6 +51,7 @@ namespace ExamenParcial1
             this.btnVolver.TabIndex = 1;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click_1);
             // 
             // Factura_mostrar
             // 

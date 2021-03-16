@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ExamenParcial1
+namespace SistemaInventario
 {
     public partial class Factura_mostrar : Form
     {
@@ -27,9 +27,14 @@ namespace ExamenParcial1
 
         private void btnvolver_Click(object sender, EventArgs e)
         {
-            Factura_form form = new Factura_form();
+            FormFactura form = new FormFactura();
             form.Show();
             this.Hide();
+        }
+
+        private void btnVolver_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

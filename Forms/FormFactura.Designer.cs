@@ -1,6 +1,6 @@
-﻿namespace ExamenParcial1
+﻿namespace SistemaInventario
 {
-    partial class Factura_form
+    partial class FormFactura
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Factura_form));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormFactura));
             this.btnagregar = new System.Windows.Forms.Button();
             this.lv1 = new System.Windows.Forms.ListView();
             this.btnremover = new System.Windows.Forms.Button();
@@ -216,7 +216,7 @@
             this.btnverfacturas.UseVisualStyleBackColor = false;
             this.btnverfacturas.Click += new System.EventHandler(this.btnverfacturas_Click);
             // 
-            // Factura_form
+            // FormFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -239,7 +239,7 @@
             this.Controls.Add(this.btnagregar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.Name = "Factura_form";
+            this.Name = "FormFactura";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Facturación";
             this.Load += new System.EventHandler(this.Factura_form_Load);

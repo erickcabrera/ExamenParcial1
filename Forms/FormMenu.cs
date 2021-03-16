@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExamenParcial1;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ExamenParcial1
+namespace SistemaInventario
 {
     public partial class FormMenu : Form
     {
@@ -38,7 +39,7 @@ namespace ExamenParcial1
 
         private void btninventario_Click(object sender, EventArgs e)
         {
-            Inventario_form form = new Inventario_form();
+            FormInventario form = new FormInventario();
             form.Show();
             this.Hide();
         }
@@ -49,7 +50,7 @@ namespace ExamenParcial1
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Factura_form form = new Factura_form();
+            FormFactura form = new FormFactura();
             form.Show();
             this.Hide();
         }
