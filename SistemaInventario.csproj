@@ -151,6 +151,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clases\ListaInventario.cs" />
+    <Compile Include="Clases\NodoInventario.cs" />
     <Compile Include="Forms\FormBaseEstilo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,19 +173,31 @@
     <Compile Include="Forms\FormFacturaMostrar.Designer.cs">
       <DependentUpon>FormFacturaMostrar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clases\Lista.cs" />
+    <Compile Include="Clases\ListaTrabajador.cs" />
     <Compile Include="Forms\FormMenu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormMenu.Designer.cs">
       <DependentUpon>FormMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clases\Nodo.cs" />
+    <Compile Include="Clases\NodoTrabajador.cs" />
     <Compile Include="Forms\FormMenuAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormMenuAdmin.Designer.cs">
       <DependentUpon>FormMenuAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmBienvenida.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmBienvenida.Designer.cs">
+      <DependentUpon>FrmBienvenida.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmInventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmInventario.Designer.cs">
+      <DependentUpon>FrmInventario.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmCreditos.cs">
       <SubType>Form</SubType>
@@ -241,6 +255,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMenuAdmin.resx">
       <DependentUpon>FormMenuAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmBienvenida.resx">
+      <DependentUpon>FrmBienvenida.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmInventario.resx">
+      <DependentUpon>FrmInventario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmCreditos.resx">
       <DependentUpon>FrmCreditos.cs</DependentUpon>

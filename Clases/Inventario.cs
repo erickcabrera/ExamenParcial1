@@ -8,12 +8,13 @@ namespace SistemaInventario
 {
     class Inventario
     {
+        int codigo;
         int existencia;
 
         string descripcion, ruta_imagen;
 
         float precio_compra, precio_venta;
-
+        public int Codigo { get => codigo; set => codigo = value; }
         public String Descripcion
         {
             get { return descripcion; }
@@ -43,5 +44,7 @@ namespace SistemaInventario
             get { return existencia; }
             set { existencia = value; }
         }
+
+        
     }
 }

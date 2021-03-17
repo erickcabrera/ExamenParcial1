@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+//using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+//using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,7 +89,7 @@ namespace SistemaInventario
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
-            FormInventario form = new FormInventario();
+            FrmInventario form = new FrmInventario();
             form.Show();
             this.Hide();
         }

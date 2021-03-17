@@ -83,8 +83,8 @@
             // 
             // panel8
             // 
-            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(164)))), ((int)(((byte)(243)))));
             this.panel8.Controls.Add(this.pbFotoPerfil);
@@ -388,9 +388,9 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Location = new System.Drawing.Point(4, 3);
+            this.panel1.Location = new System.Drawing.Point(4, -19);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(858, 566);
+            this.panel1.Size = new System.Drawing.Size(858, 489);
             this.panel1.TabIndex = 5;
             // 
             // panel4
@@ -442,9 +442,9 @@
             // 
             this.panel11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.panel11.Controls.Add(this.panel1);
-            this.panel11.Location = new System.Drawing.Point(58, 112);
+            this.panel11.Location = new System.Drawing.Point(58, 139);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(892, 549);
+            this.panel11.Size = new System.Drawing.Size(892, 505);
             this.panel11.TabIndex = 7;
             // 
             // FrmMenu

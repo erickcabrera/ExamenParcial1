@@ -313,6 +313,7 @@
             this.txtArchivo.Name = "txtArchivo";
             this.txtArchivo.Size = new System.Drawing.Size(74, 20);
             this.txtArchivo.TabIndex = 28;
+            this.txtArchivo.TextChanged += new System.EventHandler(this.txtArchivo_TextChanged);
             // 
             // label11
             // 
@@ -322,6 +323,7 @@
             this.label11.Size = new System.Drawing.Size(85, 13);
             this.label11.TabIndex = 29;
             this.label11.Text = "Nombre archivo:";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // btnImportar
             // 
