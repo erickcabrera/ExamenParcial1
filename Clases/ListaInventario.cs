@@ -10,20 +10,20 @@ using System.Windows.Forms;
 
 namespace SistemaInventario
 {
-    class Lista
+    class ListaInventario
     {
-        Nodo inicio;
+        NodoInventario inicio;
 
-        public Lista()
+        public ListaInventario()
         {
             inicio = null;
         }
 
         //Es el mismo método InsertarF que la Ing nos enseñó
-        public void InsertarF(Trabajadores item)
+        public void InsertarF(Inventario item)
         {
-            Nodo aux = new Nodo();
-            aux.info_traba = item;
+            NodoInventario aux = new NodoInventario();
+            aux.info_inventario = item;
             aux.sgt = null;
 
             if (inicio == null)
@@ -32,7 +32,7 @@ namespace SistemaInventario
             }
             else
             {
-                Nodo puntero = inicio;
+                NodoInventario puntero = inicio;
                 while (puntero.sgt != null)
                 {
                     puntero = puntero.sgt;
@@ -42,29 +42,29 @@ namespace SistemaInventario
         }
 
         //Hago un recorrido y si encuentra que el DUI es el igual al que mandamos, edita la info del trabajador
-        public void Editar(string dui, Trabajadores trabajador)
+        public void Editar(int codigo, Inventario inventario)
         {
-            Nodo aux = inicio;
+            NodoInventario aux = inicio;
             while (aux != null)
             {
-                if (aux.info_traba.Dui == dui)
+                if (aux.info_inventario.Codigo == codigo)
                 {
-                    aux.info_traba = trabajador;
+                    aux.info_inventario = inventario;
                 }
                 aux = aux.sgt;
             }
         }
 
         //Manda una cola que contiene todos los datos menos el que se quiere borrar
-        public Queue<Trabajadores> EnCola(string dui)
+        public Queue<Inventario> EnCola(int codigo)
         {
-            Queue<Trabajadores> cola = new Queue<Trabajadores>();
-            Nodo aux = inicio;
+            Queue<Inventario> cola = new Queue<Inventario>();
+            NodoInventario aux = inicio;
             while (aux != null)
             {
-                if (aux.info_traba.Dui != dui)
+                if (aux.info_inventario.Codigo != codigo)
                 {
-                    cola.Enqueue(aux.info_traba);
+                    cola.Enqueue(aux.info_inventario);
                 }
                 aux = aux.sgt;
             }
@@ -72,13 +72,13 @@ namespace SistemaInventario
         }
 
         //Mando una cola con todos los elementos
-        public Queue<Trabajadores> Mostrar()
+        public Queue<Inventario> Mostrar()
         {
-            Nodo aux = inicio;
-            Queue<Trabajadores> cola = new Queue<Trabajadores>();
+            NodoInventario aux = inicio;
+            Queue<Inventario> cola = new Queue<Inventario>();
             while (aux != null)
             {
-                cola.Enqueue(aux.info_traba);
+                cola.Enqueue(aux.info_inventario);
                 aux = aux.sgt;
             }
             return cola;

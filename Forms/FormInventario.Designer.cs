@@ -1,4 +1,4 @@
-﻿namespace ExamenParcial1
+﻿namespace SistemaInventario
 {
     partial class FormInventario
     {
@@ -45,6 +45,9 @@
             this.btncargar = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txtCodigo = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblruta = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -53,7 +56,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 19);
+            this.label1.Location = new System.Drawing.Point(37, 69);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
@@ -63,7 +66,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 62);
+            this.label2.Location = new System.Drawing.Point(255, 22);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(93, 13);
@@ -73,7 +76,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 109);
+            this.label3.Location = new System.Drawing.Point(255, 69);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(85, 13);
@@ -83,7 +86,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(30, 145);
+            this.label4.Location = new System.Drawing.Point(412, 26);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(122, 13);
@@ -92,32 +95,32 @@
             // 
             // txtexistencia
             // 
-            this.txtexistencia.Location = new System.Drawing.Point(103, 19);
+            this.txtexistencia.Location = new System.Drawing.Point(102, 69);
             this.txtexistencia.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtexistencia.MaxLength = 4;
             this.txtexistencia.Name = "txtexistencia";
             this.txtexistencia.Size = new System.Drawing.Size(39, 20);
-            this.txtexistencia.TabIndex = 4;
+            this.txtexistencia.TabIndex = 2;
             this.txtexistencia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtexistencia_KeyPress);
             // 
             // txtpcompra
             // 
-            this.txtpcompra.Location = new System.Drawing.Point(103, 59);
+            this.txtpcompra.Location = new System.Drawing.Point(346, 19);
             this.txtpcompra.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtpcompra.MaxLength = 7;
             this.txtpcompra.Name = "txtpcompra";
             this.txtpcompra.Size = new System.Drawing.Size(38, 20);
-            this.txtpcompra.TabIndex = 5;
+            this.txtpcompra.TabIndex = 3;
             this.txtpcompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtpcompra_KeyPress);
             // 
             // txtpventa
             // 
-            this.txtpventa.Location = new System.Drawing.Point(103, 102);
+            this.txtpventa.Location = new System.Drawing.Point(346, 62);
             this.txtpventa.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtpventa.MaxLength = 7;
             this.txtpventa.Name = "txtpventa";
             this.txtpventa.Size = new System.Drawing.Size(38, 20);
-            this.txtpventa.TabIndex = 6;
+            this.txtpventa.TabIndex = 4;
             this.txtpventa.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtpventa_KeyPress);
             // 
             // btnagregar
@@ -128,7 +131,7 @@
             this.btnagregar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnagregar.Name = "btnagregar";
             this.btnagregar.Size = new System.Drawing.Size(74, 23);
-            this.btnagregar.TabIndex = 8;
+            this.btnagregar.TabIndex = 7;
             this.btnagregar.Text = "Agregar";
             this.btnagregar.UseVisualStyleBackColor = false;
             this.btnagregar.Click += new System.EventHandler(this.btnagregar_Click);
@@ -136,22 +139,22 @@
             // dgvmostrar
             // 
             this.dgvmostrar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvmostrar.Location = new System.Drawing.Point(180, 34);
+            this.dgvmostrar.Location = new System.Drawing.Point(244, 175);
             this.dgvmostrar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dgvmostrar.Name = "dgvmostrar";
             this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvmostrar.Size = new System.Drawing.Size(538, 423);
+            this.dgvmostrar.Size = new System.Drawing.Size(451, 142);
             this.dgvmostrar.TabIndex = 9;
             this.dgvmostrar.Click += new System.EventHandler(this.dgvmostrar_Click);
             // 
             // txtdescripcion
             // 
-            this.txtdescripcion.Location = new System.Drawing.Point(14, 173);
+            this.txtdescripcion.Location = new System.Drawing.Point(549, 16);
             this.txtdescripcion.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtdescripcion.MaxLength = 50;
             this.txtdescripcion.Name = "txtdescripcion";
             this.txtdescripcion.Size = new System.Drawing.Size(146, 96);
-            this.txtdescripcion.TabIndex = 10;
+            this.txtdescripcion.TabIndex = 5;
             this.txtdescripcion.Text = "";
             this.txtdescripcion.TextChanged += new System.EventHandler(this.txtdescripcion_TextChanged);
             // 
@@ -163,7 +166,7 @@
             this.btnborrar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnborrar.Name = "btnborrar";
             this.btnborrar.Size = new System.Drawing.Size(74, 23);
-            this.btnborrar.TabIndex = 11;
+            this.btnborrar.TabIndex = 9;
             this.btnborrar.Text = "Borrar";
             this.btnborrar.UseVisualStyleBackColor = false;
             this.btnborrar.Click += new System.EventHandler(this.btnborrar_Click);
@@ -181,7 +184,7 @@
             this.btncargar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btncargar.Name = "btncargar";
             this.btncargar.Size = new System.Drawing.Size(95, 28);
-            this.btncargar.TabIndex = 12;
+            this.btncargar.TabIndex = 6;
             this.btncargar.Text = "Subir imagen";
             this.btncargar.UseVisualStyleBackColor = false;
             this.btncargar.Click += new System.EventHandler(this.btncargar_Click);
@@ -201,11 +204,42 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Location = new System.Drawing.Point(103, 26);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtCodigo.MaxLength = 4;
+            this.txtCodigo.Name = "txtCodigo";
+            this.txtCodigo.Size = new System.Drawing.Size(39, 20);
+            this.txtCodigo.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(37, 33);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(43, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Codigo:";
+            // 
+            // lblruta
+            // 
+            this.lblruta.AutoSize = true;
+            this.lblruta.Location = new System.Drawing.Point(42, 107);
+            this.lblruta.Name = "lblruta";
+            this.lblruta.Size = new System.Drawing.Size(35, 13);
+            this.lblruta.TabIndex = 16;
+            this.lblruta.Text = "label6";
+            // 
             // FormInventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 519);
+            this.Controls.Add(this.lblruta);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtCodigo);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btncargar);
             this.Controls.Add(this.btnborrar);
@@ -250,5 +284,8 @@
         private System.Windows.Forms.Button btncargar;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtCodigo;
+        private System.Windows.Forms.Label lblruta;
     }
 }

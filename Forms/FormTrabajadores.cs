@@ -19,7 +19,7 @@ namespace SistemaInventario
         //El validador me permite saber si un dato va a ser ingresado, o caso contrario, va a ser modificado
         private int validador = -1;
         private string dui = "";
-        Lista lista = new Lista();
+        ListaTrabajador lista = new ListaTrabajador();
 
         public FormTrabajadores()
         {
@@ -30,7 +30,7 @@ namespace SistemaInventario
 
         //El metodo tiene como parametro un objeto de tipo lista. El cual luego ocupo el método Mostrar la Lista
         //Esto me devuelve una cola y la uso como DataSource
-        private void ActualizarDataGrid(Lista lista)
+        private void ActualizarDataGrid(ListaTrabajador lista)
         {
             dgvmostrar.DataSource = null;
             dgvmostrar.DataSource = lista.Mostrar().ToList();
@@ -116,7 +116,7 @@ namespace SistemaInventario
                     //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
 
                     //Creo un nuevo objeto del tipo lista
-                    Lista lista2 = new Lista();
+                    ListaTrabajador lista2 = new ListaTrabajador();
 
                     //Le paso todos los valores que no sean los que se quieren borrar de la lista global
                     foreach (Trabajadores trabajador in lista.EnCola(dui))

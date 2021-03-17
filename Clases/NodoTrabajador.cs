@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SistemaInventario
 {
-    class Nodo
+    class NodoTrabajador
     {
         public Trabajadores info_traba;
-        public Nodo sgt;
+        public NodoTrabajador sgt;
     }
 }

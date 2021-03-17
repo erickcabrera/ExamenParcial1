@@ -9,10 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ExamenParcial1
+namespace SistemaInventario
 {
     public partial class FormInventario : Form
     {
+        private int validador = -1;
+        private int codigo = 0;
+        ListaInventario lista = new ListaInventario();
         private int edit_indice;
         private int id_inventario = 0;
         private int cantidad = 0;
@@ -33,21 +36,23 @@ namespace ExamenParcial1
             cantidad = dgvmostrar.RowCount;
             */
         }
-        /*
-        //Metodos
-        private void ActualizarDataGrid()
+
+        //El metodo tiene como parametro un objeto de tipo lista. El cual luego ocupo el método Mostrar la Lista
+        //Esto me devuelve una cola y la uso como DataSource
+        private void ActualizarDataGrid(ListaInventario lista)
         {
             dgvmostrar.DataSource = null;
-            Conexion cn = new Conexion();
-            cn.ConsultasLlenar(dgvmostrar, "Inventario");
+            dgvmostrar.DataSource = lista.Mostrar().ToList();
         }
-        */
+      
         private void reseteo()
         {
             txtdescripcion.Clear();
             txtexistencia.Clear();
             txtpcompra.Clear();
             txtpventa.Clear();
+            txtCodigo.Clear();
+            pictureBox1.Image = Image.FromFile("..\\..\\Imagenes\\subir.png");
         }
         private void btnagregar_Click(object sender, EventArgs e)
         {
@@ -97,11 +102,83 @@ namespace ExamenParcial1
                 }
             }
             */
+
+            try
+            {
+                //Faltan validaciones
+                //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
+
+                //Creo un objeto del tipo trabajador y lleno los datos de este
+                Inventario inventario = new Inventario();
+                inventario.Codigo = int.Parse(txtCodigo.Text);
+                inventario.Descripcion = txtdescripcion.Text;
+                inventario.Existencia = Convert.ToInt32(txtexistencia.Text);
+                inventario.Precio_compra = float.Parse(txtpcompra.Text);
+                inventario.Precio_venta = float.Parse(txtpventa.Text);
+                inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtdescripcion.Text + ".jpg");
+                //Agregando imagen a directorio
+                //File.Copy(Chosen_File, "..\\..\\Imagenes\\" + Path.GetFileName(txtdescripcion.Text + ".jpg"));
+
+
+                //pbImagen.Image = Image.FromFile(imagen);
+
+                String sourceFile = lblruta.Text;
+                String destinationFile = inventario.Ruta_imagen;
+
+                try
+                {
+                    System.IO.File.Copy(sourceFile, destinationFile);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                
+                //Si el validador == -1 significa que un dato será INGRESADO
+                if (validador == -1)
+                {
+                    //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
+                    lista.InsertarF(inventario);
+                    //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
+                    ActualizarDataGrid(lista);
+                    //Limpio pantalla
+                    reseteo();
+                }
+                else
+                {
+                    //Caso contrario, significa que el usuario está modificando un trabajador existente
+                    //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
+                    txtCodigo.ReadOnly = false;
+                    txtdescripcion.ReadOnly = false;
+                    txtexistencia.ReadOnly = false;
+                    txtpcompra.ReadOnly = false;
+                    txtpventa.ReadOnly = false;
+
+                    //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
+                    lista.Editar(codigo, inventario);
+                    //Actualizo el datagrid
+                    ActualizarDataGrid(lista);
+                    reseteo();
+                    //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
+                    validador = -1;
+                    codigo = 0;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+
+
         }
 
         private void dgvmostrar_Click(object sender, EventArgs e)
         {
-            if (cantidad > 0)
+            /*if (cantidad > 0)
             {
                 string Chosen_file2 = "";
                 edit_indice = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
@@ -113,7 +190,41 @@ namespace ExamenParcial1
                 nombre_imagen = Path.GetFileName(dgvmostrar.Rows[edit_indice].Cells[5].Value.ToString());
                 Chosen_file2 = dgvmostrar.Rows[edit_indice].Cells[5].Value.ToString();
                 pictureBox1.Image = Image.FromFile(Chosen_file2);
-            }  
+            }  */
+
+            if (dgvmostrar.Rows.Count > 0)
+            {
+                try
+                {
+                    string Chosen_file2 = "";
+                    //Le paso los datos del datagrid a los textbox
+                    validador = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
+
+                    codigo = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[0].Value.ToString());
+                    txtdescripcion.Text = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
+
+                    nombre_imagen = Path.GetFileName(dgvmostrar.Rows[validador].Cells[2].Value.ToString());
+                    Chosen_file2 = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
+                    pictureBox1.Image = Image.FromFile(Chosen_file2);
+                    lblruta.Text = Chosen_file2;
+
+                    txtCodigo.Text = Convert.ToString(codigo);
+
+
+                    txtpcompra.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
+                    txtpventa.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
+                    txtexistencia.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
+
+
+                    //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
+                    txtCodigo.ReadOnly = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
         }
 
         private void btnborrar_Click(object sender, EventArgs e)
@@ -142,6 +253,43 @@ namespace ExamenParcial1
                 }
             }  
             */
+
+            //Faltan validaciones
+
+            //Pruebo si ha sido seleccionado un dato del datagrid
+            if (validador != -1)
+            {
+                try
+                {
+                    //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
+
+                    //Creo un nuevo objeto del tipo lista
+                    ListaInventario lista2 = new ListaInventario();
+
+                    //Le paso todos los valores que no sean los que se quieren borrar de la lista global
+                    foreach (Inventario inventario in lista.EnCola(codigo))
+                    {
+                        lista2.InsertarF(inventario);
+                    }
+                    //Hago que la lista global sea igual a la nueva lista, es decir, que tenga los valores nuevos excepto el borrado
+                    lista = lista2;
+                    //Actualizo el datagrid
+                    ActualizarDataGrid(lista);
+                    //Reinicio los validadores
+                    validador = -1;
+                    reseteo();
+                    txtCodigo.ReadOnly = false;
+                    codigo = 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar una row primero");
+            }
         }
 
         private void btncargar_Click(object sender, EventArgs e)
@@ -149,8 +297,27 @@ namespace ExamenParcial1
             openFD.Title = "Seleccione una imagen";
             openFD.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             openFD.FileName = "";
-            openFD.Filter = "JPEG Images|*.jpg";
-            if (openFD.ShowDialog() == DialogResult.OK)
+            openFD.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif";
+
+            try
+            {
+                if (openFD.ShowDialog() == DialogResult.OK)
+                {
+                    string sourceFile = openFD.FileName;
+                    lblruta.Text = sourceFile;
+
+                    pictureBox1.Image = Image.FromFile(sourceFile);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+
+
+            /*if (openFD.ShowDialog() == DialogResult.OK)
             {
                 string[] articulo = new string[dgvmostrar.Rows.Count];
                 for (int i = 0; i < (dgvmostrar.Rows.Count-1); i++)
@@ -181,8 +348,9 @@ namespace ExamenParcial1
             else
             {
                 MessageBox.Show("Operacion cancelada");
-            }
-            
+            }*/
+
+
         }
         //Validaciones
         private bool validaciones()
