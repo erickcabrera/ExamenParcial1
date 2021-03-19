@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.OleDb;
 
 namespace SistemaInventario
 {
@@ -488,5 +489,146 @@ namespace SistemaInventario
             }
             
         }
+
+        private void btnImportar_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel | *.xls;*.xlsx;",
+
+                Title = "Seleccionar Archivo"
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                dgvmostrar.DataSource = ImportarDatos(openFileDialog.FileName);
+                Inventario inventario = new Inventario();
+                //Lleno la lista con todos los datos que se agregaron del archivo
+                for (int i = 0; i < dgvmostrar.Rows.Count - 1; i++)
+                {
+                    inventario.Codigo = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[0].Value.ToString());
+                    inventario.Descripcion = dgvmostrar.Rows[i].Cells[1].Value.ToString();
+                    inventario.Ruta_imagen = dgvmostrar.Rows[i].Cells[2].Value.ToString();
+                    inventario.Precio_compra = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[3].Value.ToString());
+                    inventario.Precio_venta = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[4].Value.ToString());
+                    inventario.Existencia = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[5].Value.ToString());
+
+                    lista.InsertarF(inventario);
+                }
+                ActualizarDataGrid(lista);
+            }
+        }
+
+        DataView ImportarDatos(string nombrearchivo)
+        {
+            //Este código lo copié de internet, pero le entiendo. Lo que importa es que funciona
+            string conexion = string.Format("Provider = Microsoft.ACE.OLEDB.12.0; Data Source = {0}; Extended Properties = 'Excel 12.0;'", nombrearchivo);
+
+            OleDbConnection conector = new OleDbConnection(conexion);
+
+            conector.Open();
+
+            //Asegurense que el documento excel que van a importar tenga Hoja1 como nombre. No Hoja 1, debe estar unido Hoja1
+            OleDbCommand consulta = new OleDbCommand("select * from [Hoja1$]", conector);
+
+            OleDbDataAdapter adaptador = new OleDbDataAdapter
+            {
+                SelectCommand = consulta
+            };
+
+            DataSet ds = new DataSet();
+
+            adaptador.Fill(ds);
+
+            conector.Close();
+
+            return ds.Tables[0].DefaultView;
+        }
+
+
+        private void btnExportar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtArchivo.TextLength != 0)
+                {
+                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
+                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void ExportarDatos(DataGridView gridIn, string outputFile)
+        {
+            //Tambien lo copié de internet. Este exportar en formato .csv, ya que me dio problemas con una libreria al intentar
+            //Exportar el excel de un solo
+
+            //El archivo .csv, lo pueden abrir desde excel y luego guardarlo así, para luego volverlo a importar a este programa
+            //prueba para ver si DataGridView tiene alguna fila
+            try
+            {
+                if (gridIn.RowCount > 0)
+                {
+                    string value = "";
+                    DataGridViewRow dr = new DataGridViewRow();
+                    StreamWriter swOut = new StreamWriter(outputFile);
+
+                    //escribir filas de encabezado en csv
+                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                    {
+                        if (i > 0)
+                        {
+                            swOut.Write(",");
+                        }
+                        swOut.Write(gridIn.Columns[i].HeaderText);
+                    }
+
+                    swOut.WriteLine();
+
+                    //escribir filas DataGridView en csv
+                    for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
+                    {
+                        if (j > 0)
+                        {
+                            swOut.WriteLine();
+                        }
+
+                        dr = gridIn.Rows[j];
+
+                        for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                        {
+                            if (i > 0)
+                            {
+                                swOut.Write(",");
+                            }
+
+                            value = dr.Cells[i].Value.ToString();
+                            //reemplazar comas con espacios
+                            value = value.Replace(',', ' ');
+                            //reemplazar nuevas líneas incrustadas con espacios
+                            value = value.Replace(Environment.NewLine, " ");
+
+                            swOut.Write(value);
+                        }
+                    }
+                    swOut.Close();
+                }
+                MessageBox.Show("Archivo exportado correctamente");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+
     }
 }
