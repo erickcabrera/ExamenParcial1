@@ -48,6 +48,10 @@
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.lblruta = new System.Windows.Forms.Label();
+            this.btnExportar = new System.Windows.Forms.Button();
+            this.btnImportar = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtArchivo = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -232,11 +236,51 @@
             this.lblruta.TabIndex = 16;
             this.lblruta.Text = "label6";
             // 
+            // btnExportar
+            // 
+            this.btnExportar.Location = new System.Drawing.Point(620, 415);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(75, 23);
+            this.btnExportar.TabIndex = 35;
+            this.btnExportar.Text = "Exportar";
+            this.btnExportar.UseVisualStyleBackColor = true;
+            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
+            // 
+            // btnImportar
+            // 
+            this.btnImportar.Location = new System.Drawing.Point(515, 415);
+            this.btnImportar.Name = "btnImportar";
+            this.btnImportar.Size = new System.Drawing.Size(75, 23);
+            this.btnImportar.TabIndex = 34;
+            this.btnImportar.Text = "Importar";
+            this.btnImportar.UseVisualStyleBackColor = true;
+            this.btnImportar.Click += new System.EventHandler(this.btnImportar_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(249, 342);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(85, 13);
+            this.label11.TabIndex = 33;
+            this.label11.Text = "Nombre archivo:";
+            // 
+            // txtArchivo
+            // 
+            this.txtArchivo.Location = new System.Drawing.Point(339, 339);
+            this.txtArchivo.Name = "txtArchivo";
+            this.txtArchivo.Size = new System.Drawing.Size(74, 20);
+            this.txtArchivo.TabIndex = 32;
+            // 
             // FormInventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 519);
+            this.Controls.Add(this.btnExportar);
+            this.Controls.Add(this.btnImportar);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.txtArchivo);
             this.Controls.Add(this.lblruta);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtCodigo);
@@ -287,5 +331,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label lblruta;
+        private System.Windows.Forms.Button btnExportar;
+        private System.Windows.Forms.Button btnImportar;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtArchivo;
     }
 }
