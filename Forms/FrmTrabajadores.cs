@@ -28,9 +28,23 @@ namespace SistemaInventario
         private string dui = "";
         ListaTrabajador lista = new ListaTrabajador();
 
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+         (
+             int nLeftRect,
+             int nTopRect,
+             int nRightRect,
+             int nBottomRect,
+             int nWidthEllipse,
+             int nHeightEllipse
+         );
+
         public FrmTrabajadores()
-        {
+        { 
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
 
         //Metodos
@@ -528,6 +542,57 @@ namespace SistemaInventario
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
 
+        }
+
+        private void btnimportar_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel | *.xls;*.xlsx;",
+
+                Title = "Seleccionar Archivo"
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                dgvmostrar.DataSource = ImportarDatos(openFileDialog.FileName);
+                Trabajadores trabajador = new Trabajadores();
+                //Lleno la lista con todos los datos que se agregaron del archivo
+                for (int i = 0; i < dgvmostrar.Rows.Count - 1; i++)
+                {
+                    trabajador.Dui = dgvmostrar.Rows[i].Cells[1].Value.ToString();
+                    trabajador.Nombre = dgvmostrar.Rows[i].Cells[0].Value.ToString();
+                    trabajador.Nit = dgvmostrar.Rows[i].Cells[2].Value.ToString();
+                    trabajador.Afp = dgvmostrar.Rows[i].Cells[3].Value.ToString();
+                    trabajador.Seguro = dgvmostrar.Rows[i].Cells[4].Value.ToString();
+                    trabajador.Direccion = dgvmostrar.Rows[i].Cells[5].Value.ToString();
+                    trabajador.Telefono = dgvmostrar.Rows[i].Cells[6].Value.ToString();
+                    trabajador.Tipo = dgvmostrar.Rows[i].Cells[7].Value.ToString();
+                    trabajador.Pago = float.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
+                    trabajador.Fecha = Convert.ToDateTime(dgvmostrar.Rows[i].Cells[9].Value.ToString());
+                    lista.InsertarF(trabajador);
+                }
+                ActualizarDataGrid(lista);
+            }
+        }
+
+        private void btnexportar_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtArchivo.TextLength != 0)
+                {
+                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
+                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

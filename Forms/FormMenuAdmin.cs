@@ -80,13 +80,13 @@ namespace SistemaInventario
             this.Hide();
         }
         
-        private void btnFactura_Click(object sender, EventArgs e)
+        private void btnFacturas_Click(object sender, EventArgs e)
         {
            /* FormFactura form = new FormFactura();
             form.Show();
             this.Hide();*/
 
-            FrmTrabajadores form = new FrmTrabajadores();
+            FormTrabajadores form = new FormTrabajadores();
             form.Show();
             this.Hide();
         }
@@ -97,6 +97,8 @@ namespace SistemaInventario
             form.Show();
             this.Hide();
         }
+
+        
 
         private void btnUsuario_Click(object sender, EventArgs e)
         {

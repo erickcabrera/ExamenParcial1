@@ -101,7 +101,7 @@
             this.panel1.Location = new System.Drawing.Point(-1, -2);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1563, 74);
+            this.panel1.Size = new System.Drawing.Size(1570, 74);
             this.panel1.TabIndex = 1;
             // 
             // picBMinimizar
@@ -131,7 +131,7 @@
             this.picBSalir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picBSalir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBSalir.Image = ((System.Drawing.Image)(resources.GetObject("picBSalir.Image")));
-            this.picBSalir.Location = new System.Drawing.Point(1476, 11);
+            this.picBSalir.Location = new System.Drawing.Point(1483, 11);
             this.picBSalir.Margin = new System.Windows.Forms.Padding(4);
             this.picBSalir.Name = "picBSalir";
             this.picBSalir.Size = new System.Drawing.Size(53, 52);
@@ -209,7 +209,7 @@
             this.txtnombre.MaxLength = 50;
             this.txtnombre.Name = "txtnombre";
             this.txtnombre.Size = new System.Drawing.Size(304, 32);
-            this.txtnombre.TabIndex = 1;
+            this.txtnombre.TabIndex = 0;
             this.txtnombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtnombre_KeyPress);
             // 
             // btnagregar
@@ -222,7 +222,7 @@
             this.btnagregar.Margin = new System.Windows.Forms.Padding(4);
             this.btnagregar.Name = "btnagregar";
             this.btnagregar.Size = new System.Drawing.Size(201, 42);
-            this.btnagregar.TabIndex = 13;
+            this.btnagregar.TabIndex = 0;
             this.btnagregar.Text = "Guardar";
             this.btnagregar.UseVisualStyleBackColor = false;
             this.btnagregar.Click += new System.EventHandler(this.btnagregar_Click);
@@ -237,7 +237,7 @@
             this.btnborrar.Margin = new System.Windows.Forms.Padding(4);
             this.btnborrar.Name = "btnborrar";
             this.btnborrar.Size = new System.Drawing.Size(201, 43);
-            this.btnborrar.TabIndex = 14;
+            this.btnborrar.TabIndex = 1;
             this.btnborrar.Text = "Borrar";
             this.btnborrar.UseVisualStyleBackColor = false;
             this.btnborrar.Click += new System.EventHandler(this.btnborrar_Click);
@@ -252,9 +252,10 @@
             this.btnimportar.Margin = new System.Windows.Forms.Padding(4);
             this.btnimportar.Name = "btnimportar";
             this.btnimportar.Size = new System.Drawing.Size(201, 43);
-            this.btnimportar.TabIndex = 15;
+            this.btnimportar.TabIndex = 3;
             this.btnimportar.Text = "Importar";
             this.btnimportar.UseVisualStyleBackColor = false;
+            this.btnimportar.Click += new System.EventHandler(this.btnimportar_Click_1);
             // 
             // label12
             // 
@@ -340,7 +341,7 @@
             // 
             this.fechanacimiento.Location = new System.Drawing.Point(288, 475);
             this.fechanacimiento.Name = "fechanacimiento";
-            this.fechanacimiento.TabIndex = 64;
+            this.fechanacimiento.TabIndex = 9;
             // 
             // cbtipo
             // 
@@ -353,7 +354,7 @@
             this.cbtipo.Location = new System.Drawing.Point(288, 423);
             this.cbtipo.Name = "cbtipo";
             this.cbtipo.Size = new System.Drawing.Size(304, 31);
-            this.cbtipo.TabIndex = 62;
+            this.cbtipo.TabIndex = 8;
             // 
             // label8
             // 
@@ -399,7 +400,7 @@
             this.txtpago.MaxLength = 50;
             this.txtpago.Name = "txtpago";
             this.txtpago.Size = new System.Drawing.Size(304, 32);
-            this.txtpago.TabIndex = 58;
+            this.txtpago.TabIndex = 7;
             // 
             // txtseguro
             // 
@@ -409,7 +410,7 @@
             this.txtseguro.MaxLength = 50;
             this.txtseguro.Name = "txtseguro";
             this.txtseguro.Size = new System.Drawing.Size(304, 32);
-            this.txtseguro.TabIndex = 57;
+            this.txtseguro.TabIndex = 5;
             // 
             // txtdireccion
             // 
@@ -419,7 +420,7 @@
             this.txtdireccion.MaxLength = 50;
             this.txtdireccion.Name = "txtdireccion";
             this.txtdireccion.Size = new System.Drawing.Size(304, 32);
-            this.txtdireccion.TabIndex = 56;
+            this.txtdireccion.TabIndex = 6;
             // 
             // txtafp
             // 
@@ -428,7 +429,7 @@
             this.txtafp.Mask = "000000000000";
             this.txtafp.Name = "txtafp";
             this.txtafp.Size = new System.Drawing.Size(304, 32);
-            this.txtafp.TabIndex = 55;
+            this.txtafp.TabIndex = 3;
             // 
             // txttelefono
             // 
@@ -437,7 +438,7 @@
             this.txttelefono.Mask = "0000-0000";
             this.txttelefono.Name = "txttelefono";
             this.txttelefono.Size = new System.Drawing.Size(304, 32);
-            this.txttelefono.TabIndex = 54;
+            this.txttelefono.TabIndex = 4;
             // 
             // txtdui
             // 
@@ -446,7 +447,7 @@
             this.txtdui.Mask = "00000000-0";
             this.txtdui.Name = "txtdui";
             this.txtdui.Size = new System.Drawing.Size(304, 32);
-            this.txtdui.TabIndex = 53;
+            this.txtdui.TabIndex = 1;
             this.txtdui.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.maskedTextBox1_MaskInputRejected);
             // 
             // txtni
@@ -456,7 +457,7 @@
             this.txtni.Mask = "0000-000000-000-0";
             this.txtni.Name = "txtni";
             this.txtni.Size = new System.Drawing.Size(304, 32);
-            this.txtni.TabIndex = 52;
+            this.txtni.TabIndex = 2;
             // 
             // label4
             // 
@@ -478,7 +479,7 @@
             this.txtArchivo.MaxLength = 100;
             this.txtArchivo.Name = "txtArchivo";
             this.txtArchivo.Size = new System.Drawing.Size(304, 32);
-            this.txtArchivo.TabIndex = 50;
+            this.txtArchivo.TabIndex = 10;
             // 
             // panel3
             // 
@@ -494,7 +495,7 @@
             this.panel3.Location = new System.Drawing.Point(687, 78);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(875, 747);
+            this.panel3.Size = new System.Drawing.Size(859, 747);
             this.panel3.TabIndex = 42;
             // 
             // btnexportar
@@ -507,9 +508,10 @@
             this.btnexportar.Margin = new System.Windows.Forms.Padding(4);
             this.btnexportar.Name = "btnexportar";
             this.btnexportar.Size = new System.Drawing.Size(201, 43);
-            this.btnexportar.TabIndex = 45;
+            this.btnexportar.TabIndex = 2;
             this.btnexportar.Text = "Exportar";
             this.btnexportar.UseVisualStyleBackColor = false;
+            this.btnexportar.Click += new System.EventHandler(this.btnexportar_Click_1);
             // 
             // label14
             // 
@@ -533,7 +535,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1585, 841);
+            this.ClientSize = new System.Drawing.Size(1569, 841);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
