@@ -101,14 +101,14 @@
             this.panel1.Location = new System.Drawing.Point(-1, -2);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1674, 74);
+            this.panel1.Size = new System.Drawing.Size(1563, 74);
             this.panel1.TabIndex = 1;
             // 
             // picBMinimizar
             // 
             this.picBMinimizar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBMinimizar.Image = ((System.Drawing.Image)(resources.GetObject("picBMinimizar.Image")));
-            this.picBMinimizar.Location = new System.Drawing.Point(1386, 11);
+            this.picBMinimizar.Location = new System.Drawing.Point(1401, 11);
             this.picBMinimizar.Margin = new System.Windows.Forms.Padding(4);
             this.picBMinimizar.Name = "picBMinimizar";
             this.picBMinimizar.Size = new System.Drawing.Size(60, 52);
@@ -131,7 +131,7 @@
             this.picBSalir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picBSalir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBSalir.Image = ((System.Drawing.Image)(resources.GetObject("picBSalir.Image")));
-            this.picBSalir.Location = new System.Drawing.Point(1459, 11);
+            this.picBSalir.Location = new System.Drawing.Point(1476, 11);
             this.picBSalir.Margin = new System.Windows.Forms.Padding(4);
             this.picBSalir.Name = "picBSalir";
             this.picBSalir.Size = new System.Drawing.Size(53, 52);
@@ -494,7 +494,7 @@
             this.panel3.Location = new System.Drawing.Point(687, 78);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(871, 747);
+            this.panel3.Size = new System.Drawing.Size(875, 747);
             this.panel3.TabIndex = 42;
             // 
             // btnexportar
