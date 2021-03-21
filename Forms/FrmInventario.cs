@@ -680,5 +680,10 @@ namespace SistemaInventario
                 errorProvider1.SetError(txtdescripcion, "En este campo sólo se permiten letras");
             }
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

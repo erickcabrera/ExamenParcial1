@@ -75,14 +75,18 @@ namespace SistemaInventario
 
         private void btnTrabajadores_Click(object sender, EventArgs e)
         {
-            FormTrabajadores form = new FormTrabajadores();
+            FrmTrabajadores form = new FrmTrabajadores();
             form.Show();
             this.Hide();
         }
         
         private void btnFactura_Click(object sender, EventArgs e)
         {
-            FormFactura form = new FormFactura();
+           /* FormFactura form = new FormFactura();
+            form.Show();
+            this.Hide();*/
+
+            FrmTrabajadores form = new FrmTrabajadores();
             form.Show();
             this.Hide();
         }

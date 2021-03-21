@@ -193,6 +193,12 @@
     <Compile Include="Forms\FrmBienvenida.Designer.cs">
       <DependentUpon>FrmBienvenida.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmTrabajadores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmTrabajadores.Designer.cs">
+      <DependentUpon>FrmTrabajadores.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmInventario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmBienvenida.resx">
       <DependentUpon>FrmBienvenida.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmTrabajadores.resx">
+      <DependentUpon>FrmTrabajadores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmInventario.resx">
       <DependentUpon>FrmInventario.cs</DependentUpon>
