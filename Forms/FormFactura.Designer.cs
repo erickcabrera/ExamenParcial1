@@ -45,14 +45,18 @@
             this.dgv = new System.Windows.Forms.DataGridView();
             this.txtmanoobra = new System.Windows.Forms.TextBox();
             this.btnverfacturas = new System.Windows.Forms.Button();
+            this.picBSalir = new System.Windows.Forms.PictureBox();
+            this.picBMinimizar = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBSalir)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBMinimizar)).BeginInit();
             this.SuspendLayout();
             // 
             // btnagregar
             // 
             this.btnagregar.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnagregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnagregar.Location = new System.Drawing.Point(36, 286);
+            this.btnagregar.Location = new System.Drawing.Point(33, 332);
             this.btnagregar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnagregar.Name = "btnagregar";
             this.btnagregar.Size = new System.Drawing.Size(74, 23);
@@ -64,7 +68,7 @@
             // lv1
             // 
             this.lv1.HideSelection = false;
-            this.lv1.Location = new System.Drawing.Point(20, 12);
+            this.lv1.Location = new System.Drawing.Point(17, 58);
             this.lv1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.lv1.Name = "lv1";
             this.lv1.Size = new System.Drawing.Size(206, 254);
@@ -76,7 +80,7 @@
             // 
             this.btnremover.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnremover.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnremover.Location = new System.Drawing.Point(131, 286);
+            this.btnremover.Location = new System.Drawing.Point(128, 332);
             this.btnremover.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnremover.Name = "btnremover";
             this.btnremover.Size = new System.Drawing.Size(79, 23);
@@ -87,7 +91,7 @@
             // 
             // txtdescripcion
             // 
-            this.txtdescripcion.Location = new System.Drawing.Point(20, 331);
+            this.txtdescripcion.Location = new System.Drawing.Point(17, 377);
             this.txtdescripcion.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtdescripcion.Name = "txtdescripcion";
             this.txtdescripcion.Size = new System.Drawing.Size(198, 106);
@@ -97,7 +101,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(85, 453);
+            this.label1.Location = new System.Drawing.Point(82, 499);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
@@ -107,7 +111,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(283, 334);
+            this.label2.Location = new System.Drawing.Point(280, 380);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 13);
@@ -116,7 +120,7 @@
             // 
             // txtcosto
             // 
-            this.txtcosto.Location = new System.Drawing.Point(374, 331);
+            this.txtcosto.Location = new System.Drawing.Point(371, 377);
             this.txtcosto.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtcosto.Name = "txtcosto";
             this.txtcosto.ReadOnly = true;
@@ -126,7 +130,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(282, 367);
+            this.label3.Location = new System.Drawing.Point(279, 413);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 13);
@@ -136,7 +140,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(308, 410);
+            this.label4.Location = new System.Drawing.Point(305, 456);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 13);
@@ -145,7 +149,7 @@
             // 
             // txttotal
             // 
-            this.txttotal.Location = new System.Drawing.Point(374, 403);
+            this.txttotal.Location = new System.Drawing.Point(371, 449);
             this.txttotal.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txttotal.Name = "txttotal";
             this.txttotal.ReadOnly = true;
@@ -154,7 +158,7 @@
             // 
             // txtcantidad
             // 
-            this.txtcantidad.Location = new System.Drawing.Point(374, 290);
+            this.txtcantidad.Location = new System.Drawing.Point(371, 336);
             this.txtcantidad.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtcantidad.Name = "txtcantidad";
             this.txtcantidad.ReadOnly = true;
@@ -164,7 +168,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(266, 297);
+            this.label5.Location = new System.Drawing.Point(263, 343);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(101, 13);
@@ -175,7 +179,7 @@
             // 
             this.btningresar.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.btningresar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btningresar.Location = new System.Drawing.Point(454, 323);
+            this.btningresar.Location = new System.Drawing.Point(451, 369);
             this.btningresar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btningresar.Name = "btningresar";
             this.btningresar.Size = new System.Drawing.Size(92, 34);
@@ -187,7 +191,7 @@
             // dgv
             // 
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Location = new System.Drawing.Point(248, 12);
+            this.dgv.Location = new System.Drawing.Point(245, 58);
             this.dgv.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dgv.Name = "dgv";
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -196,7 +200,7 @@
             // 
             // txtmanoobra
             // 
-            this.txtmanoobra.Location = new System.Drawing.Point(374, 364);
+            this.txtmanoobra.Location = new System.Drawing.Point(371, 410);
             this.txtmanoobra.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtmanoobra.Name = "txtmanoobra";
             this.txtmanoobra.Size = new System.Drawing.Size(48, 20);
@@ -207,7 +211,7 @@
             // 
             this.btnverfacturas.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnverfacturas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnverfacturas.Location = new System.Drawing.Point(454, 378);
+            this.btnverfacturas.Location = new System.Drawing.Point(451, 424);
             this.btnverfacturas.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnverfacturas.Name = "btnverfacturas";
             this.btnverfacturas.Size = new System.Drawing.Size(91, 34);
@@ -216,11 +220,36 @@
             this.btnverfacturas.UseVisualStyleBackColor = false;
             this.btnverfacturas.Click += new System.EventHandler(this.btnverfacturas_Click);
             // 
+            // picBSalir
+            // 
+            this.picBSalir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBSalir.Image = ((System.Drawing.Image)(resources.GetObject("picBSalir.Image")));
+            this.picBSalir.Location = new System.Drawing.Point(544, 10);
+            this.picBSalir.Name = "picBSalir";
+            this.picBSalir.Size = new System.Drawing.Size(40, 42);
+            this.picBSalir.TabIndex = 27;
+            this.picBSalir.TabStop = false;
+            this.picBSalir.Click += new System.EventHandler(this.picBSalir_Click);
+            // 
+            // picBMinimizar
+            // 
+            this.picBMinimizar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBMinimizar.Image = ((System.Drawing.Image)(resources.GetObject("picBMinimizar.Image")));
+            this.picBMinimizar.Location = new System.Drawing.Point(493, 10);
+            this.picBMinimizar.Name = "picBMinimizar";
+            this.picBMinimizar.Size = new System.Drawing.Size(45, 42);
+            this.picBMinimizar.TabIndex = 26;
+            this.picBMinimizar.TabStop = false;
+            this.picBMinimizar.Click += new System.EventHandler(this.picBMinimizar_Click);
+            // 
             // FormFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 498);
+            this.ClientSize = new System.Drawing.Size(596, 517);
+            this.ControlBox = false;
+            this.Controls.Add(this.picBSalir);
+            this.Controls.Add(this.picBMinimizar);
             this.Controls.Add(this.btnverfacturas);
             this.Controls.Add(this.txtmanoobra);
             this.Controls.Add(this.dgv);
@@ -243,7 +272,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Facturación";
             this.Load += new System.EventHandler(this.Factura_form_Load);
+            this.Leave += new System.EventHandler(this.FormFactura_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBSalir)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBMinimizar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,5 +299,7 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.TextBox txtmanoobra;
         private System.Windows.Forms.Button btnverfacturas;
+        private System.Windows.Forms.PictureBox picBSalir;
+        private System.Windows.Forms.PictureBox picBMinimizar;
     }
 }

@@ -33,7 +33,10 @@ namespace SistemaInventario
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            //Falta redirigir a la aplicación principal
+            this.Hide();
+            FrmMenu frm = new FrmMenu();
+            frm.Show();
+            this.Hide();
         }
 
         private void picBMinimizar_Click(object sender, EventArgs e)
@@ -48,7 +51,10 @@ namespace SistemaInventario
 
         private void picBSalir_Click(object sender, EventArgs e)
         {
-            this.Hide();                  
+            this.Hide();
+            FrmMenu frm = new FrmMenu();
+            frm.Show();
+            this.Hide();
         }
 
         private void label11_Click(object sender, EventArgs e)

@@ -93,7 +93,7 @@ namespace SistemaInventario
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
-            FrmInventario form = new FrmInventario();
+            FormFactura form = new FormFactura();
             form.Show();
             this.Hide();
         }

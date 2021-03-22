@@ -347,9 +347,29 @@ namespace SistemaInventario
         //Abriendo el formulario que muestra las facturas
         private void btnverfacturas_Click(object sender, EventArgs e)
         {
-            Factura_mostrar form = new Factura_mostrar();
-            form.Show();
+            /*this.Hide();
+            FrmMenu frm = new FrmMenu();
+            frm.Show();
+            this.Hide();*/
+        }
+
+        private void FormFactura_Leave(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void picBSalir_Click(object sender, EventArgs e)
+        {
             this.Hide();
+            FrmMenu frm = new FrmMenu();
+            frm.Show();
+            this.Hide();
+        }
+
+        private void picBMinimizar_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+       
         }
     }
         
