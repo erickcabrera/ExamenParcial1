@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SistemaInventario
 {
@@ -16,6 +17,7 @@ namespace SistemaInventario
     {
         private int id_trabajador = 0;
         private int fecha_seleccionada = 0;
+        private Boolean validacion = false;
         //El validador me permite saber si un dato va a ser ingresado, o caso contrario, va a ser modificado
         private int validador = -1;
         private string dui = "";
@@ -68,32 +70,73 @@ namespace SistemaInventario
                 trabajador.Pago = float.Parse(txtpago.Text);
                 trabajador.Fecha = fechanacimiento.SelectionStart;
 
-                //Si el validador == -1 significa que un dato será INGRESADO
-                if (validador == -1)
+                if (trabajador.Nombre.Equals(""))
                 {
-                    //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
-                    lista.InsertarF(trabajador);
-                    //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
-                    ActualizarDataGrid(lista);
-                    //Limpio pantalla
-                    reseteo();
+                    validacion = true;
+                }
+                else if (trabajador.Dui.Equals("") || Regex.IsMatch(trabajador.Dui, "^[0-9]{8}-[0-9]{1}$") == false)
+                {
+                    validacion = true;
+                }
+                else if (trabajador.Nit.Equals("") || Regex.IsMatch(trabajador.Nit, "^[0-9]{4}-[0-9]{6}-[0-9]{2}-[0-9]{1}$") == false)
+                {
+                    validacion = true;
+                }
+                else if (trabajador.Telefono.Equals("") || Regex.IsMatch(trabajador.Telefono, "^[0-9]{4}-[0-9]{4}$") == false)
+                {
+                    validacion = true;
+                }
+                else if (trabajador.Afp.Equals(""))
+                {
+                    validacion = true;
+                }
+                else if (trabajador.Tipo.Equals(""))
+                {
+                    validacion = true;
+                }
+                else if (trabajador.Direccion.Equals(""))
+                {
+                    validacion = true;
+                }
+                else if (trabajador.Pago <= 0)
+                {
+                    validacion = true;
+                }
+
+
+                if (validacion == true)
+                {
+                    MessageBox.Show("Error al obtener la información, favor revisar el formato de los campos solicitados.");
                 }
                 else
                 {
-                    //Caso contrario, significa que el usuario está modificando un trabajador existente
-                    //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
-                    txtdui.ReadOnly = false;
-                    txtafp.ReadOnly = false;
-                    txtnit.ReadOnly = false;
-                    txtseguro.ReadOnly = false;
-                    //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
-                    lista.Editar(dui, trabajador);
-                    //Actualizo el datagrid
-                    ActualizarDataGrid(lista);
-                    reseteo();
-                    //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
-                    validador = -1;
-                    dui = "";
+                    //Si el validador == -1 significa que un dato será INGRESADO
+                    if (validador == -1)
+                    {
+                        //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
+                        lista.InsertarF(trabajador);
+                        //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
+                        ActualizarDataGrid(lista);
+                        //Limpio pantalla
+                        reseteo();
+                    }
+                    else
+                    {
+                        //Caso contrario, significa que el usuario está modificando un trabajador existente
+                        //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
+                        txtdui.ReadOnly = false;
+                        txtafp.ReadOnly = false;
+                        txtnit.ReadOnly = false;
+                        txtseguro.ReadOnly = false;
+                        //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
+                        lista.Editar(dui, trabajador);
+                        //Actualizo el datagrid
+                        ActualizarDataGrid(lista);
+                        reseteo();
+                        //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
+                        validador = -1;
+                        dui = "";
+                    }
                 }
 
             }
@@ -483,6 +526,11 @@ namespace SistemaInventario
         }
 
         private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormTrabajadores_Load(object sender, EventArgs e)
         {
 
         }

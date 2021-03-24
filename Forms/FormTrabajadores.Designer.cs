@@ -382,6 +382,7 @@
             this.Name = "FormTrabajadores";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trabajadores";
+            this.Load += new System.EventHandler(this.FormTrabajadores_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
