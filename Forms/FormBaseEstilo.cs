@@ -24,7 +24,7 @@ namespace ExamenParcial1
         }
         private void btnmenu_Click(object sender, EventArgs e)
         {
-            FormMenu menu = new FormMenu();
+            FrmMenu menu = new FrmMenu();
             menu.Show();
             this.Hide();
         }

@@ -91,6 +91,17 @@ namespace SistemaInventario
             this.Hide();
         }
 
+      
+
+        
+
+        private void btnUsuario_Click(object sender, EventArgs e)
+        {
+            FormCreditos form = new FormCreditos();
+            form.Show();
+            this.Hide();
+        }
+
         private void btnInventario_Click(object sender, EventArgs e)
         {
             FrmInventario form = new FrmInventario();
@@ -98,11 +109,9 @@ namespace SistemaInventario
             this.Hide();
         }
 
-        
-
-        private void btnUsuario_Click(object sender, EventArgs e)
+        private void btnFacturas_Click_1(object sender, EventArgs e)
         {
-            FormCreditos form = new FormCreditos();
+            FormFactura form = new FormFactura();
             form.Show();
             this.Hide();
         }
