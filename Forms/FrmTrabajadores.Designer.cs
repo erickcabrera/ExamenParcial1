@@ -321,6 +321,7 @@
             // 
             this.fechanacimiento.Location = new System.Drawing.Point(216, 386);
             this.fechanacimiento.Margin = new System.Windows.Forms.Padding(7);
+            this.fechanacimiento.MaxDate = new System.DateTime(2021, 3, 24, 0, 0, 0, 0);
             this.fechanacimiento.Name = "fechanacimiento";
             this.fechanacimiento.TabIndex = 9;
             // 
