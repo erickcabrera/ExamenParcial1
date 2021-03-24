@@ -95,47 +95,37 @@ namespace SistemaInventario
                 //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
 
                 //Creo un objeto del tipo trabajador y lleno los datos de este
-                Trabajadores trabajador = new Trabajadores();
-                trabajador.Nombre = txtnombre.Text;
-                trabajador.Dui = txtdui.Text;
-                trabajador.Nit = txtnit.Text;
-                trabajador.Afp = txtafp.Text;
-                trabajador.Seguro = txtseguro.Text;
-                trabajador.Direccion = txtdireccion.Text;
-                trabajador.Telefono = txttelefono.Text;
-                trabajador.Tipo = cbtipo.SelectedItem.ToString();
-                trabajador.Pago = float.Parse(txtpago.Text);
-                trabajador.Fecha = fechanacimiento.SelectionStart;
+            
 
-                if (trabajador.Nombre.Equals(""))
+                if (txtnombre.Text.Equals(""))
                 {
                     validacion = true;
                 }
-                else if (trabajador.Dui.Equals("") || Regex.IsMatch(trabajador.Dui, "^[0-9]{8}-[0-9]{1}$") == false)
+                else if (txtdui.Text.Equals("") || Regex.IsMatch(txtdui.Text, "^[0-9]{8}-[0-9]{1}$") == false)
                 {
                     validacion = true;
                 }
-                else if (trabajador.Nit.Equals("") || Regex.IsMatch(trabajador.Nit, "^[0-9]{4}-[0-9]{6}-[0-9]{2}-[0-9]{1}$") == false)
+                else if (txtnit.Text.Equals("") || Regex.IsMatch(txtnit.Text, "^[0-9]{4}-[0-9]{6}-[0-9]{2}-[0-9]{1}$") == false)
                 {
                     validacion = true;
                 }
-                else if (trabajador.Telefono.Equals("") || Regex.IsMatch(trabajador.Telefono, "^[0-9]{4}-[0-9]{4}$") == false)
+                else if (txttelefono.Text.Equals("") || Regex.IsMatch(txttelefono.Text, "^[0-9]{4}-[0-9]{4}$") == false)
                 {
                     validacion = true;
                 }
-                else if (trabajador.Afp.Equals(""))
+                else if (txtafp.Text.Equals(""))
                 {
                     validacion = true;
                 }
-                else if (trabajador.Tipo.Equals(""))
+                else if (cbtipo.SelectedItem.ToString().Equals(""))
                 {
                     validacion = true;
                 }
-                else if (trabajador.Direccion.Equals(""))
+                else if (txtdireccion.Text.Equals(""))
                 {
                     validacion = true;
                 }
-                else if (trabajador.Pago <= 0 || txtpago.Text.Equals(""))
+                else if (double.Parse(txtpago.Text) <= 0 || txtpago.Text.Equals(""))
                 {
                     validacion = true;
                 }
@@ -147,6 +137,17 @@ namespace SistemaInventario
                 }
                 else
                 {
+                    Trabajadores trabajador = new Trabajadores();
+                    trabajador.Nombre = txtnombre.Text;
+                    trabajador.Dui = txtdui.Text;
+                    trabajador.Nit = txtnit.Text;
+                    trabajador.Afp = txtafp.Text;
+                    trabajador.Seguro = txtseguro.Text;
+                    trabajador.Direccion = txtdireccion.Text;
+                    trabajador.Telefono = txttelefono.Text;
+                    trabajador.Tipo = cbtipo.SelectedItem.ToString();
+                    trabajador.Pago = float.Parse(txtpago.Text);
+                    trabajador.Fecha = fechanacimiento.SelectionStart;
                     //Si el validador == -1 significa que un dato será INGRESADO
                     if (validador == -1)
                     {
