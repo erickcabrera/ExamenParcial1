@@ -111,7 +111,7 @@ namespace SistemaInventario
 
         private void btnFacturas_Click_1(object sender, EventArgs e)
         {
-            FormFactura form = new FormFactura();
+            FrmFactura form = new FrmFactura();
             form.Show();
             this.Hide();
         }

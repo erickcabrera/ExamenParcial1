@@ -62,7 +62,7 @@ namespace SistemaInventario
             txtpcompra.Clear();
             txtpventa.Clear();
             txtCodigo.Clear();
-            pbFotoProducto.Image = Image.FromFile("..\\..\\Imagenes\\subir.png");
+      //      pbFotoProducto.Image = Image.FromFile("..\\..\\Imagenes\\subir.png");
         }
 
         private void Alumno_Load(object sender, EventArgs e)
@@ -165,7 +165,7 @@ namespace SistemaInventario
             if (exito_imagen_subida == false)
             {
                 validacion = false;
-                errorProvider1.SetError(btncargar, "Por favor suba una imagen");
+                errorProvider1.SetError(btnagregar, "Por favor suba una imagen");
             }
             return validacion;
         }
@@ -189,7 +189,7 @@ namespace SistemaInventario
             /*if (validaciones())
             {*/
                 //creo un objeto de la clase persona y guardo a través de las propiedades 
-                if (btncargar.Text == "Seleccionar foto...")
+                if (btnagregar.Text == "Seleccionar foto...")
                 {
                     MessageBox.Show("Debe seleccionar una foto", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -214,7 +214,7 @@ namespace SistemaInventario
 
                         //pbImagen.Image = Image.FromFile(imagen);
 
-                        String sourceFile = btncargar.Text;
+                        String sourceFile = btnagregar.Text;
                         String destinationFile = inventario.Ruta_imagen;
 
                         try
@@ -317,9 +317,9 @@ namespace SistemaInventario
                 if (openFD.ShowDialog() == DialogResult.OK)
                 {
                     string sourceFile = openFD.FileName;
-                    btncargar.Text = sourceFile;
+                    btnagregar.Text = sourceFile;
 
-                    pbFotoProducto.Image = Image.FromFile(sourceFile);
+                    //pbFotoProducto.Image = Image.FromFile(sourceFile);
                 }
             }
             catch (Exception ex)
@@ -374,7 +374,7 @@ namespace SistemaInventario
                     nombre_imagen = Path.GetFileName(dgvmostrar.Rows[validador].Cells[2].Value.ToString());
                     Chosen_file2 = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
                     pictureBox1.Image = Image.FromFile(Chosen_file2);
-                    lblruta.Text = Chosen_file2;
+                    //lblruta.Text = Chosen_file2;
 
                     txtCodigo.Text = Convert.ToString(codigo);
 
@@ -440,25 +440,25 @@ namespace SistemaInventario
             }*/
         }
 
-        private void btnexportar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (txtArchivo.TextLength != 0)
-                {
-                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
-                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
-                }
-                else
-                {
-                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //private void btnexportar_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (txtArchivo.TextLength != 0)
+        //        {
+        //            ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
+        //            //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Ingrese un nombre para el archivo por favor");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
         DataView ImportarDatos(string nombrearchivo)
         {
@@ -652,11 +652,11 @@ namespace SistemaInventario
         {
             if (txtdescripcion.TextLength > 0)
             {
-                btncargar.Enabled = true;
+                btnagregar.Enabled = true;
             }
             else
             {
-                btncargar.Enabled = false;
+                btnagregar.Enabled = false;
             }
 
 
