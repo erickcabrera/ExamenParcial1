@@ -132,9 +132,9 @@
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(4, 10);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(191, 22);
+            this.label2.Size = new System.Drawing.Size(204, 22);
             this.label2.TabIndex = 27;
-            this.label2.Text = "Cantida respuestos:";
+            this.label2.Text = "Cantidad respuestos:";
             // 
             // label3
             // 
@@ -183,40 +183,40 @@
             // txtCodigo
             // 
             this.txtCodigo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigo.Location = new System.Drawing.Point(198, 10);
+            this.txtCodigo.Location = new System.Drawing.Point(211, 10);
             this.txtCodigo.MaxLength = 50;
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(196, 27);
+            this.txtCodigo.Size = new System.Drawing.Size(183, 27);
             this.txtCodigo.TabIndex = 1;
             this.txtCodigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
             // 
             // txtexistencia
             // 
             this.txtexistencia.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtexistencia.Location = new System.Drawing.Point(198, 52);
+            this.txtexistencia.Location = new System.Drawing.Point(211, 52);
             this.txtexistencia.MaxLength = 50;
             this.txtexistencia.Name = "txtexistencia";
-            this.txtexistencia.Size = new System.Drawing.Size(197, 27);
+            this.txtexistencia.Size = new System.Drawing.Size(184, 27);
             this.txtexistencia.TabIndex = 2;
             this.txtexistencia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtexistencia_KeyPress);
             // 
             // txtpcompra
             // 
             this.txtpcompra.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtpcompra.Location = new System.Drawing.Point(198, 91);
+            this.txtpcompra.Location = new System.Drawing.Point(211, 91);
             this.txtpcompra.MaxLength = 100;
             this.txtpcompra.Name = "txtpcompra";
-            this.txtpcompra.Size = new System.Drawing.Size(197, 27);
+            this.txtpcompra.Size = new System.Drawing.Size(184, 27);
             this.txtpcompra.TabIndex = 7;
             this.txtpcompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtpcompra_KeyPress);
             // 
             // txtpventa
             // 
             this.txtpventa.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtpventa.Location = new System.Drawing.Point(198, 141);
+            this.txtpventa.Location = new System.Drawing.Point(211, 141);
             this.txtpventa.MaxLength = 100;
             this.txtpventa.Name = "txtpventa";
-            this.txtpventa.Size = new System.Drawing.Size(196, 27);
+            this.txtpventa.Size = new System.Drawing.Size(183, 27);
             this.txtpventa.TabIndex = 8;
             this.txtpventa.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtpventa_KeyPress);
             // 
