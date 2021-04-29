@@ -70,45 +70,7 @@ namespace SistemaInventario
                 trabajador.Pago = float.Parse(txtpago.Text);
                 trabajador.Fecha = fechanacimiento.SelectionStart;
 
-                if (trabajador.Nombre.Equals(""))
-                {
-                    validacion = true;
-                }
-                else if (trabajador.Dui.Equals("") || Regex.IsMatch(trabajador.Dui, "^[0-9]{8}-[0-9]{1}$") == false)
-                {
-                    validacion = true;
-                }
-                else if (trabajador.Nit.Equals("") || Regex.IsMatch(trabajador.Nit, "^[0-9]{4}-[0-9]{6}-[0-9]{2}-[0-9]{1}$") == false)
-                {
-                    validacion = true;
-                }
-                else if (trabajador.Telefono.Equals("") || Regex.IsMatch(trabajador.Telefono, "^[0-9]{4}-[0-9]{4}$") == false)
-                {
-                    validacion = true;
-                }
-                else if (trabajador.Afp.Equals(""))
-                {
-                    validacion = true;
-                }
-                else if (trabajador.Tipo.Equals(""))
-                {
-                    validacion = true;
-                }
-                else if (trabajador.Direccion.Equals(""))
-                {
-                    validacion = true;
-                }
-                else if (trabajador.Pago <= 0)
-                {
-                    validacion = true;
-                }
-
-
-                if (validacion == true)
-                {
-                    MessageBox.Show("Error al obtener la información, favor revisar el formato de los campos solicitados.");
-                }
-                else
+                if (validaciones())
                 {
                     //Si el validador == -1 significa que un dato será INGRESADO
                     if (validador == -1)
@@ -137,12 +99,12 @@ namespace SistemaInventario
                         validador = -1;
                         dui = "";
                     }
-                }
 
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Error: " + ex.Message);
             }
 
         }
