@@ -241,7 +241,7 @@
             this.btnimportar.TabIndex = 3;
             this.btnimportar.Text = "Importar";
             this.btnimportar.UseVisualStyleBackColor = false;
-            this.btnimportar.Click += new System.EventHandler(this.btnimportar_Click_1);
+            this.btnimportar.Click += new System.EventHandler(this.btnImportar_Click);
             // 
             // label12
             // 
@@ -276,6 +276,7 @@
             this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvmostrar.Size = new System.Drawing.Size(622, 380);
             this.dgvmostrar.TabIndex = 17;
+            this.dgvmostrar.Click += new System.EventHandler(this.dgvmostrar_Click);
             // 
             // panel2
             // 
@@ -324,6 +325,7 @@
             this.fechanacimiento.MaxDate = new System.DateTime(2021, 3, 24, 0, 0, 0, 0);
             this.fechanacimiento.Name = "fechanacimiento";
             this.fechanacimiento.TabIndex = 9;
+            this.fechanacimiento.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.fechanacimiento_DateSelected);
             // 
             // cbtipo
             // 
@@ -490,7 +492,7 @@
             this.btnexportar.TabIndex = 2;
             this.btnexportar.Text = "Exportar";
             this.btnexportar.UseVisualStyleBackColor = false;
-            this.btnexportar.Click += new System.EventHandler(this.btnexportar_Click_1);
+            this.btnexportar.Click += new System.EventHandler(this.btnExportar_Click);
             // 
             // label14
             // 

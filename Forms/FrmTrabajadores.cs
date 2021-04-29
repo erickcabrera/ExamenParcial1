@@ -28,6 +28,7 @@ namespace SistemaInventario
         //El validador me permite saber si un dato va a ser ingresado, o caso contrario, va a ser modificado
         private int validador = -1;
         private string dui = "";
+        public bool validado = true;
         ListaTrabajador lista = new ListaTrabajador();
 
 
@@ -95,59 +96,20 @@ namespace SistemaInventario
                 //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
 
                 //Creo un objeto del tipo trabajador y lleno los datos de este
-            
+                Trabajadores trabajador = new Trabajadores();
+                trabajador.Nombre = txtnombre.Text;
+                trabajador.Dui = txtdui.Text;
+                trabajador.Nit = txtni.Text;
+                trabajador.Afp = txtafp.Text;
+                trabajador.Seguro = txtseguro.Text;
+                trabajador.Direccion = txtdireccion.Text;
+                trabajador.Telefono = txttelefono.Text;
+                trabajador.Tipo = cbtipo.SelectedItem.ToString();
+                trabajador.Pago = double.Parse(txtpago.Text);
+                trabajador.Fecha = fechanacimiento.SelectionStart;
 
-                if (txtnombre.Text.Equals(""))
+                if (validaciones())
                 {
-                    validacion = true;
-                }
-                else if (txtdui.Text.Equals("") || Regex.IsMatch(txtdui.Text, "^[0-9]{8}-[0-9]{1}$") == false)
-                {
-                    validacion = true;
-                }
-                else if (txtnit.Text.Equals("") || Regex.IsMatch(txtnit.Text, "^[0-9]{4}-[0-9]{6}-[0-9]{2}-[0-9]{1}$") == false)
-                {
-                    validacion = true;
-                }
-                else if (txttelefono.Text.Equals("") || Regex.IsMatch(txttelefono.Text, "^[0-9]{4}-[0-9]{4}$") == false)
-                {
-                    validacion = true;
-                }
-                else if (txtafp.Text.Equals(""))
-                {
-                    validacion = true;
-                }
-                else if (cbtipo.SelectedItem.ToString().Equals(""))
-                {
-                    validacion = true;
-                }
-                else if (txtdireccion.Text.Equals(""))
-                {
-                    validacion = true;
-                }
-                else if (double.Parse(txtpago.Text) <= 0 || txtpago.Text.Equals(""))
-                {
-                    validacion = true;
-                }
-
-
-                if (validacion == true)
-                {
-                    MessageBox.Show("Error al obtener la información, favor revisar el formato de los campos solicitados.");
-                }
-                else
-                {
-                    Trabajadores trabajador = new Trabajadores();
-                    trabajador.Nombre = txtnombre.Text;
-                    trabajador.Dui = txtdui.Text;
-                    trabajador.Nit = txtnit.Text;
-                    trabajador.Afp = txtafp.Text;
-                    trabajador.Seguro = txtseguro.Text;
-                    trabajador.Direccion = txtdireccion.Text;
-                    trabajador.Telefono = txttelefono.Text;
-                    trabajador.Tipo = cbtipo.SelectedItem.ToString();
-                    trabajador.Pago = float.Parse(txtpago.Text);
-                    trabajador.Fecha = fechanacimiento.SelectionStart;
                     //Si el validador == -1 significa que un dato será INGRESADO
                     if (validador == -1)
                     {
@@ -175,14 +137,13 @@ namespace SistemaInventario
                         validador = -1;
                         dui = "";
                     }
-                }
 
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show("Error: " + ex.Message);
             }
-
         }
 
         private void btnborrar_Click(object sender, EventArgs e)
@@ -318,7 +279,6 @@ namespace SistemaInventario
 
         private bool validaciones()
         {
-            bool validado = true;
             if (txtnombre.TextLength == 0)
             {
                 validado = false;
@@ -363,6 +323,7 @@ namespace SistemaInventario
             {
                 validado = false;
                 errorProvider1.SetError(fechanacimiento, "Seleccionar fecha");
+                fecha_seleccionada = 0;
             }
             return validado;
         }
@@ -460,11 +421,9 @@ namespace SistemaInventario
         }
         private void fechanacimiento_DateSelected(object sender, DateRangeEventArgs e)
         {
-            if (fechanacimiento.SelectionStart > DateTime.Now)
+            if (fechanacimiento.SelectionStart >= DateTime.Now)
             {
                 MessageBox.Show("Fecha seleccionada no valida");
-                fechanacimiento.SelectionStart = DateTime.Now;
-                fechanacimiento.SelectionEnd = DateTime.Now;
             }
             else
             {
@@ -483,7 +442,7 @@ namespace SistemaInventario
                     dui = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
                     txtnombre.Text = dgvmostrar.Rows[validador].Cells[0].Value.ToString();
                     txtdui.Text = dui;
-                    txtnit.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
+                    txtni.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
                     txtafp.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
                     txtseguro.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
                     txtdireccion.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
@@ -518,7 +477,7 @@ namespace SistemaInventario
                 dgvmostrar.DataSource = ImportarDatos(openFileDialog.FileName);
                 Trabajadores trabajador = new Trabajadores();
                 //Lleno la lista con todos los datos que se agregaron del archivo
-                for (int i = 0; i < dgvmostrar.Rows.Count - 1; i++)
+                for (int i = 0; i < dgvmostrar.Rows.Count; i++)
                 {
                     trabajador.Dui = dgvmostrar.Rows[i].Cells[1].Value.ToString();
                     trabajador.Nombre = dgvmostrar.Rows[i].Cells[0].Value.ToString();
@@ -528,7 +487,7 @@ namespace SistemaInventario
                     trabajador.Direccion = dgvmostrar.Rows[i].Cells[5].Value.ToString();
                     trabajador.Telefono = dgvmostrar.Rows[i].Cells[6].Value.ToString();
                     trabajador.Tipo = dgvmostrar.Rows[i].Cells[7].Value.ToString();
-                    trabajador.Pago = float.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
+                    trabajador.Pago = double.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
                     trabajador.Fecha = Convert.ToDateTime(dgvmostrar.Rows[i].Cells[9].Value.ToString());
                     lista.InsertarF(trabajador);
                 }
@@ -544,6 +503,7 @@ namespace SistemaInventario
                 if (txtArchivo.TextLength != 0)
                 {
                     ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
+                    txtArchivo.Clear();
                     //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
                 }
                 else
@@ -611,7 +571,7 @@ namespace SistemaInventario
                     trabajador.Direccion = dgvmostrar.Rows[i].Cells[5].Value.ToString();
                     trabajador.Telefono = dgvmostrar.Rows[i].Cells[6].Value.ToString();
                     trabajador.Tipo = dgvmostrar.Rows[i].Cells[7].Value.ToString();
-                    trabajador.Pago = float.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
+                    trabajador.Pago = double.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
                     trabajador.Fecha = Convert.ToDateTime(dgvmostrar.Rows[i].Cells[9].Value.ToString());
                     lista.InsertarF(trabajador);
                 }

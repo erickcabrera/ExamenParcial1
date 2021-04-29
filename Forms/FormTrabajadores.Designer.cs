@@ -217,12 +217,12 @@
             // 
             this.btnagregar.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnagregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnagregar.Location = new System.Drawing.Point(229, 204);
+            this.btnagregar.Location = new System.Drawing.Point(233, 204);
             this.btnagregar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnagregar.Name = "btnagregar";
             this.btnagregar.Size = new System.Drawing.Size(74, 23);
             this.btnagregar.TabIndex = 20;
-            this.btnagregar.Text = "Agregar ";
+            this.btnagregar.Text = "Pedos";
             this.btnagregar.UseVisualStyleBackColor = false;
             this.btnagregar.Click += new System.EventHandler(this.btnagregar_Click);
             // 
@@ -242,7 +242,7 @@
             // dgvmostrar
             // 
             this.dgvmostrar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvmostrar.Location = new System.Drawing.Point(418, 31);
+            this.dgvmostrar.Location = new System.Drawing.Point(417, -59);
             this.dgvmostrar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dgvmostrar.Name = "dgvmostrar";
             this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;

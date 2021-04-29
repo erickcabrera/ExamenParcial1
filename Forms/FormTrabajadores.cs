@@ -67,7 +67,7 @@ namespace SistemaInventario
                 trabajador.Direccion = txtdireccion.Text;
                 trabajador.Telefono = txttelefono.Text;
                 trabajador.Tipo = cbtipo.SelectedItem.ToString();
-                trabajador.Pago = float.Parse(txtpago.Text);
+                trabajador.Pago = double.Parse(txtpago.Text);
                 trabajador.Fecha = fechanacimiento.SelectionStart;
 
                 if (validaciones())
@@ -452,7 +452,7 @@ namespace SistemaInventario
                     trabajador.Direccion = dgvmostrar.Rows[i].Cells[5].Value.ToString();
                     trabajador.Telefono = dgvmostrar.Rows[i].Cells[6].Value.ToString();
                     trabajador.Tipo = dgvmostrar.Rows[i].Cells[7].Value.ToString();
-                    trabajador.Pago = float.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
+                    trabajador.Pago = double.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
                     trabajador.Fecha = Convert.ToDateTime(dgvmostrar.Rows[i].Cells[9].Value.ToString());
                     lista.InsertarF(trabajador);
                 }

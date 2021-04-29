@@ -10,7 +10,7 @@ namespace SistemaInventario
     class Trabajadores
     {
         string nombre, dui, nit, afp, seguro, direccion, telefono, tipo;
-        float pago;
+        double pago;
         DateTime fecha;
 
         public String Nombre
@@ -55,7 +55,7 @@ namespace SistemaInventario
             get { return tipo; }
             set { tipo = value; }
         }
-        public float Pago
+        public double Pago
         {
             get { return pago; }
             set { pago = value; }
