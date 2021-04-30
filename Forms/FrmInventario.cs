@@ -71,20 +71,20 @@ namespace SistemaInventario
         private void Alumno_Load(object sender, EventArgs e)
         {
             BorrarMensaje();
-             try
-             {
-                 btnborrar.Enabled = false;
-                 btnimportar.Enabled = false;
-                 btnEditar.Enabled = false;
+            try
+            {
+                btnborrar.Enabled = false;
+                btnimportar.Enabled = false;
+                btnEditar.Enabled = false;
             }
-             catch (Exception Ex)
-             {
-                 MessageBox.Show("Error al mostrar datos " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-             }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Error al mostrar datos " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         //validar que la fecha de nacimiento no sea mayor a la fecha del sistema
-      
+
         private void picBMinimizar_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -97,41 +97,7 @@ namespace SistemaInventario
             frm.Show();
             this.Hide();
         }
-
-        /*private void txtNombreA_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //condición para validar sólo letras
-            if (char.IsLetter(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (char.IsSeparator(e.KeyChar))
-            {
-                e.Handled = false;
-
-            }
-            else
-            {
-                e.Handled = true;
-                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten letras");
-            }
-        }*/
         
-        private bool validacionPrecios()
-        {
-            bool validacion = true;
-            if (float.Parse(txtpcompra.Text) >= float.Parse(txtpventa.Text))
-            {
-                validacion = false;
-                txtpventa.Clear();
-                txtpventa.Focus();
-            }
-            return validacion;
-        }
 
         private bool validaciones()
         {
@@ -161,21 +127,7 @@ namespace SistemaInventario
                 validacion = false;
                 errorProvider1.SetError(txtdescripcion, "Por favor ingrese una descripción del articulo");
             }
-            /*if (validacionPrecios() == false)
-            {
-                validacion = false;
-                errorProvider1.SetError(txtpventa, "El precio de venta debe ser mayor al precio de compra");
-            }*/
-            /*if (validado == false)
-            {
-                validacion = false;
-                errorProvider1.SetError(txtdescripcion, "El nombre del articulo ya existe. Por favor elija otro");
-            }*/
-            /*if (exito_imagen_subida == false)
-            {
-                validacion = false;
-                errorProvider1.SetError(btncargar, "Por favor suba una imagen");
-            }*/
+           
             return validacion;
         }
 
@@ -189,9 +141,7 @@ namespace SistemaInventario
             errorProvider1.SetError(txtpventa, "");
             errorProvider1.SetError(txtCodigo, "");
         }
-
-       
-
+        
         private void btnGuardarA_Click(object sender, EventArgs e)
         {
             //validaciones
@@ -240,7 +190,6 @@ namespace SistemaInventario
                             lista.InsertarF(inventario);
 
                             //COPIAMOS IMAGEN
-                            MessageBox.Show(btncargar.Text);
                             String sourceFile = btncargar.Text;
                             String destinationFile = inventario.Ruta_imagen;
 
@@ -286,12 +235,7 @@ namespace SistemaInventario
 
             }
         }
-
         
-
-       
-
-       
         private void picBMinimizar_Click_1(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -318,27 +262,8 @@ namespace SistemaInventario
 
         private void txtFoto_Click(object sender, EventArgs e)
         {
-            /*openFileFoto.InitialDirectory = "C:\\";
-            openFileFoto.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
-            try
-            {
-                if (openFileFoto.ShowDialog() == DialogResult.OK)
-                {
-                    string sourceFile = openFileFoto.FileName;
-                    txtFoto.Text = sourceFile;
-
-                    System.IO.FileStream fs = new System.IO.FileStream(sourceFile, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-                    pbFotoAlumno.Image = System.Drawing.Image.FromStream(fs);
-                    fs.Close();
-                    btnagregar.Focus();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }*/
             openFD.Title = "Seleccione una imagen";
-            openFD.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            openFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             openFD.FileName = "";
             openFD.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif";
 
