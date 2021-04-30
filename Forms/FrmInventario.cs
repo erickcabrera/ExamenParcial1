@@ -53,6 +53,8 @@ namespace SistemaInventario
         {
             dgvmostrar.DataSource = null;
             dgvmostrar.DataSource = lista.Mostrar().ToList();
+            dgvmostrar.ClearSelection();
+            btnborrar.Enabled = false;
         }
 
         private void reseteo()
@@ -63,20 +65,22 @@ namespace SistemaInventario
             txtpventa.Clear();
             txtCodigo.Clear();
             pbFotoProducto.Image = Image.FromFile("..\\..\\Imagenes\\subir.png");
+            btncargar.Text = "Seleccionar foto...";
         }
 
         private void Alumno_Load(object sender, EventArgs e)
         {
             BorrarMensaje();
-           /* try
-            {
-                btnborrar.Enabled = false;
-                btnimportar.Enabled = false;
+             try
+             {
+                 btnborrar.Enabled = false;
+                 btnimportar.Enabled = false;
+                 btnEditar.Enabled = false;
             }
-            catch (Exception Ex)
-            {
-                MessageBox.Show("Error al mostrar datos " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
+             catch (Exception Ex)
+             {
+                 MessageBox.Show("Error al mostrar datos " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
         }
 
         //validar que la fecha de nacimiento no sea mayor a la fecha del sistema
@@ -132,52 +136,58 @@ namespace SistemaInventario
         private bool validaciones()
         {
             bool validacion = true;
-            if (txtexistencia.TextLength == 0)
+            if (txtCodigo.Text == "")
+            {
+                validacion = false;
+                errorProvider1.SetError(txtCodigo, "Por favor ingrese el codigo del articulo");
+            }
+            if (txtexistencia.Text == "")
             {
                 validacion = false;
                 errorProvider1.SetError(txtexistencia, "Por favor ingrese la cantidad de existencia del articulo");
             }
-            if (txtpcompra.TextLength == 0)
+            if (txtpcompra.Text == "")
             {
                 validacion = false;
                 errorProvider1.SetError(txtpcompra, "Por favor ingrese el precio de compra del articulo");
             }
-            if (txtpventa.TextLength == 0)
+            if (txtpventa.Text == "")
             {
                 validacion = false;
                 errorProvider1.SetError(txtpventa, "Por favor ingrese el precio de venta del articulo");
             }
-            if (txtdescripcion.TextLength == 0)
+            if (txtdescripcion.Text == "")
             {
                 validacion = false;
-                errorProvider1.SetError(txtdescripcion, "Por favor ingrese el nombre del articulo");
+                errorProvider1.SetError(txtdescripcion, "Por favor ingrese una descripción del articulo");
             }
-            if (validacionPrecios() == false)
+            /*if (validacionPrecios() == false)
             {
                 validacion = false;
                 errorProvider1.SetError(txtpventa, "El precio de venta debe ser mayor al precio de compra");
-            }
-            if (validado == false)
+            }*/
+            /*if (validado == false)
             {
                 validacion = false;
                 errorProvider1.SetError(txtdescripcion, "El nombre del articulo ya existe. Por favor elija otro");
-            }
-            if (exito_imagen_subida == false)
+            }*/
+            /*if (exito_imagen_subida == false)
             {
                 validacion = false;
                 errorProvider1.SetError(btncargar, "Por favor suba una imagen");
-            }
+            }*/
             return validacion;
         }
 
         //borrar los mensajes que provee el error provider
         private void BorrarMensaje()
         {
+            errorProvider1.SetError(txtCodigo, "");
+            errorProvider1.SetError(txtdescripcion, "");
             errorProvider1.SetError(txtexistencia, "");
             errorProvider1.SetError(txtpcompra, "");
             errorProvider1.SetError(txtpventa, "");
             errorProvider1.SetError(txtCodigo, "");
-            errorProvider1.SetError(txtdescripcion, "");
         }
 
        
@@ -186,8 +196,8 @@ namespace SistemaInventario
         {
             //validaciones
             BorrarMensaje();
-            /*if (validaciones())
-            {*/
+            if (validaciones())
+            {
                 //creo un objeto de la clase persona y guardo a través de las propiedades 
                 if (btncargar.Text == "Seleccionar foto...")
                 {
@@ -195,6 +205,18 @@ namespace SistemaInventario
                 }
                 else
                 {
+                    Queue<Inventario> cola = new Queue<Inventario>();
+                    cola = lista.Mostrar();
+                    bool idCodigo = false;
+
+                    foreach (var item in cola)
+                    {
+                        if (item.Codigo == int.Parse(txtCodigo.Text))
+                        {
+                            idCodigo = true;
+                        }
+                    }
+
                     try
                     {
                         //Faltan validaciones
@@ -207,68 +229,62 @@ namespace SistemaInventario
                         inventario.Existencia = Convert.ToInt32(txtexistencia.Text);
                         inventario.Precio_compra = float.Parse(txtpcompra.Text);
                         inventario.Precio_venta = float.Parse(txtpventa.Text);
-                        inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtdescripcion.Text + ".jpg");
-                        //Agregando imagen a directorio
-                        //File.Copy(Chosen_File, "..\\..\\Imagenes\\" + Path.GetFileName(txtdescripcion.Text + ".jpg"));
-
-
-                        //pbImagen.Image = Image.FromFile(imagen);
-
-                        String sourceFile = btncargar.Text;
-                        String destinationFile = inventario.Ruta_imagen;
-
-                        try
-                        {
-                            System.IO.File.Copy(sourceFile, destinationFile);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-
-
+                        inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtCodigo.Text + "-" + txtdescripcion.Text + ".jpg");
+                        
                         //Si el validador == -1 significa que un dato será INGRESADO
-                        if (validador == -1)
+                        /*if (validador == -1)
+                        {*/
+                        if (idCodigo == false)
                         {
                             //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
                             lista.InsertarF(inventario);
+
+                            //COPIAMOS IMAGEN
+                            MessageBox.Show(btncargar.Text);
+                            String sourceFile = btncargar.Text;
+                            String destinationFile = inventario.Ruta_imagen;
+
+                            try
+                            {
+
+                                if (!File.Exists(inventario.Ruta_imagen))
+                                {
+                                    File.Copy(sourceFile, destinationFile);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Imagen ya existe");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error " + ex.Message);
+                            }
+
                             //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
                             ActualizarDataGrid(lista);
+
                             //Limpio pantalla
                             reseteo();
+
                         }
                         else
                         {
-                            //Caso contrario, significa que el usuario está modificando un trabajador existente
-                            //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
-                            txtCodigo.ReadOnly = false;
-                            txtdescripcion.ReadOnly = false;
-                            txtexistencia.ReadOnly = false;
-                            txtpcompra.ReadOnly = false;
-                            txtpventa.ReadOnly = false;
-
-                            //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
-                            lista.Editar(codigo, inventario);
-                            //Actualizo el datagrid
-                            ActualizarDataGrid(lista);
-                            reseteo();
-                            //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
-                            validador = -1;
-                            codigo = 0;
+                            MessageBox.Show("El codigo ingresado ya existe", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
-
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
+
                 }
-           /* }
+            }
             else
             {
                 MessageBox.Show("Debe ingresar todos los datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            }*/
+            }
         }
 
         
@@ -283,7 +299,21 @@ namespace SistemaInventario
 
         private void dgvDatosAlumnos_SelectionChanged(object sender, EventArgs e)
         {
-            
+            if (dgvmostrar.SelectedRows.Count > 0)
+            {
+                try
+                {
+                    reseteo();
+                    btnborrar.Enabled = true;
+                    btnagregar.Enabled = true;
+                    btnEditar.Enabled = false;
+                    codigo = int.Parse(dgvmostrar.CurrentRow.Cells["Codigo"].Value.ToString());
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
         }
 
         private void txtFoto_Click(object sender, EventArgs e)
@@ -319,7 +349,10 @@ namespace SistemaInventario
                     string sourceFile = openFD.FileName;
                     btncargar.Text = sourceFile;
 
-                    pbFotoProducto.Image = Image.FromFile(sourceFile);
+                    FileStream fs = new FileStream(sourceFile, FileMode.Open, FileAccess.Read);
+                    pbFotoProducto.Image = Image.FromStream(fs);
+                    fs.Close();
+
                 }
             }
             catch (Exception ex)
@@ -373,7 +406,12 @@ namespace SistemaInventario
 
                     nombre_imagen = Path.GetFileName(dgvmostrar.Rows[validador].Cells[2].Value.ToString());
                     Chosen_file2 = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
-                    pictureBox1.Image = Image.FromFile(Chosen_file2);
+
+                    
+                    System.IO.FileStream fs = new System.IO.FileStream(Chosen_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                    pbFotoProducto.Image = System.Drawing.Image.FromStream(fs);
+                    fs.Close();
+
                     lblruta.Text = Chosen_file2;
 
                     txtCodigo.Text = Convert.ToString(codigo);
@@ -383,6 +421,9 @@ namespace SistemaInventario
                     txtpventa.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
                     txtexistencia.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
 
+                    btnEditar.Enabled = true;
+                    btnborrar.Enabled = false;
+                    btnagregar.Enabled = false;
 
                     //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
                     txtCodigo.ReadOnly = true;
@@ -394,51 +435,7 @@ namespace SistemaInventario
             }
         }
 
-        private void btnEditarA_Click(object sender, EventArgs e)
-        {
-            //validaciones
-            BorrarMensaje();
-            /*if (validaciones())
-            {*/
-                if (validador != -1)
-                {
-                    try
-                    {
-                        //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
-
-                        //Creo un nuevo objeto del tipo lista
-                        ListaInventario lista2 = new ListaInventario();
-
-                        //Le paso todos los valores que no sean los que se quieren borrar de la lista global
-                        foreach (Inventario inventario in lista.EnCola(codigo))
-                        {
-                            lista2.InsertarF(inventario);
-                        }
-                        //Hago que la lista global sea igual a la nueva lista, es decir, que tenga los valores nuevos excepto el borrado
-                        lista = lista2;
-                        //Actualizo el datagrid
-                        ActualizarDataGrid(lista);
-                        //Reinicio los validadores
-                        validador = -1;
-                        reseteo();
-                        txtCodigo.ReadOnly = false;
-                        codigo = 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Debe seleccionar una row primero");
-                }
-           /* }
-            else
-            {
-                MessageBox.Show("Debe llenar todos los campos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }*/
-        }
+     
 
         private void btnexportar_Click(object sender, EventArgs e)
         {
@@ -589,7 +586,7 @@ namespace SistemaInventario
                 e.Handled = true;
                 /*MessageBox.Show("Solo se admiten numeros", "validación de numeros",
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
-                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten numeros");
+                errorProvider1.SetError(txtexistencia, "En este campo sólo se permiten numeros");
             }
         }
 
@@ -615,7 +612,7 @@ namespace SistemaInventario
                 e.Handled = true;
                 /*MessageBox.Show("Solo se admiten numeros", "validación de texto",
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
-                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten numeros");
+                errorProvider1.SetError(txtpcompra, "En este campo sólo se permiten numeros");
             }
         }
 
@@ -641,7 +638,7 @@ namespace SistemaInventario
                 e.Handled = true;
                 /*MessageBox.Show("Solo se admiten numeros", "validación de texto",
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
-                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten numeros");
+                errorProvider1.SetError(txtpventa, "En este campo sólo se permiten numeros");
             }
         }
 
@@ -684,6 +681,157 @@ namespace SistemaInventario
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+     
+        private void btnborrar_Click(object sender, EventArgs e)
+        {
+            if (dgvmostrar.SelectedRows.Count > 0)
+            {
+                DialogResult resultado = MessageBox.Show("¿Seguro que desea eliminar el articulo con codigo " + codigo + "?", "SALIR", MessageBoxButtons.YesNo);
+                if (resultado == DialogResult.Yes)
+                {
+                    try
+                    {
+                        //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
+
+                        //Creo un nuevo objeto del tipo lista
+                        ListaInventario lista2 = new ListaInventario();
+
+                        //Le paso todos los valores que no sean los que se quieren borrar de la lista global
+                        foreach (Inventario inventario in lista.EnCola(codigo))
+                        {
+                            lista2.InsertarF(inventario);
+                        }
+                        //Hago que la lista global sea igual a la nueva lista, es decir, que tenga los valores nuevos excepto el borrado
+                        lista = lista2;
+
+
+                        //Borramos imagen
+                        try
+                        {
+                            if (System.IO.File.Exists(dgvmostrar.CurrentRow.Cells["Ruta_imagen"].Value.ToString()))
+                            {
+                                System.IO.File.Delete(dgvmostrar.CurrentRow.Cells["Ruta_imagen"].Value.ToString());
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error al borrar imagen " + ex.Message);
+                        }
+
+
+                        //Actualizo el datagrid
+                        ActualizarDataGrid(lista);
+                        //Reinicio los validadores
+                        validador = -1;
+                        reseteo();
+                        txtCodigo.ReadOnly = false;
+                        codigo = 0;
+                        btnagregar.Enabled = true;
+                        btnEditar.Enabled = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                else if (resultado == DialogResult.No)
+                {
+                    btnborrar.Enabled = false;
+                    dgvmostrar.ClearSelection();
+                    reseteo();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar una fila", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            //validaciones
+            BorrarMensaje();
+            if (validaciones())
+            {
+                try
+                {
+                    Inventario inventario = new Inventario();
+                    inventario.Codigo = int.Parse(txtCodigo.Text);
+                    inventario.Descripcion = txtdescripcion.Text;
+                    inventario.Existencia = Convert.ToInt32(txtexistencia.Text);
+                    inventario.Precio_compra = float.Parse(txtpcompra.Text);
+                    inventario.Precio_venta = float.Parse(txtpventa.Text);
+                    inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtCodigo.Text + "-" + txtdescripcion.Text + ".jpg");
+
+                    
+                    if (btncargar.Text != "Seleccionar foto...")
+                    {
+
+                        try
+                        {
+                            if (File.Exists(lblruta.Text))
+                            {
+                                File.Delete(lblruta.Text);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error al borrar imagen " + ex.Message);
+                        }
+                        
+                        String sourceFile = btncargar.Text;
+                        String destinationFile = inventario.Ruta_imagen;
+
+                        try
+                        {
+                            if (!File.Exists(inventario.Ruta_imagen))
+                            {
+                                File.Copy(sourceFile, destinationFile);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Imagen ya existe");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                    else
+                    {
+                        inventario.Ruta_imagen = lblruta.Text;
+                    }
+
+                    //Caso contrario, significa que el usuario está modificando un trabajador existente
+                    //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
+                    txtCodigo.ReadOnly = false;
+                    txtdescripcion.ReadOnly = false;
+                    txtexistencia.ReadOnly = false;
+                    txtpcompra.ReadOnly = false;
+                    txtpventa.ReadOnly = false;
+
+                    //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
+                    lista.Editar(codigo, inventario);
+                    //Actualizo el datagrid
+                    ActualizarDataGrid(lista);
+                    reseteo();
+                    //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
+                    validador = -1;
+                    codigo = 0;
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Error al modificar registro " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe llenar todos los campos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
