@@ -15,6 +15,7 @@ using System.Security.Principal;
 using System.Security.Permissions;
 using System.Security;
 using System.Data.OleDb;
+using SpreadsheetLight;
 
 namespace SistemaInventario
 {
@@ -24,13 +25,9 @@ namespace SistemaInventario
         private int validador = -1;
         private int codigo = 0;
         ListaInventario lista = new ListaInventario();
-        private int edit_indice;
-        private int id_inventario = 0;
-        private int cantidad = 0;
+
         private string nombre_imagen = "";
-        private string Chosen_File = "";
-        private bool validado = false;
-        private bool exito_imagen_subida = false;
+
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
@@ -74,7 +71,6 @@ namespace SistemaInventario
             try
             {
                 btnborrar.Enabled = false;
-                btnimportar.Enabled = false;
                 btnEditar.Enabled = false;
             }
             catch (Exception Ex)
@@ -286,33 +282,7 @@ namespace SistemaInventario
             }
         }
 
-        private void btnEliminarA_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "Excel | *.xls;*.xlsx;",
-
-                Title = "Seleccionar Archivo"
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                dgvmostrar.DataSource = ImportarDatos(openFileDialog.FileName);
-                Inventario inventario = new Inventario();
-                //Lleno la lista con todos los datos que se agregaron del archivo
-                for (int i = 0; i < dgvmostrar.Rows.Count - 1; i++)
-                {
-                    inventario.Codigo = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[0].Value.ToString());
-                    inventario.Descripcion = dgvmostrar.Rows[i].Cells[1].Value.ToString();
-                    inventario.Ruta_imagen = dgvmostrar.Rows[i].Cells[2].Value.ToString();
-                    inventario.Precio_compra = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[3].Value.ToString());
-                    inventario.Precio_venta = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[4].Value.ToString());
-                    inventario.Existencia = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[5].Value.ToString());
-
-                    lista.InsertarF(inventario);
-                }
-                ActualizarDataGrid(lista);
-            }
-        }
+       
 
         
 
@@ -332,10 +302,17 @@ namespace SistemaInventario
                     nombre_imagen = Path.GetFileName(dgvmostrar.Rows[validador].Cells[2].Value.ToString());
                     Chosen_file2 = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
 
-                    
-                    System.IO.FileStream fs = new System.IO.FileStream(Chosen_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-                    pbFotoProducto.Image = System.Drawing.Image.FromStream(fs);
-                    fs.Close();
+                    try
+                    {
+                        System.IO.FileStream fs = new System.IO.FileStream(Chosen_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                        pbFotoProducto.Image = System.Drawing.Image.FromStream(fs);
+                        fs.Close();
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show("La ruta de la imagen no existe. Modifique la imagen del producto " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
 
                     lblruta.Text = Chosen_file2;
 
@@ -360,20 +337,19 @@ namespace SistemaInventario
             }
         }
 
-     
-
+        
         private void btnexportar_Click(object sender, EventArgs e)
         {
             try
             {
                 if (txtArchivo.TextLength != 0)
                 {
-                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
-                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
+                    Exportar(dgvmostrar,"C:\\" + txtArchivo.Text + ".xlsx");
                 }
                 else
                 {
-                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
+                    MessageBox.Show("Ingrese un nombre para el archivo por favor", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 }
             }
             catch (Exception ex)
@@ -382,31 +358,83 @@ namespace SistemaInventario
             }
         }
 
-        DataView ImportarDatos(string nombrearchivo)
+        List<Inventario> ImportarDatos(string nombrearchivo)
         {
-            //Este código lo copié de internet, pero le entiendo. Lo que importa es que funciona
-            string conexion = string.Format("Provider = Microsoft.ACE.OLEDB.12.0; Data Source = {0}; Extended Properties = 'Excel 12.0;'", nombrearchivo);
+            List<Inventario> lista = new List<Inventario>();
 
-            OleDbConnection conector = new OleDbConnection(conexion);
-
-            conector.Open();
-
-            //Asegurense que el documento excel que van a importar tenga Hoja1 como nombre. No Hoja 1, debe estar unido Hoja1
-            OleDbCommand consulta = new OleDbCommand("select * from [Hoja1$]", conector);
-
-            OleDbDataAdapter adaptador = new OleDbDataAdapter
+            try
             {
-                SelectCommand = consulta
-            };
+                SLDocument sl = new SLDocument(nombrearchivo);
+              
+                int iRow = 2;
+                while (!string.IsNullOrEmpty(sl.GetCellValueAsString(iRow,1)))
+                {
+                    Inventario inventario = new Inventario();
+                    inventario.Codigo = int.Parse(sl.GetCellValueAsString(iRow, 1));
+                    inventario.Descripcion = sl.GetCellValueAsString(iRow, 2);
+                    inventario.Ruta_imagen = sl.GetCellValueAsString(iRow, 3);
+                    inventario.Precio_compra = int.Parse(sl.GetCellValueAsString(iRow, 4));
+                    inventario.Precio_venta = int.Parse(sl.GetCellValueAsString(iRow, 5));
+                    inventario.Existencia = int.Parse(sl.GetCellValueAsString(iRow, 6));
+                    
+                    lista.Add(inventario);
+                    iRow++;
+                }
+            }
+            catch (Exception e)
+            {
 
-            DataSet ds = new DataSet();
-
-            adaptador.Fill(ds);
-
-            conector.Close();
-
-            return ds.Tables[0].DefaultView;
+                MessageBox.Show("Error al importar " + e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return lista;
         }
+
+        private void Exportar(DataGridView datalistado, string outputFile)
+        {
+            if (datalistado.RowCount > 0 && File.Exists(outputFile)!= true)
+            {
+                try
+                {
+                    SLDocument sl = new SLDocument();
+
+                    int iC = 1;
+                    SLStyle style = new SLStyle();
+                    style.Font.Bold = true;
+
+                    foreach (DataGridViewColumn column in dgvmostrar.Columns)
+                    {
+                        sl.SetCellValue(1, iC, column.HeaderText.ToString());
+                        sl.SetCellStyle(1, iC, style);
+                        iC++;
+                    }
+
+                    int iR = 2;
+                    foreach (DataGridViewRow row in dgvmostrar.Rows)
+                    {
+                        sl.SetCellValue(iR, 1, row.Cells[0].Value.ToString());
+                        sl.SetCellValue(iR, 2, row.Cells[1].Value.ToString());
+                        sl.SetCellValue(iR, 3, row.Cells[2].Value.ToString());
+                        sl.SetCellValue(iR, 4, row.Cells[3].Value.ToString());
+                        sl.SetCellValue(iR, 5, row.Cells[4].Value.ToString());
+                        sl.SetCellValue(iR, 6, row.Cells[5].Value.ToString());
+                        iR++;
+                    }
+                    sl.SaveAs(outputFile);
+                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error al exportar " + e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay Registros a Exportar o el nombre del documento ya existe", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+
+
 
         public void ExportarDatos(DataGridView gridIn, string outputFile)
         {
@@ -475,13 +503,15 @@ namespace SistemaInventario
         private void txtCodigo_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsNumber(e.KeyChar))
-            {
+            {   
                 e.Handled = false;
+                BorrarMensaje();
             }
             //para backspace
             else if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //si no cumple nada de lo anterior que no lo deje pasar
             else
@@ -499,11 +529,13 @@ namespace SistemaInventario
             if (char.IsNumber(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //para backspace
             else if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //si no cumple nada de lo anterior que no lo deje pasar
             else
@@ -520,16 +552,19 @@ namespace SistemaInventario
             if (char.IsNumber(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //para backspace
             else if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //Para punto 
             else if (char.IsPunctuation(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //si no cumple nada de lo anterior que no lo deje pasar
             else
@@ -546,16 +581,19 @@ namespace SistemaInventario
             if (char.IsNumber(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //para backspace
             else if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //Para punto 
             else if (char.IsPunctuation(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //si no cumple nada de lo anterior que no lo deje pasar
             else
@@ -586,15 +624,17 @@ namespace SistemaInventario
             if (char.IsLetter(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             else if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             else if (char.IsSeparator(e.KeyChar))
             {
                 e.Handled = false;
-
+                BorrarMensaje();
             }
             else
             {
@@ -603,10 +643,6 @@ namespace SistemaInventario
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
      
         private void btnborrar_Click(object sender, EventArgs e)
@@ -694,7 +730,6 @@ namespace SistemaInventario
                     
                     if (btncargar.Text != "Seleccionar foto...")
                     {
-
                         try
                         {
                             if (File.Exists(lblruta.Text))
@@ -756,6 +791,89 @@ namespace SistemaInventario
             else
             {
                 MessageBox.Show("Debe llenar todos los campos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnimportar_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel | *.xls;*.xlsx;",
+
+                Title = "Seleccionar Archivo"
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    List<Inventario> lst = new List<Inventario>();
+                    lst = ImportarDatos(openFileDialog.FileName);
+                    bool excelVacio = false;
+                    bool idCodigo = false;
+                    foreach (var item in lst)
+                    {
+                        excelVacio = true;
+                        Inventario inventario = new Inventario();
+                        inventario.Codigo = Convert.ToInt32(item.Codigo.ToString());
+                        inventario.Descripcion = item.Descripcion.ToString();
+                        inventario.Ruta_imagen = item.Ruta_imagen.ToString();
+                        inventario.Precio_compra = Convert.ToInt32(item.Precio_compra.ToString());
+                        inventario.Precio_venta = Convert.ToInt32(item.Precio_venta.ToString());
+                        inventario.Existencia = Convert.ToInt32(item.Existencia.ToString());
+
+                        //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
+                        Queue<Inventario> cola = new Queue<Inventario>();
+                        cola = lista.Mostrar();
+
+                        if (cola.Count == 0)
+                        {
+                            lista.InsertarF(inventario);
+                        }
+                        else
+                        {
+
+                            if (cola.Contains(item))
+                            {
+
+                            }
+                            foreach (var item2 in cola)
+                            {
+                                if (item2.Codigo == inventario.Codigo)
+                                {
+                                    idCodigo = true;
+                                    break;
+                                }
+                            }
+                            if (idCodigo == false)
+                            {
+                                lista.InsertarF(inventario);
+                            }
+                        }
+                        //***********************************************************
+                    }
+
+                    if (excelVacio == true && idCodigo == false)
+                    {
+                        ActualizarDataGrid(lista);
+                        MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (excelVacio == true && idCodigo == true)
+                    {
+                        ActualizarDataGrid(lista);
+                        MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+
             }
         }
     }
