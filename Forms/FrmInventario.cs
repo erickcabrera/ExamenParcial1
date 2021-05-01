@@ -173,8 +173,8 @@ namespace SistemaInventario
                         inventario.Codigo = int.Parse(txtCodigo.Text);
                         inventario.Descripcion = txtdescripcion.Text;
                         inventario.Existencia = Convert.ToInt32(txtexistencia.Text);
-                        inventario.Precio_compra = float.Parse(txtpcompra.Text);
-                        inventario.Precio_venta = float.Parse(txtpventa.Text);
+                        inventario.Precio_compra = Double.Parse(txtpcompra.Text);
+                        inventario.Precio_venta = Double.Parse(txtpventa.Text);
                         inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtCodigo.Text + "-" + txtdescripcion.Text + ".jpg");
                         
                         //Si el validador == -1 significa que un dato será INGRESADO
@@ -373,8 +373,8 @@ namespace SistemaInventario
                     inventario.Codigo = int.Parse(sl.GetCellValueAsString(iRow, 1));
                     inventario.Descripcion = sl.GetCellValueAsString(iRow, 2);
                     inventario.Ruta_imagen = sl.GetCellValueAsString(iRow, 3);
-                    inventario.Precio_compra = int.Parse(sl.GetCellValueAsString(iRow, 4));
-                    inventario.Precio_venta = int.Parse(sl.GetCellValueAsString(iRow, 5));
+                    inventario.Precio_compra = sl.GetCellValueAsDouble(iRow, 4);
+                    inventario.Precio_venta = sl.GetCellValueAsDouble(iRow, 5);
                     inventario.Existencia = int.Parse(sl.GetCellValueAsString(iRow, 6));
                     
                     lista.Add(inventario);
@@ -414,8 +414,8 @@ namespace SistemaInventario
                         sl.SetCellValue(iR, 1, row.Cells[0].Value.ToString());
                         sl.SetCellValue(iR, 2, row.Cells[1].Value.ToString());
                         sl.SetCellValue(iR, 3, row.Cells[2].Value.ToString());
-                        sl.SetCellValue(iR, 4, row.Cells[3].Value.ToString());
-                        sl.SetCellValue(iR, 5, row.Cells[4].Value.ToString());
+                        sl.SetCellValue(iR, 4, Convert.ToDouble(row.Cells[3].Value.ToString()));
+                        sl.SetCellValue(iR, 5, Convert.ToDouble(row.Cells[4].Value.ToString()));
                         sl.SetCellValue(iR, 6, row.Cells[5].Value.ToString());
                         iR++;
                     }
@@ -817,8 +817,8 @@ namespace SistemaInventario
                         inventario.Codigo = Convert.ToInt32(item.Codigo.ToString());
                         inventario.Descripcion = item.Descripcion.ToString();
                         inventario.Ruta_imagen = item.Ruta_imagen.ToString();
-                        inventario.Precio_compra = Convert.ToInt32(item.Precio_compra.ToString());
-                        inventario.Precio_venta = Convert.ToInt32(item.Precio_venta.ToString());
+                        inventario.Precio_compra = item.Precio_compra;
+                        inventario.Precio_venta = item.Precio_venta;
                         inventario.Existencia = Convert.ToInt32(item.Existencia.ToString());
 
                         //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista

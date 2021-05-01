@@ -15,7 +15,7 @@ using System.Security.Principal;
 using System.Security.Permissions;
 using System.Security;
 using System.Data.OleDb;
-using System.Text.RegularExpressions;
+using SpreadsheetLight;
 
 namespace SistemaInventario
 {
@@ -85,8 +85,8 @@ namespace SistemaInventario
             txtpago.Clear();
             txtseguro.Clear();
             txttelefono.Clear();
-            fechanacimiento.SelectionStart = DateTime.Today;
             cbtipo.SelectedIndex = 0;
+            fechanacimiento.Value = DateTime.Today;
         }
         private void btnagregar_Click(object sender, EventArgs e)
         {
@@ -96,20 +96,21 @@ namespace SistemaInventario
                 //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
 
                 //Creo un objeto del tipo trabajador y lleno los datos de este
-                Trabajadores trabajador = new Trabajadores();
-                trabajador.Nombre = txtnombre.Text;
-                trabajador.Dui = txtdui.Text;
-                trabajador.Nit = txtni.Text;
-                trabajador.Afp = txtafp.Text;
-                trabajador.Seguro = txtseguro.Text;
-                trabajador.Direccion = txtdireccion.Text;
-                trabajador.Telefono = txttelefono.Text;
-                trabajador.Tipo = cbtipo.SelectedItem.ToString();
-                trabajador.Pago = double.Parse(txtpago.Text);
-                trabajador.Fecha = fechanacimiento.SelectionStart;
+               
 
                 if (validaciones())
                 {
+                    Trabajadores trabajador = new Trabajadores();
+                    trabajador.Nombre = txtnombre.Text;
+                    trabajador.Dui = txtdui.Text;
+                    trabajador.Nit = txtni.Text;
+                    trabajador.Afp = txtafp.Text;
+                    trabajador.Seguro = txtseguro.Text;
+                    trabajador.Direccion = txtdireccion.Text;
+                    trabajador.Telefono = txttelefono.Text;
+                    trabajador.Tipo = cbtipo.SelectedItem.ToString();
+                    trabajador.Pago = double.Parse(txtpago.Text);
+                    trabajador.Fecha = fechanacimiento.Value;
                     //Si el validador == -1 significa que un dato será INGRESADO
                     if (validador == -1)
                     {
@@ -185,100 +186,45 @@ namespace SistemaInventario
             }
         }
 
-        DataView ImportarDatos(string nombrearchivo)
+        List<Trabajadores> ImportarDatos(string nombrearchivo)
         {
-            //Este código lo copié de internet, pero le entiendo. Lo que importa es que funciona
-            string conexion = string.Format("Provider = Microsoft.ACE.OLEDB.12.0; Data Source = {0}; Extended Properties = 'Excel 12.0;'", nombrearchivo);
+            List<Trabajadores> lista = new List<Trabajadores>();
 
-            OleDbConnection conector = new OleDbConnection(conexion);
-
-            conector.Open();
-
-            //Asegurense que el documento excel que van a importar tenga Hoja1 como nombre. No Hoja 1, debe estar unido Hoja1
-            OleDbCommand consulta = new OleDbCommand("select * from [Hoja1$]", conector);
-
-            OleDbDataAdapter adaptador = new OleDbDataAdapter
-            {
-                SelectCommand = consulta
-            };
-
-            DataSet ds = new DataSet();
-
-            adaptador.Fill(ds);
-
-            conector.Close();
-
-            return ds.Tables[0].DefaultView;
-        }
-
-        public void ExportarDatos(DataGridView gridIn, string outputFile)
-        {
-            //Tambien lo copié de internet. Este exportar en formato .csv, ya que me dio problemas con una libreria al intentar
-            //Exportar el excel de un solo
-
-            //El archivo .csv, lo pueden abrir desde excel y luego guardarlo así, para luego volverlo a importar a este programa
-            //prueba para ver si DataGridView tiene alguna fila
             try
             {
-                if (gridIn.RowCount > 0)
+                SLDocument sl = new SLDocument(nombrearchivo);
+
+                int iRow = 2;
+                while (!string.IsNullOrEmpty(sl.GetCellValueAsString(iRow, 1)))
                 {
-                    string value = "";
-                    DataGridViewRow dr = new DataGridViewRow();
-                    StreamWriter swOut = new StreamWriter(outputFile);
-
-                    //escribir filas de encabezado en csv
-                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
-                    {
-                        if (i > 0)
-                        {
-                            swOut.Write(",");
-                        }
-                        swOut.Write(gridIn.Columns[i].HeaderText);
-                    }
-
-                    swOut.WriteLine();
-
-                    //escribir filas DataGridView en csv
-                    for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
-                    {
-                        if (j > 0)
-                        {
-                            swOut.WriteLine();
-                        }
-
-                        dr = gridIn.Rows[j];
-
-                        for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
-                        {
-                            if (i > 0)
-                            {
-                                swOut.Write(",");
-                            }
-
-                            value = dr.Cells[i].Value.ToString();
-                            //reemplazar comas con espacios
-                            value = value.Replace(',', ' ');
-                            //reemplazar nuevas líneas incrustadas con espacios
-                            value = value.Replace(Environment.NewLine, " ");
-
-                            swOut.Write(value);
-                        }
-                    }
-                    swOut.Close();
+                    Trabajadores trabajador = new Trabajadores();
+                    trabajador.Nombre = sl.GetCellValueAsString(iRow, 1);
+                    trabajador.Dui = sl.GetCellValueAsString(iRow, 2);
+                    trabajador.Nit = sl.GetCellValueAsString(iRow, 3);
+                    trabajador.Afp = sl.GetCellValueAsString(iRow, 4);
+                    trabajador.Seguro = sl.GetCellValueAsString(iRow, 5);
+                    trabajador.Direccion = sl.GetCellValueAsString(iRow, 6);
+                    trabajador.Telefono = sl.GetCellValueAsString(iRow, 7);
+                    trabajador.Tipo = sl.GetCellValueAsString(iRow, 8);
+                    trabajador.Pago = sl.GetCellValueAsDouble(iRow, 9);
+                    trabajador.Fecha = Convert.ToDateTime(sl.GetCellValueAsString(iRow, 10));
+                    lista.Add(trabajador);
+                    iRow++;
                 }
-                MessageBox.Show("Archivo exportado correctamente");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                MessageBox.Show(ex.Message);
-            }
 
+                MessageBox.Show("Error al importar " + e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return lista;
         }
 
         //Validaciones
 
         private bool validaciones()
         {
+            validado = true;
             if (txtnombre.TextLength == 0)
             {
                 validado = false;
@@ -421,7 +367,7 @@ namespace SistemaInventario
         }
         private void fechanacimiento_DateSelected(object sender, DateRangeEventArgs e)
         {
-            if (fechanacimiento.SelectionStart >= DateTime.Now)
+            if (fechanacimiento.Value >= DateTime.Now)
             {
                 MessageBox.Show("Fecha seleccionada no valida");
             }
@@ -449,8 +395,7 @@ namespace SistemaInventario
                     txttelefono.Text = dgvmostrar.Rows[validador].Cells[6].Value.ToString();
                     cbtipo.SelectedItem = dgvmostrar.Rows[validador].Cells[7].Value.ToString();
                     txtpago.Text = dgvmostrar.Rows[validador].Cells[8].Value.ToString();
-                    fechanacimiento.SelectionStart = Convert.ToDateTime(dgvmostrar.Rows[validador].Cells[9].Value.ToString());
-                    fechanacimiento.SelectionEnd = Convert.ToDateTime(dgvmostrar.Rows[validador].Cells[9].Value.ToString());
+                    fechanacimiento.Value = Convert.ToDateTime(dgvmostrar.Rows[validador].Cells[9].Value.ToString());
                     //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
                     txtdui.ReadOnly = true;
                     txtafp.ReadOnly = true;
@@ -466,6 +411,8 @@ namespace SistemaInventario
 
         private void btnImportar_Click(object sender, EventArgs e)
         {
+            ///
+
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Filter = "Excel | *.xls;*.xlsx;",
@@ -474,24 +421,80 @@ namespace SistemaInventario
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                dgvmostrar.DataSource = ImportarDatos(openFileDialog.FileName);
-                Trabajadores trabajador = new Trabajadores();
-                //Lleno la lista con todos los datos que se agregaron del archivo
-                for (int i = 0; i < dgvmostrar.Rows.Count; i++)
+                try
                 {
-                    trabajador.Dui = dgvmostrar.Rows[i].Cells[1].Value.ToString();
-                    trabajador.Nombre = dgvmostrar.Rows[i].Cells[0].Value.ToString();
-                    trabajador.Nit = dgvmostrar.Rows[i].Cells[2].Value.ToString();
-                    trabajador.Afp = dgvmostrar.Rows[i].Cells[3].Value.ToString();
-                    trabajador.Seguro = dgvmostrar.Rows[i].Cells[4].Value.ToString();
-                    trabajador.Direccion = dgvmostrar.Rows[i].Cells[5].Value.ToString();
-                    trabajador.Telefono = dgvmostrar.Rows[i].Cells[6].Value.ToString();
-                    trabajador.Tipo = dgvmostrar.Rows[i].Cells[7].Value.ToString();
-                    trabajador.Pago = double.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
-                    trabajador.Fecha = Convert.ToDateTime(dgvmostrar.Rows[i].Cells[9].Value.ToString());
-                    lista.InsertarF(trabajador);
+                    List<Trabajadores> lst = new List<Trabajadores>();
+                    lst = ImportarDatos(openFileDialog.FileName);
+                    bool excelVacio = false;
+                    bool idCodigo = false;
+                    foreach (var item in lst)
+                    {
+                        excelVacio = true;
+                        Trabajadores trabajador = new Trabajadores();
+                        trabajador.Nombre = item.Nombre;
+                        trabajador.Dui = item.Dui;
+                        trabajador.Nit = item.Nit;
+                        trabajador.Afp = item.Afp;
+                        trabajador.Seguro = item.Seguro;
+                        trabajador.Direccion = item.Direccion;
+                        trabajador.Telefono = item.Telefono;
+                        trabajador.Tipo = item.Tipo;
+                        trabajador.Pago = item.Pago;
+                        trabajador.Fecha = item.Fecha;
+
+                        //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
+                        Queue<Trabajadores> cola = new Queue<Trabajadores>();
+                        cola = lista.Mostrar();
+
+                        if (cola.Count == 0)
+                        {
+                            lista.InsertarF(trabajador);
+                        }
+                        else
+                        {
+
+                            if (cola.Contains(item))
+                            {
+
+                            }
+                            foreach (var item2 in cola)
+                            {
+                                if (item2.Dui == trabajador.Dui)
+                                {
+                                    idCodigo = true;
+                                    break;
+                                }
+                            }
+                            if (idCodigo == false)
+                            {
+                                lista.InsertarF(trabajador);
+                            }
+                        }
+                        //***********************************************************
+                    }
+
+                    if (excelVacio == true && idCodigo == false)
+                    {
+                        ActualizarDataGrid(lista);
+                        MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (excelVacio == true && idCodigo == true)
+                    {
+                        ActualizarDataGrid(lista);
+                        MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                 }
-                ActualizarDataGrid(lista);
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+
             }
 
         }
@@ -502,13 +505,12 @@ namespace SistemaInventario
             {
                 if (txtArchivo.TextLength != 0)
                 {
-                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
-                    txtArchivo.Clear();
-                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
+                    Exportar(dgvmostrar, "C:\\" + txtArchivo.Text + ".xlsx");
                 }
                 else
                 {
-                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
+                    MessageBox.Show("Ingrese un nombre para el archivo por favor", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 }
             }
             catch (Exception ex)
@@ -518,85 +520,57 @@ namespace SistemaInventario
 
         }
 
-        private void txtArchivo_TextChanged(object sender, EventArgs e)
+        private void Exportar(DataGridView datalistado, string outputFile)
         {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-
-
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
-        private void btnimportar_Click_1(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            if (datalistado.RowCount > 0 && File.Exists(outputFile) != true)
             {
-                Filter = "Excel | *.xls;*.xlsx;",
-
-                Title = "Seleccionar Archivo"
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                dgvmostrar.DataSource = ImportarDatos(openFileDialog.FileName);
-                Trabajadores trabajador = new Trabajadores();
-                //Lleno la lista con todos los datos que se agregaron del archivo
-                for (int i = 0; i < dgvmostrar.Rows.Count - 1; i++)
+                try
                 {
-                    trabajador.Dui = dgvmostrar.Rows[i].Cells[1].Value.ToString();
-                    trabajador.Nombre = dgvmostrar.Rows[i].Cells[0].Value.ToString();
-                    trabajador.Nit = dgvmostrar.Rows[i].Cells[2].Value.ToString();
-                    trabajador.Afp = dgvmostrar.Rows[i].Cells[3].Value.ToString();
-                    trabajador.Seguro = dgvmostrar.Rows[i].Cells[4].Value.ToString();
-                    trabajador.Direccion = dgvmostrar.Rows[i].Cells[5].Value.ToString();
-                    trabajador.Telefono = dgvmostrar.Rows[i].Cells[6].Value.ToString();
-                    trabajador.Tipo = dgvmostrar.Rows[i].Cells[7].Value.ToString();
-                    trabajador.Pago = double.Parse(dgvmostrar.Rows[i].Cells[8].Value.ToString());
-                    trabajador.Fecha = Convert.ToDateTime(dgvmostrar.Rows[i].Cells[9].Value.ToString());
-                    lista.InsertarF(trabajador);
+                    SLDocument sl = new SLDocument();
+
+                    int iC = 1;
+                    SLStyle style = new SLStyle();
+                    style.Font.Bold = true;
+
+                    foreach (DataGridViewColumn column in dgvmostrar.Columns)
+                    {
+                        sl.SetCellValue(1, iC, column.HeaderText.ToString());
+                        sl.SetCellStyle(1, iC, style);
+                        iC++;
+                    }
+
+                    int iR = 2;
+                    foreach (DataGridViewRow row in dgvmostrar.Rows)
+                    {
+                        sl.SetCellValue(iR, 1, row.Cells[0].Value.ToString());
+                        sl.SetCellValue(iR, 2, row.Cells[1].Value.ToString());
+                        sl.SetCellValue(iR, 3, row.Cells[2].Value.ToString());
+                        sl.SetCellValue(iR, 4, row.Cells[3].Value.ToString());
+                        sl.SetCellValue(iR, 5, row.Cells[4].Value.ToString());
+                        sl.SetCellValue(iR, 6, row.Cells[5].Value.ToString());
+                        sl.SetCellValue(iR, 7, row.Cells[6].Value.ToString());
+                        sl.SetCellValue(iR, 8, row.Cells[7].Value.ToString());
+                        sl.SetCellValue(iR, 9, double.Parse(row.Cells[8].Value.ToString()));
+                        MessageBox.Show(row.Cells[8].Value.ToString());
+                        sl.SetCellValue(iR, 10, row.Cells[9].Value.ToString());
+                        iR++;
+                    }
+                    sl.SaveAs(outputFile);
+                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                ActualizarDataGrid(lista);
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error al exportar " + e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay Registros a Exportar o el nombre del documento ya existe", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        private void btnexportar_Click_1(object sender, EventArgs e)
+        private void FrmTrabajadores_Load(object sender, EventArgs e)
         {
-            try
-            {
-                if (txtArchivo.TextLength != 0)
-                {
-                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
-                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
-                }
-                else
-                {
-                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
         }
     }
 }
