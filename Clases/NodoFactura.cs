@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SistemaInventario
 {
-    class Factura2 : Factura
+    class NodoFactura
     {
-        
-
+        public Factura info_factura;
+        public NodoFactura sgt;
     }
 }

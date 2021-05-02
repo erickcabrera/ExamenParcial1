@@ -168,7 +168,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clases\ListaFactura.cs" />
     <Compile Include="Clases\ListaInventario.cs" />
+    <Compile Include="Clases\NodoFactura.cs" />
     <Compile Include="Clases\NodoInventario.cs" />
     <Compile Include="Forms\FormBaseEstilo.cs">
       <SubType>Form</SubType>

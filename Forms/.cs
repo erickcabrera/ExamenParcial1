@@ -18,12 +18,12 @@ using System.Data.OleDb;
 
 namespace SistemaInventario
 {
-    public partial class FrmFactura : Form
+    public partial class FrmInventario : Form
     {
 
         private int validador = -1;
         private int codigo = 0;
-        ListaFactura lista = new ListaFactura();
+        ListaInventario lista = new ListaInventario();
         private int edit_indice;
         private int id_inventario = 0;
         private int cantidad = 0;
@@ -42,14 +42,14 @@ namespace SistemaInventario
              int nWidthEllipse,
              int nHeightEllipse
          );
-        public FrmFactura()
+        public FrmInventario()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
 
-        private void ActualizarDataGrid(ListaFactura lista)
+        private void ActualizarDataGrid(ListaInventario lista)
         {
             dgvmostrar.DataSource = null;
             dgvmostrar.DataSource = lista.Mostrar().ToList();
@@ -58,16 +58,17 @@ namespace SistemaInventario
         private void reseteo()
         {
             txtdescripcion.Clear();
-            txtCrepuesto.Clear();
-            txtValormano.Clear();
-            txtCtotal.Clear();
-            txtCantidad.Clear();
+            txtexistencia.Clear();
+            txtpcompra.Clear();
+            txtpventa.Clear();
+            txtCodigo.Clear();
+            pbFotoProducto.Image = Image.FromFile("..\\..\\Imagenes\\subir.png");
         }
 
         private void Alumno_Load(object sender, EventArgs e)
         {
             BorrarMensaje();
-            try
+           /* try
             {
                 btnborrar.Enabled = false;
                 btnimportar.Enabled = false;
@@ -75,7 +76,7 @@ namespace SistemaInventario
             catch (Exception Ex)
             {
                 MessageBox.Show("Error al mostrar datos " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
         }
 
         //validar que la fecha de nacimiento no sea mayor a la fecha del sistema
@@ -93,46 +94,78 @@ namespace SistemaInventario
             this.Hide();
         }
 
-        private bool validaciones()
+        /*private void txtNombreA_KeyPress(object sender, KeyPressEventArgs e)
         {
-            bool validacion = true;
-            if (txtCantidad.Text == "")
+            //condición para validar sólo letras
+            if (char.IsLetter(e.KeyChar))
             {
-                validacion = false;
-                errorProvider1.SetError(txtCantidad, "Por favor ingrese la cantidad de articulos");
+                e.Handled = false;
             }
-            if (txtCrepuesto.Text == "")
+            else if (char.IsControl(e.KeyChar))
             {
-                validacion = false;
-                errorProvider1.SetError(txtCrepuesto, "Por favor ingrese el costo del repuesto");
+                e.Handled = false;
             }
-            if (txtValormano.Text == "")
+            else if (char.IsSeparator(e.KeyChar))
             {
-                validacion = false;
-                errorProvider1.SetError(txtValormano, "Por favor ingrese el precio de la mano de obra");
-            }
-            if (txtCtotal.Text == "")
-            {
-                validacion = false;
-                errorProvider1.SetError(txtCtotal, "Por favor ingrese el costo total de la factura");
-            }
-            if (txtdescripcion.Text == "")
-            {
-                validacion = false;
-                errorProvider1.SetError(txtdescripcion, "Por favor ingrese una descripción del articulo");
-            }
+                e.Handled = false;
 
-            return validacion;
-        }
-
+            }
+            else
+            {
+                e.Handled = true;
+                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten letras");
+            }
+        }*/
+        
         private bool validacionPrecios()
         {
             bool validacion = true;
-            if (float.Parse(txtValormano.Text) >= float.Parse(txtCtotal.Text))
+            if (float.Parse(txtpcompra.Text) >= float.Parse(txtpventa.Text))
             {
                 validacion = false;
-                txtCtotal.Clear();
-                txtCtotal.Focus();
+                txtpventa.Clear();
+                txtpventa.Focus();
+            }
+            return validacion;
+        }
+
+        private bool validaciones()
+        {
+            bool validacion = true;
+            if (txtexistencia.TextLength == 0)
+            {
+                validacion = false;
+                errorProvider1.SetError(txtexistencia, "Por favor ingrese la cantidad de existencia del articulo");
+            }
+            if (txtpcompra.TextLength == 0)
+            {
+                validacion = false;
+                errorProvider1.SetError(txtpcompra, "Por favor ingrese el precio de compra del articulo");
+            }
+            if (txtpventa.TextLength == 0)
+            {
+                validacion = false;
+                errorProvider1.SetError(txtpventa, "Por favor ingrese el precio de venta del articulo");
+            }
+            if (txtdescripcion.TextLength == 0)
+            {
+                validacion = false;
+                errorProvider1.SetError(txtdescripcion, "Por favor ingrese el nombre del articulo");
+            }
+            if (validacionPrecios() == false)
+            {
+                validacion = false;
+                errorProvider1.SetError(txtpventa, "El precio de venta debe ser mayor al precio de compra");
+            }
+            if (validado == false)
+            {
+                validacion = false;
+                errorProvider1.SetError(txtdescripcion, "El nombre del articulo ya existe. Por favor elija otro");
+            }
+            if (exito_imagen_subida == false)
+            {
+                validacion = false;
+                errorProvider1.SetError(btncargar, "Por favor suba una imagen");
             }
             return validacion;
         }
@@ -140,10 +173,10 @@ namespace SistemaInventario
         //borrar los mensajes que provee el error provider
         private void BorrarMensaje()
         {
-            errorProvider1.SetError(txtCrepuesto, "");
-            errorProvider1.SetError(txtValormano, "");
-            errorProvider1.SetError(txtCtotal, "");
-            errorProvider1.SetError(txtCantidad, "");
+            errorProvider1.SetError(txtexistencia, "");
+            errorProvider1.SetError(txtpcompra, "");
+            errorProvider1.SetError(txtpventa, "");
+            errorProvider1.SetError(txtCodigo, "");
             errorProvider1.SetError(txtdescripcion, "");
         }
 
@@ -151,79 +184,98 @@ namespace SistemaInventario
 
         private void btnGuardarA_Click(object sender, EventArgs e)
         {
-
             //validaciones
             BorrarMensaje();
-            if (validaciones())
-            {
+            /*if (validaciones())
+            {*/
                 //creo un objeto de la clase persona y guardo a través de las propiedades 
-                try
+                if (btncargar.Text == "Seleccionar foto...")
                 {
-                    //Faltan validaciones
-                    //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
-
-                    //Creo un objeto del tipo trabajador y lleno los datos de este
-
-                    Factura factura = new Factura();
-
-                    factura.Cantidad = int.Parse(txtCantidad.Text);
-                    factura.Costo = Convert.ToInt32(txtCrepuesto.Text);
-                    factura.Valor_mano_obra = float.Parse(txtValormano.Text);
-                    factura.Costo_total = float.Parse(txtCtotal.Text);
-                    factura.Descripcion_mano_obra = txtdescripcion.Text;
-
-                    //Si el validador == -1 significa que un dato será INGRESADO
-                    if (validador == -1)
-                    {
-                        //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
-                        lista.InsertarF(factura);
-                        //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
-                        ActualizarDataGrid(lista);
-                        //Limpio pantalla
-                        reseteo();
-                    }
-                    else
-                    {
-                        //Caso contrario, significa que el usuario está modificando un trabajador existente
-                        //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
-                        txtCantidad.ReadOnly = false;
-                        txtdescripcion.ReadOnly = false;
-                        txtCrepuesto.ReadOnly = false;
-                        txtValormano.ReadOnly = false;
-                        txtCtotal.ReadOnly = false;
-
-                        //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
-                        lista.Editar(codigo, factura);
-                        //Actualizo el datagrid
-                        ActualizarDataGrid(lista);
-                        reseteo();
-                        //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
-                        validador = -1;
-                        codigo = 0;
-                    }
-
+                    MessageBox.Show("Debe seleccionar una foto", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.Message);
+                    try
+                    {
+                        //Faltan validaciones
+                        //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
+
+                        //Creo un objeto del tipo trabajador y lleno los datos de este
+                        Inventario inventario = new Inventario();
+                        inventario.Codigo = int.Parse(txtCodigo.Text);
+                        inventario.Descripcion = txtdescripcion.Text;
+                        inventario.Existencia = Convert.ToInt32(txtexistencia.Text);
+                        inventario.Precio_compra = float.Parse(txtpcompra.Text);
+                        inventario.Precio_venta = float.Parse(txtpventa.Text);
+                        inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtdescripcion.Text + ".jpg");
+                        //Agregando imagen a directorio
+                        //File.Copy(Chosen_File, "..\\..\\Imagenes\\" + Path.GetFileName(txtdescripcion.Text + ".jpg"));
+
+
+                        //pbImagen.Image = Image.FromFile(imagen);
+
+                        String sourceFile = btncargar.Text;
+                        String destinationFile = inventario.Ruta_imagen;
+
+                        try
+                        {
+                            System.IO.File.Copy(sourceFile, destinationFile);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+
+
+                        //Si el validador == -1 significa que un dato será INGRESADO
+                        if (validador == -1)
+                        {
+                            //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
+                            lista.InsertarF(inventario);
+                            //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
+                            ActualizarDataGrid(lista);
+                            //Limpio pantalla
+                            reseteo();
+                        }
+                        else
+                        {
+                            //Caso contrario, significa que el usuario está modificando un trabajador existente
+                            //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
+                            txtCodigo.ReadOnly = false;
+                            txtdescripcion.ReadOnly = false;
+                            txtexistencia.ReadOnly = false;
+                            txtpcompra.ReadOnly = false;
+                            txtpventa.ReadOnly = false;
+
+                            //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
+                            lista.Editar(codigo, inventario);
+                            //Actualizo el datagrid
+                            ActualizarDataGrid(lista);
+                            reseteo();
+                            //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
+                            validador = -1;
+                            codigo = 0;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-            }
+           /* }
+            else
+            {
+                MessageBox.Show("Debe ingresar todos los datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }*/
         }
 
+        
 
-        private void btnagregar_Click(object sender, EventArgs e)
-        {
-            /* }
-             else
-             {
-                 MessageBox.Show("Debe ingresar todos los datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+       
 
-             }*/
-        }
-
-
-
-
+       
         private void picBMinimizar_Click_1(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -255,40 +307,29 @@ namespace SistemaInventario
             {
                 MessageBox.Show(ex.Message);
             }*/
-
-            // NO AGREGAMOS IMAGEN 
-
-            /*
-
             openFD.Title = "Seleccione una imagen";
             openFD.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             openFD.FileName = "";
             openFD.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif";
-
-          
 
             try
             {
                 if (openFD.ShowDialog() == DialogResult.OK)
                 {
                     string sourceFile = openFD.FileName;
-                    btnagregar.Text = sourceFile;
+                    btncargar.Text = sourceFile;
 
-                    //pbFotoProducto.Image = Image.FromFile(sourceFile);
+                    pbFotoProducto.Image = Image.FromFile(sourceFile);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            */
-
         }
 
-        //REVISAR SI SE AGREGARA
         private void btnEliminarA_Click(object sender, EventArgs e)
         {
-            /*
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Filter = "Excel | *.xls;*.xlsx;",
@@ -313,7 +354,6 @@ namespace SistemaInventario
                 }
                 ActualizarDataGrid(lista);
             }
-            */
         }
 
         
@@ -334,18 +374,18 @@ namespace SistemaInventario
                     nombre_imagen = Path.GetFileName(dgvmostrar.Rows[validador].Cells[2].Value.ToString());
                     Chosen_file2 = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
                     pictureBox1.Image = Image.FromFile(Chosen_file2);
-                    //lblruta.Text = Chosen_file2;
+                    lblruta.Text = Chosen_file2;
 
-                    txtCantidad.Text = Convert.ToString(codigo);
+                    txtCodigo.Text = Convert.ToString(codigo);
 
 
-                    txtValormano.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
-                    txtCtotal.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
-                    txtCrepuesto.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
+                    txtpcompra.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
+                    txtpventa.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
+                    txtexistencia.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
 
 
                     //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
-                    txtCantidad.ReadOnly = true;
+                    txtCodigo.ReadOnly = true;
                 }
                 catch (Exception ex)
                 {
@@ -354,29 +394,23 @@ namespace SistemaInventario
             }
         }
 
-
-        //REVISAR SI SE AGREGARA
         private void btnEditarA_Click(object sender, EventArgs e)
         {
-
-            /*
             //validaciones
             BorrarMensaje();
             /*if (validaciones())
             {*/
-            if (validador != -1)
+                if (validador != -1)
                 {
                     try
                     {
-
-                    /*
                         //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
 
                         //Creo un nuevo objeto del tipo lista
                         ListaInventario lista2 = new ListaInventario();
 
                         //Le paso todos los valores que no sean los que se quieren borrar de la lista global
-                        foreach (Factura factura in lista.EnCola(codigo))
+                        foreach (Inventario inventario in lista.EnCola(codigo))
                         {
                             lista2.InsertarF(inventario);
                         }
@@ -387,10 +421,8 @@ namespace SistemaInventario
                         //Reinicio los validadores
                         validador = -1;
                         reseteo();
-                        txtCantidad.ReadOnly = false;
+                        txtCodigo.ReadOnly = false;
                         codigo = 0;
-
-                    */
                     }
                     catch (Exception ex)
                     {
@@ -408,25 +440,25 @@ namespace SistemaInventario
             }*/
         }
 
-        //private void btnexportar_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (txtArchivo.TextLength != 0)
-        //        {
-        //            ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
-        //            //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Ingrese un nombre para el archivo por favor");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
+        private void btnexportar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtArchivo.TextLength != 0)
+                {
+                    ExportarDatos(dgvmostrar, "C:\\" + txtArchivo.Text + ".csv");
+                    //Todos los archivos se exportan a la carpeta raiz C:\\ porque me daba problemas si lo mandaba a descargas
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese un nombre para el archivo por favor");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         DataView ImportarDatos(string nombrearchivo)
         {
@@ -535,7 +567,7 @@ namespace SistemaInventario
                 e.Handled = true;
                 /*MessageBox.Show("Solo se admiten numeros", "validación de numeros",
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
-                errorProvider1.SetError(txtCantidad, "En este campo sólo se permiten numeros");
+                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten numeros");
             }
         }
 
@@ -557,7 +589,7 @@ namespace SistemaInventario
                 e.Handled = true;
                 /*MessageBox.Show("Solo se admiten numeros", "validación de numeros",
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
-                errorProvider1.SetError(txtCantidad, "En este campo sólo se permiten numeros");
+                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten numeros");
             }
         }
 
@@ -583,7 +615,7 @@ namespace SistemaInventario
                 e.Handled = true;
                 /*MessageBox.Show("Solo se admiten numeros", "validación de texto",
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
-                errorProvider1.SetError(txtCantidad, "En este campo sólo se permiten numeros");
+                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten numeros");
             }
         }
 
@@ -609,19 +641,22 @@ namespace SistemaInventario
                 e.Handled = true;
                 /*MessageBox.Show("Solo se admiten numeros", "validación de texto",
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
-                errorProvider1.SetError(txtCantidad, "En este campo sólo se permiten numeros");
+                errorProvider1.SetError(txtCodigo, "En este campo sólo se permiten numeros");
             }
         }
+
+
+
 
         private void txtdescripcion_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (txtdescripcion.TextLength > 0)
             {
-                btnagregar.Enabled = true;
+                btncargar.Enabled = true;
             }
             else
             {
-                btnagregar.Enabled = false;
+                btncargar.Enabled = false;
             }
 
 
@@ -644,11 +679,6 @@ namespace SistemaInventario
                 e.Handled = true;
                 errorProvider1.SetError(txtdescripcion, "En este campo sólo se permiten letras");
             }
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }
