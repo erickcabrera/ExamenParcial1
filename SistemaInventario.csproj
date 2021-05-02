@@ -192,6 +192,12 @@
     </Compile>
     <Compile Include="Clases\ListaTrabajador.cs" />
     <Compile Include="Clases\NodoTrabajador.cs" />
+    <Compile Include="Forms\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormMenuAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormFacturaMostrar.resx">
       <DependentUpon>FormFacturaMostrar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTrabajadores.resx">
       <DependentUpon>FormTrabajadores.cs</DependentUpon>
