@@ -53,7 +53,7 @@ namespace SistemaInventario
             if (proBar.Value == 100)
             {
                 timer.Stop();
-                FrmMenu frm = new FrmMenu();
+                FormLogin frm = new FormLogin();
                 frm.Show();
                 this.Hide();
             }

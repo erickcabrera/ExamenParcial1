@@ -13,11 +13,11 @@ using System.IO;
 namespace SistemaInventario
 {
 
-    public partial class FormLogin : Form
+    public partial class FrmRegistro : Form
     {   
         //VARIABLES GLOBALES
-        internal static String  user = String.Empty;
         
+
         string password;
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -31,7 +31,7 @@ namespace SistemaInventario
                int nHeightEllipse 
            );
 
-        public FormLogin()
+        public FrmRegistro()
         {
             InitializeComponent();
            this.FormBorderStyle = FormBorderStyle.None;
@@ -76,7 +76,6 @@ namespace SistemaInventario
                     
                     if (contra.Equals(password)) //verifica si contraseña es igual al archivo 
                     {
-                        user = usuario;
                         FrmMenu formMenu = new FrmMenu();
                         formMenu.Visible = true;
                         this.Visible = false;
@@ -110,8 +109,7 @@ namespace SistemaInventario
 
         private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
-
+            
         }
 
         private void TxtUsuario_KeyPress(object sender, KeyPressEventArgs e)
@@ -128,6 +126,37 @@ namespace SistemaInventario
             {
                 //IniciarSesion();
             }
+        }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+            string contra = txtContra.Text;
+            string usuario = txtUsuario.Text.ToUpper();
+
+            string url = "..\\..\\usuarios\\" + usuario + ".txt";
+            if (File.Exists(url)) //verifica que el archive exista 
+            {
+                MessageBox.Show("¡Usuario ya existe!", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                txtUsuario.Clear(); //limpiamos todos los textbox 
+                txtContra.Clear();
+            }
+            else
+            {
+                File.WriteAllText(url, contra); /*Crea un Nuevo archivo con ese nombre y guarda dentro del archivo el valor del segundo parámetro*/
+
+                MessageBox.Show("Usuario Registrado con éxito", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtUsuario.Clear();
+                txtContra.Clear();
+            }
+        }
+
+        private void pictureBox3_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            FrmMenu frm = new FrmMenu();
+            frm.Show();
+            this.Hide();
         }
     }
 }

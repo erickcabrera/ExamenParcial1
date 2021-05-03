@@ -46,11 +46,16 @@
             this.btnFacturas = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btnRegistrar = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnUsuario = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
+            this.lblUser = new System.Windows.Forms.Label();
             this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBMinimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
@@ -61,9 +66,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.panel9.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            this.panel11.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel8
@@ -72,13 +78,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(164)))), ((int)(((byte)(243)))));
+            this.panel8.Controls.Add(this.lblUser);
             this.panel8.Controls.Add(this.picBMinimizar);
             this.panel8.Controls.Add(this.pictureBox7);
             this.panel8.Controls.Add(this.label7);
             this.panel8.ForeColor = System.Drawing.Color.Black;
             this.panel8.Location = new System.Drawing.Point(-5, -2);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(945, 114);
+            this.panel8.Size = new System.Drawing.Size(945, 125);
             this.panel8.TabIndex = 6;
             // 
             // picBMinimizar
@@ -256,14 +263,60 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel9);
             this.panel1.Controls.Add(this.panel6);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Location = new System.Drawing.Point(7, 31);
+            this.panel1.Location = new System.Drawing.Point(19, 129);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(903, 376);
+            this.panel1.Size = new System.Drawing.Size(903, 493);
             this.panel1.TabIndex = 5;
+            // 
+            // panel3
+            // 
+            this.panel3.AutoScroll = true;
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(164)))), ((int)(((byte)(243)))));
+            this.panel3.Controls.Add(this.btnRegistrar);
+            this.panel3.Controls.Add(this.pictureBox2);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Location = new System.Drawing.Point(37, 341);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(399, 137);
+            this.panel3.TabIndex = 5;
+            // 
+            // btnRegistrar
+            // 
+            this.btnRegistrar.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistrar.ForeColor = System.Drawing.Color.Black;
+            this.btnRegistrar.Location = new System.Drawing.Point(130, 80);
+            this.btnRegistrar.Name = "btnRegistrar";
+            this.btnRegistrar.Size = new System.Drawing.Size(230, 38);
+            this.btnRegistrar.TabIndex = 3;
+            this.btnRegistrar.Text = "Acceder";
+            this.btnRegistrar.UseVisualStyleBackColor = true;
+            this.btnRegistrar.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(16, 27);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(85, 84);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(118, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(269, 70);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Registrar Usuario";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel4
             // 
@@ -313,18 +366,29 @@
             // panel11
             // 
             this.panel11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.panel11.Controls.Add(this.panel1);
-            this.panel11.Location = new System.Drawing.Point(12, 118);
+            this.panel11.Location = new System.Drawing.Point(12, 129);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(916, 439);
+            this.panel11.Size = new System.Drawing.Size(916, 478);
             this.panel11.TabIndex = 7;
+            // 
+            // lblUser
+            // 
+            this.lblUser.AutoSize = true;
+            this.lblUser.Font = new System.Drawing.Font("Century Gothic", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUser.ForeColor = System.Drawing.Color.White;
+            this.lblUser.Location = new System.Drawing.Point(26, 74);
+            this.lblUser.Name = "lblUser";
+            this.lblUser.Size = new System.Drawing.Size(127, 39);
+            this.lblUser.TabIndex = 10;
+            this.lblUser.Text = "usuario";
             // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(252)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(940, 569);
+            this.ClientSize = new System.Drawing.Size(940, 650);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel11);
             this.Controls.Add(this.panel8);
             this.ForeColor = System.Drawing.Color.Red;
@@ -347,10 +411,11 @@
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            this.panel11.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -378,5 +443,10 @@
         private System.Windows.Forms.Button btnUsuario;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnRegistrar;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblUser;
     }
 }

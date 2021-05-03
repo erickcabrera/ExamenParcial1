@@ -35,7 +35,15 @@ namespace SistemaInventario
 
         private void FormMenuPrueba_Load(object sender, EventArgs e)
         {
-            
+            lblUser.Text = FormLogin.user;
+            if (FormLogin.user != "ADMIN")
+            {
+                btnRegistrar.Enabled = false;
+            }
+            else
+            {
+                btnRegistrar.Enabled = true;
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -53,11 +61,11 @@ namespace SistemaInventario
             DialogResult resultado = MessageBox.Show("¿Seguro que desea salir?", "SALIR", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if(resultado == DialogResult.Yes)
             {
-                /*this.Hide();
-                FrmLogin login = new FrmLogin();
-                login.Show();*/
-                Application.Exit();
-            }else if(resultado == DialogResult.No)
+                this.Hide();
+                FormLogin login = new FormLogin();
+                login.Show();
+            }
+            else if(resultado == DialogResult.No)
             {
                 MessageBox.Show("Continue con su sesión...", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -112,6 +120,13 @@ namespace SistemaInventario
         private void btnFacturas_Click_1(object sender, EventArgs e)
         {
             FrmFactura form = new FrmFactura();
+            form.Show();
+            this.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmRegistro form = new FrmRegistro();
             form.Show();
             this.Hide();
         }
