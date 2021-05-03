@@ -6,78 +6,95 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 using System.Windows.Forms;
-
+using System.Runtime.InteropServices;
 
 namespace SistemaInventario
 {
-    public partial class Form1 : Form
-    {   
 
-        public string contra;
-        public Form1()
+    public partial class FormLogin : Form
+    {   
+        //VARIABLES GLOBALES
+        internal static int idProfesor = 0;
+        internal static String nombreProfesor = String.Empty;
+        internal static byte[] fotoPerfilProfesor = null;
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+           (
+               int nLeftRect,     
+               int nTopRect,      
+               int nRightRect,    
+               int nBottomRect,   
+               int nWidthEllipse, 
+               int nHeightEllipse 
+           );
+
+        public FormLogin()
         {
             InitializeComponent();
+           this.FormBorderStyle = FormBorderStyle.None;
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
-        //Registrarse
-        //NOTA: Agregar el atributo tipo pero con permiso del Gerente
-        private void button2_Click(object sender, EventArgs e)
+
+        private void picBSalir_Click(object sender, EventArgs e)
         {
-        
-
+            Application.Exit();
         }
 
-        //Loguearse
         private void button1_Click(object sender, EventArgs e)
         {
-            /*
-            Conexion cn = new Conexion();
-            //Validar el usuario y el password
-            if (cn.Consultas(Convert.ToString(txtuser.Text), Convert.ToString(txtpass.Text)) > 0) 
-                {
-                    MessageBox.Show("Ingreso exitoso, bienvenido");    
-                
-                ///Esto no
-                //Agregar swich para cada tipo de usuario
-                /*switch (Login.Usuario)
-                {
-                    case "Gerente":
-                        Gerente_Platform formulario = new Gerente_Platform();
-                        formulario.Show();
-                        break;
-                    case "Trabajador":
-                        Trabajador_Platform formulario2 = new Trabajador_Platform();
-                        formulario2.Show();
-                        break;
-                    case "Auxiliar":
-                        Auxiliar_Platform formulario3 = new Auxiliar_Platform();
-                        formulario3.Show();
-                        break;
-                    case "Secretaria":
-                        Secretaria_Platform formulario4 = new Secretaria_Platform();
-                        formulario4.Show();
-                        break;
-                }
-                
-                Menú menu = new Menú();
-                menu.Show();
-                this.Hide();
-            }
-            else
+            //this.WindowState = FormWindowState.Minimized;
+            //texto
+        }
+
+        private void picBMinimizar_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+           
+        }
+
+        
+        
+        private void BtnIngresar(object sender, EventArgs e)
+        {
+            //IniciarSesion();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void PictureBox3_Click(object sender, EventArgs e)
+        {
+            Application.Exit();            
+        }
+
+        private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+
+        }
+
+        private void TxtUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
             {
-                MessageBox.Show("Usuario o contraseña incorrectos");
+                //IniciarSesion();
             }
-            */
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void TxtContra_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.Close();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                //IniciarSesion();
+            }
         }
     }
 }
