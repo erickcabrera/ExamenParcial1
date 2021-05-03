@@ -65,6 +65,11 @@ namespace SistemaInventario
             txtcontraseña.UseSystemPasswordChar = !txtcontraseña.UseSystemPasswordChar;
         }
 
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+
+        }
+
         /* private void btnTrabajadores_Click(object sender, EventArgs e)
          {
              FrmTrabajadores form = new FrmTrabajadores();
