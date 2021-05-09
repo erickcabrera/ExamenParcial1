@@ -8,63 +8,42 @@ namespace SistemaInventario
 {
     class Factura
     {
-        private string nombre;
-        private int cantidad, id_repuesto;
-        private float costo, precio;
+        private int cantidad, idfactua;
+        private float costo;
 
-        public string Nombre
+        public int Idfactua
         {
-            get{return nombre;}
-            set { nombre = value; }
+            get { return idfactua; }
+            set { idfactua = value; }
         }
+
         public int Cantidad
         {
             get { return cantidad; }
             set { cantidad = value; }
         }
-        public float Precio
-        {
-            get { return precio; }
-            set { precio = value; }
-        }
+      
         public float Costo
         {
             get { return costo; }
             set { costo = value; }
         }
-        public int Id_repuesto
-        {
-            get { return id_repuesto; }
-            set { id_repuesto = value; }
-        }
+     
 
         //Metodos traidos de factura 2
 
         float valor_mano_obra, costo_total;
-        int id_trabajador;
-        string descripcion_mano_obra, id_repuestos, repuestos;
+      
+        string descripcion_mano_obra;
 
-        public string Repuestos
-        {
-            get { return repuestos; }
-            set { repuestos = value; }
-        }
-        public string Id_repuestos
-        {
-            get { return id_repuestos; }
-            set { id_repuestos = value; }
-        }
-
+     
+     
         public string Descripcion_mano_obra
         {
             get { return descripcion_mano_obra; }
             set { descripcion_mano_obra = value; }
         }
-        public int Id_trabajador
-        {
-            get { return id_trabajador; }
-            set { id_trabajador = value; }
-        }
+     
         public float Valor_mano_obra
         {
             get { return valor_mano_obra; }

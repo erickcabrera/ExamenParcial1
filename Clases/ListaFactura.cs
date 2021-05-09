@@ -24,11 +24,13 @@ namespace SistemaInventario
         {
             NodoFactura aux = new NodoFactura();
             aux.info_factura = item;
+            
             aux.sgt = null;
 
             if (inicio == null)
             {
                 inicio = aux;
+                
             }
             else
             {
@@ -36,25 +38,28 @@ namespace SistemaInventario
                 while (puntero.sgt != null)
                 {
                     puntero = puntero.sgt;
+                    
                 }
                 puntero.sgt = aux;
+               
             }
         }
 
         //Hago un recorrido y si encuentra que el DUI es el igual al que mandamos, edita la info del trabajador
+        
         public void Editar(int codigo, Factura factura)
         {
             NodoFactura aux = inicio;
-            /*while (aux != null)
+            while (aux != null)
             {
-                if (aux.info_inventario.Codigo == codigo)
+                if (aux.info_factura.Idfactua == codigo)
                 {
-                    aux.info_inventario = inventario;
+                    aux.info_factura = factura;
                 }
                 aux = aux.sgt;
-            }*/
+            }
         }
-
+        
         //Manda una cola que contiene todos los datos menos el que se quiere borrar
         public Queue<Factura> EnCola(int codigo)
         {

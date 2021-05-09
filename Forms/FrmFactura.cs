@@ -15,6 +15,7 @@ using System.Security.Principal;
 using System.Security.Permissions;
 using System.Security;
 using System.Data.OleDb;
+using SpreadsheetLight;
 
 namespace SistemaInventario
 {
@@ -23,6 +24,7 @@ namespace SistemaInventario
 
         private int validador = -1;
         private int codigo = 0;
+        int contador;
         ListaFactura lista = new ListaFactura();
         private int edit_indice;
         private int id_inventario = 0;
@@ -60,7 +62,7 @@ namespace SistemaInventario
             txtdescripcion.Clear();
             txtCrepuesto.Clear();
             txtValormano.Clear();
-            txtCtotal.Clear();
+            
             txtCantidad.Clear();
         }
 
@@ -70,6 +72,7 @@ namespace SistemaInventario
             try
             {
                 btnborrar.Enabled = false;
+                btnEditar.Enabled = false;
                 btnimportar.Enabled = false;
             }
             catch (Exception Ex)
@@ -111,11 +114,7 @@ namespace SistemaInventario
                 validacion = false;
                 errorProvider1.SetError(txtValormano, "Por favor ingrese el precio de la mano de obra");
             }
-            if (txtCtotal.Text == "")
-            {
-                validacion = false;
-                errorProvider1.SetError(txtCtotal, "Por favor ingrese el costo total de la factura");
-            }
+          
             if (txtdescripcion.Text == "")
             {
                 validacion = false;
@@ -125,24 +124,14 @@ namespace SistemaInventario
             return validacion;
         }
 
-        private bool validacionPrecios()
-        {
-            bool validacion = true;
-            if (float.Parse(txtValormano.Text) >= float.Parse(txtCtotal.Text))
-            {
-                validacion = false;
-                txtCtotal.Clear();
-                txtCtotal.Focus();
-            }
-            return validacion;
-        }
+   
 
         //borrar los mensajes que provee el error provider
         private void BorrarMensaje()
         {
             errorProvider1.SetError(txtCrepuesto, "");
             errorProvider1.SetError(txtValormano, "");
-            errorProvider1.SetError(txtCtotal, "");
+           
             errorProvider1.SetError(txtCantidad, "");
             errorProvider1.SetError(txtdescripcion, "");
         }
@@ -151,7 +140,8 @@ namespace SistemaInventario
 
         private void btnGuardarA_Click(object sender, EventArgs e)
         {
-
+             
+            contid.Text = Convert.ToString(Convert.ToInt32(contid.Text) +1);
             //validaciones
             BorrarMensaje();
             if (validaciones())
@@ -163,13 +153,13 @@ namespace SistemaInventario
                     //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
 
                     //Creo un objeto del tipo trabajador y lleno los datos de este
-
+                    
                     Factura factura = new Factura();
-
+                    factura.Idfactua =Convert.ToInt32( contid.Text);
                     factura.Cantidad = int.Parse(txtCantidad.Text);
                     factura.Costo = Convert.ToInt32(txtCrepuesto.Text);
                     factura.Valor_mano_obra = float.Parse(txtValormano.Text);
-                    factura.Costo_total = float.Parse(txtCtotal.Text);
+                    factura.Costo_total = (factura.Costo+ factura.Valor_mano_obra)* factura.Cantidad;
                     factura.Descripcion_mano_obra = txtdescripcion.Text;
 
                     //Si el validador == -1 significa que un dato será INGRESADO
@@ -190,10 +180,10 @@ namespace SistemaInventario
                         txtdescripcion.ReadOnly = false;
                         txtCrepuesto.ReadOnly = false;
                         txtValormano.ReadOnly = false;
-                        txtCtotal.ReadOnly = false;
+                       
 
                         //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
-                        lista.Editar(codigo, factura);
+                      //  lista.Editar(codigo, factura);
                         //Actualizo el datagrid
                         ActualizarDataGrid(lista);
                         reseteo();
@@ -324,28 +314,28 @@ namespace SistemaInventario
             {
                 try
                 {
+                    btnagregar.Enabled = false;
+                    btnEditar.Enabled = true;
                     string Chosen_file2 = "";
                     //Le paso los datos del datagrid a los textbox
                     validador = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
-
-                    codigo = Convert.ToInt32(dgvmostrar.Rows[validador].Cells[0].Value.ToString());
-                    txtdescripcion.Text = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
-
-                    nombre_imagen = Path.GetFileName(dgvmostrar.Rows[validador].Cells[2].Value.ToString());
-                    Chosen_file2 = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
-                    pictureBox1.Image = Image.FromFile(Chosen_file2);
+                    contid.Text = dgvmostrar.Rows[validador].Cells[0].Value.ToString();
+                    txtCantidad.Text = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
+                    txtCrepuesto.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
+                    txtValormano.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
+                    
+                    txtdescripcion.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
+                    
+                   
+                    
+                    
                     //lblruta.Text = Chosen_file2;
 
-                    txtCantidad.Text = Convert.ToString(codigo);
-
-
-                    txtValormano.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
-                    txtCtotal.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
-                    txtCrepuesto.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
+                 
 
 
                     //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
-                    txtCantidad.ReadOnly = true;
+                    
                 }
                 catch (Exception ex)
                 {
@@ -353,23 +343,22 @@ namespace SistemaInventario
                 }
             }
         }
-
+        
 
         //REVISAR SI SE AGREGARA
         private void btnEditarA_Click(object sender, EventArgs e)
         {
-
-            /*
+/*  
             //validaciones
             BorrarMensaje();
-            /*if (validaciones())
-            {*/
+            if (validaciones())
+            {
             if (validador != -1)
                 {
                     try
                     {
 
-                    /*
+                   
                         //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
 
                         //Creo un nuevo objeto del tipo lista
@@ -390,7 +379,7 @@ namespace SistemaInventario
                         txtCantidad.ReadOnly = false;
                         codigo = 0;
 
-                    */
+                    
                     }
                     catch (Exception ex)
                     {
@@ -401,11 +390,12 @@ namespace SistemaInventario
                 {
                     MessageBox.Show("Debe seleccionar una row primero");
                 }
-           /* }
+            }
             else
             {
                 MessageBox.Show("Debe llenar todos los campos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }*/
+            }
+            */
         }
 
         //private void btnexportar_Click(object sender, EventArgs e)
@@ -647,6 +637,129 @@ namespace SistemaInventario
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        private void Exportar(DataGridView datalistado, string outputFile)
+        {
+            if (datalistado.RowCount > 0 && File.Exists(outputFile) != true)
+            {
+                try
+                {
+                    SLDocument sl = new SLDocument();
+
+                    int iC = 1;
+                    SLStyle style = new SLStyle();
+                    style.Font.Bold = true;
+
+                    foreach (DataGridViewColumn column in dgvmostrar.Columns)
+                    {
+                        sl.SetCellValue(1, iC, column.HeaderText.ToString());
+                        sl.SetCellStyle(1, iC, style);
+                        iC++;
+                    }
+
+                    int iR = 2;
+                    foreach (DataGridViewRow row in dgvmostrar.Rows)
+                    {
+                        sl.SetCellValue(iR, 1, row.Cells[0].Value.ToString());
+                        sl.SetCellValue(iR, 2, row.Cells[1].Value.ToString());
+                        sl.SetCellValue(iR, 3, double.Parse(row.Cells[2].Value.ToString()));
+                        sl.SetCellValue(iR, 4, row.Cells[3].Value.ToString());
+                        sl.SetCellValue(iR, 5, double.Parse(row.Cells[4].Value.ToString()));
+                        sl.SetCellValue(iR, 6, double.Parse(row.Cells[5].Value.ToString()));
+                        
+                        MessageBox.Show(row.Cells[0].Value.ToString());
+                      
+                        iR++;
+                    }
+                    sl.SaveAs(outputFile);
+                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error al exportar " + e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay Registros a Exportar o el nombre del documento ya existe", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnexportar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtArchivo.TextLength != 0)
+                {
+                    Exportar(dgvmostrar, "D:\\" + txtArchivo.Text + ".xlsx");
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese un nombre para el archivo por favor", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            //validaciones
+            BorrarMensaje();
+            if (validaciones())
+            {
+                if (validador != -1)
+                {
+                    try
+                    {
+
+                        Factura factura = new Factura();
+                        codigo = Convert.ToInt32(contid.Text);
+                        factura.Idfactua = Convert.ToInt32(contid.Text);
+                        factura.Cantidad = int.Parse(txtCantidad.Text);
+                        factura.Costo = Convert.ToInt32(txtCrepuesto.Text);
+                        factura.Valor_mano_obra = float.Parse(txtValormano.Text);
+                        factura.Costo_total = (factura.Costo + factura.Valor_mano_obra) * factura.Cantidad;
+                        factura.Descripcion_mano_obra = txtdescripcion.Text;
+                        //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
+
+                        //Creo un nuevo objeto del tipo lista
+                        lista.Editar(codigo, factura);
+                        //Reinicio los validadores
+                        ActualizarDataGrid(lista);
+                        reseteo();
+                        //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
+                        validador = -1;
+                        codigo = 0;
+                        btnagregar.Enabled = true;
+                        btnEditar.Enabled = false;
+                    
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Debe seleccionar una row primero");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe llenar todos los campos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

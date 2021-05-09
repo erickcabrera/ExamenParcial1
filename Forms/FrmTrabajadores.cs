@@ -265,12 +265,7 @@ namespace SistemaInventario
                 validado = false;
                 errorProvider1.SetError(txttelefono, "Agregar dato");
             }
-            if (fecha_seleccionada == 0)
-            {
-                validado = false;
-                errorProvider1.SetError(fechanacimiento, "Seleccionar fecha");
-                fecha_seleccionada = 0;
-            }
+           
             return validado;
         }
         private void txtnombre_KeyPress(object sender, KeyPressEventArgs e)

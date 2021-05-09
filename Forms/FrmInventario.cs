@@ -344,7 +344,7 @@ namespace SistemaInventario
             {
                 if (txtArchivo.TextLength != 0)
                 {
-                    Exportar(dgvmostrar,"C:\\" + txtArchivo.Text + ".xlsx");
+                    Exportar(dgvmostrar,"D:\\" + txtArchivo.Text + ".xlsx");
                 }
                 else
                 {
