@@ -215,12 +215,6 @@ namespace SistemaInventario
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void dgvDatosAlumnos_SelectionChanged(object sender, EventArgs e)
-        {
-           
-         
-        }
-
         private void txtFoto_Click(object sender, EventArgs e)
         {
             /*openFileFoto.InitialDirectory = "C:\\";
