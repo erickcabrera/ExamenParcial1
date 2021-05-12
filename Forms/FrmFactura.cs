@@ -54,16 +54,19 @@ namespace SistemaInventario
         private void ActualizarDataGrid(ListaFactura lista)
         {
             dgvmostrar.DataSource = null;
+          
             dgvmostrar.DataSource = lista.Mostrar().ToList();
+            dgvmostrar.ClearSelection();
+            btnborrar.Enabled = false;
         }
 
         private void reseteo()
         {
-            txtdescripcion.Clear();
+
+            txtCantidad.Clear();
             txtCrepuesto.Clear();
             txtValormano.Clear();
-            
-            txtCantidad.Clear();
+            txtdescripcion.Clear();
         }
 
         private void Alumno_Load(object sender, EventArgs e)
@@ -134,6 +137,7 @@ namespace SistemaInventario
            
             errorProvider1.SetError(txtCantidad, "");
             errorProvider1.SetError(txtdescripcion, "");
+      
         }
 
        
@@ -163,35 +167,27 @@ namespace SistemaInventario
                     factura.Descripcion_mano_obra = txtdescripcion.Text;
 
                     //Si el validador == -1 significa que un dato será INGRESADO
-                    if (validador == -1)
-                    {
+                
+                        
                         //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
                         lista.InsertarF(factura);
                         //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
                         ActualizarDataGrid(lista);
-                        //Limpio pantalla
-                        reseteo();
-                    }
-                    else
-                    {
+                
+                    //Limpio pantalla
+                    reseteo();
+
                         //Caso contrario, significa que el usuario está modificando un trabajador existente
                         //Hago que estos campos ahora sean modificables para cuando quiere ingresar un nuevo dato
-                        txtCantidad.ReadOnly = false;
-                        txtdescripcion.ReadOnly = false;
-                        txtCrepuesto.ReadOnly = false;
-                        txtValormano.ReadOnly = false;
-                       
+                      
 
                         //Ocupo el método editar y le mando como parametro el DUI del trabajador a modificar y el objeto de tipo trabajador
                       //  lista.Editar(codigo, factura);
                         //Actualizo el datagrid
-                        ActualizarDataGrid(lista);
-                        reseteo();
+                       
                         //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
-                        validador = -1;
-                        codigo = 0;
-                    }
-
+                       
+                    
                 }
                 catch (Exception ex)
                 {
@@ -221,7 +217,8 @@ namespace SistemaInventario
 
         private void dgvDatosAlumnos_SelectionChanged(object sender, EventArgs e)
         {
-            
+           
+         
         }
 
         private void txtFoto_Click(object sender, EventArgs e)
@@ -760,6 +757,36 @@ namespace SistemaInventario
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dgvmostrar_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvmostrar.ClearSelection();
+        }
+
+        private void dgvmostrar_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvmostrar.SelectedRows.Count > 0)
+            {
+                try
+                {
+                    reseteo();
+                    btnborrar.Enabled = true;
+                    btnagregar.Enabled = false;
+                    btnEditar.Enabled = false;
+                    codigo = int.Parse(dgvmostrar.CurrentRow.Cells["Idfactura"].Value.ToString());
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        private void dgvmostrar_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

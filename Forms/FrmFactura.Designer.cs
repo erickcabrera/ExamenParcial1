@@ -276,7 +276,8 @@
             this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvmostrar.Size = new System.Drawing.Size(543, 399);
             this.dgvmostrar.TabIndex = 17;
-            this.dgvmostrar.SelectionChanged += new System.EventHandler(this.dgvDatosAlumnos_SelectionChanged);
+            this.dgvmostrar.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvmostrar_CellContentClick);
+            this.dgvmostrar.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvmostrar_DataBindingComplete);
             this.dgvmostrar.DoubleClick += new System.EventHandler(this.dgvDatosAlumnos_DoubleClick);
             // 
             // panel2
