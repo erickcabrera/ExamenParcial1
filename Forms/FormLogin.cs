@@ -67,28 +67,35 @@ namespace SistemaInventario
             {
                 string usuario = txtUsuario.Text.ToUpper(); //capturamos los valores de usuario y contraseña string 
                 password = txtContra.Text;
-              
-                string url = "..\\..\\usuarios\\" + usuario + ".txt";
-                if (File.Exists(url)) //verifica si existe 
+                if (txtUsuario.Text.Length == 0 && txtContra.Text.Length == 0)
                 {
-                    string contra = "";
-                    contra = File.ReadAllText(url);//lee el texto almacenado dentro del archivo 
-                    
-                    if (contra.Equals(password)) //verifica si contraseña es igual al archivo 
-                    {
-                        user = usuario;
-                        FrmMenu formMenu = new FrmMenu();
-                        formMenu.Visible = true;
-                        this.Visible = false;
-                    }
-                    else
-                    {
-                        MessageBox.Show("¡Contraseña incorrecta!", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
+                    MessageBox.Show("Debes de completar informacion", "ADVERTENCIA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
                 else
                 {
-                    MessageBox.Show("¡Usuario incorrecto!", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string url = "..\\..\\usuarios\\" + usuario + ".txt";
+                    if (File.Exists(url)) //verifica si existe 
+                    {
+                        string contra = "";
+                        contra = File.ReadAllText(url);//lee el texto almacenado dentro del archivo 
+
+                        if (contra.Equals(password)) //verifica si contraseña es igual al archivo 
+                        {
+                            user = usuario;
+                            FrmMenu formMenu = new FrmMenu();
+                            formMenu.Visible = true;
+                            this.Visible = false;
+                        }
+                        else
+                        {
+                            MessageBox.Show("¡Contraseña incorrecta!", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("¡Usuario incorrecto!", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
             catch (Exception)

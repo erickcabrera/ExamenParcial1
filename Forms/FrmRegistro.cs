@@ -132,25 +132,31 @@ namespace SistemaInventario
         {
             string contra = txtContra.Text;
             string usuario = txtUsuario.Text.ToUpper();
-
-            string url = "..\\..\\usuarios\\" + usuario + ".txt";
-            if (File.Exists(url)) //verifica que el archive exista 
+            if (txtUsuario.Text.Length == 0 && txtContra.Text.Length == 0)
             {
-                MessageBox.Show("¡Usuario ya existe!", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                txtUsuario.Clear(); //limpiamos todos los textbox 
-                txtContra.Clear();
+                MessageBox.Show("Debes completar informacion", "ADVERTENCIA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
             else
             {
-                File.WriteAllText(url, contra); /*Crea un Nuevo archivo con ese nombre y guarda dentro del archivo el valor del segundo parámetro*/
+                string url = "..\\..\\usuarios\\" + usuario + ".txt";
+                if (File.Exists(url)) //verifica que el archive exista 
+                {
+                    MessageBox.Show("¡Usuario ya existe!", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                MessageBox.Show("Usuario Registrado con éxito", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtUsuario.Clear();
-                txtContra.Clear();
+                    txtUsuario.Clear(); //limpiamos todos los textbox 
+                    txtContra.Clear();
+                }
+                else
+                {
+                    File.WriteAllText(url, contra); /*Crea un Nuevo archivo con ese nombre y guarda dentro del archivo el valor del segundo parámetro*/
+
+                    MessageBox.Show("Usuario Registrado con éxito", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtUsuario.Clear();
+                    txtContra.Clear();
+                }
             }
         }
-
         private void pictureBox3_Click_1(object sender, EventArgs e)
         {
             this.Hide();
