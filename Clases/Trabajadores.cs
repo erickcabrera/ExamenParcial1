@@ -11,7 +11,7 @@ namespace SistemaInventario
     {
         string nombre, dui, nit, afp, seguro, direccion, telefono, tipo;
         double pago;
-        DateTime fecha;
+        string fecha;
 
         public String Nombre
         {
@@ -60,7 +60,7 @@ namespace SistemaInventario
             get { return pago; }
             set { pago = value; }
         }
-        public DateTime Fecha
+        public string Fecha
         {
             get { return fecha; }
             set { fecha = value; }

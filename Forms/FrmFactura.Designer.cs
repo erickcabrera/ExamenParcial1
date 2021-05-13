@@ -47,13 +47,13 @@
             this.btnimportar = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.dgvmostrar = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.contid = new System.Windows.Forms.Label();
             this.btnEditar = new System.Windows.Forms.Button();
             this.txtdescripcion = new System.Windows.Forms.RichTextBox();
             this.btnexportar = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.dgvmostrar = new System.Windows.Forms.DataGridView();
             this.txtArchivo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -63,9 +63,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBSalir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -92,7 +92,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(995, 60);
             this.panel1.TabIndex = 1;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // picBMinimizar
             // 
@@ -227,7 +226,7 @@
             this.btnborrar.TabIndex = 14;
             this.btnborrar.Text = "Borrar Factura";
             this.btnborrar.UseVisualStyleBackColor = false;
-            this.btnborrar.Click += new System.EventHandler(this.btnEditarA_Click);
+            this.btnborrar.Click += new System.EventHandler(this.btnborrar_Click);
             // 
             // btnimportar
             // 
@@ -259,28 +258,6 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // dgvmostrar
-            // 
-            this.dgvmostrar.AllowUserToAddRows = false;
-            this.dgvmostrar.AllowUserToDeleteRows = false;
-            this.dgvmostrar.AllowUserToOrderColumns = true;
-            this.dgvmostrar.AllowUserToResizeRows = false;
-            this.dgvmostrar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvmostrar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvmostrar.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dgvmostrar.Location = new System.Drawing.Point(7, 48);
-            this.dgvmostrar.MultiSelect = false;
-            this.dgvmostrar.Name = "dgvmostrar";
-            this.dgvmostrar.ReadOnly = true;
-            this.dgvmostrar.RowHeadersWidth = 51;
-            this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvmostrar.Size = new System.Drawing.Size(543, 399);
-            this.dgvmostrar.TabIndex = 17;
-            this.dgvmostrar.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvmostrar_CellContentClick);
-            this.dgvmostrar.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvmostrar_DataBindingComplete);
-            this.dgvmostrar.SelectionChanged += new System.EventHandler(this.dgvmostrar_SelectionChanged);
-            this.dgvmostrar.DoubleClick += new System.EventHandler(this.dgvDatosAlumnos_DoubleClick);
-            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -302,7 +279,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(412, 585);
             this.panel2.TabIndex = 41;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // contid
             // 
@@ -314,6 +290,7 @@
             this.contid.Size = new System.Drawing.Size(21, 22);
             this.contid.TabIndex = 51;
             this.contid.Text = "0";
+            this.contid.Visible = false;
             // 
             // btnEditar
             // 
@@ -338,7 +315,6 @@
             this.txtdescripcion.Size = new System.Drawing.Size(229, 205);
             this.txtdescripcion.TabIndex = 49;
             this.txtdescripcion.Text = "";
-            this.txtdescripcion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtdescripcion_KeyPress);
             // 
             // btnexportar
             // 
@@ -359,16 +335,36 @@
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Controls.Add(this.dgvmostrar);
             this.panel3.Controls.Add(this.txtArchivo);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.btnexportar);
             this.panel3.Controls.Add(this.btnimportar);
-            this.panel3.Controls.Add(this.dgvmostrar);
             this.panel3.Controls.Add(this.label14);
             this.panel3.Location = new System.Drawing.Point(430, 66);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(561, 585);
             this.panel3.TabIndex = 42;
+            // 
+            // dgvmostrar
+            // 
+            this.dgvmostrar.AllowUserToAddRows = false;
+            this.dgvmostrar.AllowUserToDeleteRows = false;
+            this.dgvmostrar.AllowUserToOrderColumns = true;
+            this.dgvmostrar.AllowUserToResizeRows = false;
+            this.dgvmostrar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvmostrar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvmostrar.GridColor = System.Drawing.SystemColors.ControlLight;
+            this.dgvmostrar.Location = new System.Drawing.Point(7, 48);
+            this.dgvmostrar.MultiSelect = false;
+            this.dgvmostrar.Name = "dgvmostrar";
+            this.dgvmostrar.ReadOnly = true;
+            this.dgvmostrar.RowHeadersWidth = 51;
+            this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvmostrar.Size = new System.Drawing.Size(543, 399);
+            this.dgvmostrar.TabIndex = 54;
+            this.dgvmostrar.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvmostrar_CellClick);
+            this.dgvmostrar.DoubleClick += new System.EventHandler(this.dgvmostrar_DoubleClick);
             // 
             // txtArchivo
             // 
@@ -426,11 +422,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBSalir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvmostrar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -451,7 +447,6 @@
         private System.Windows.Forms.Button btnimportar;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.DataGridView dgvmostrar;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label14;
@@ -464,5 +459,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.Label contid;
+        private System.Windows.Forms.DataGridView dgvmostrar;
     }
 }

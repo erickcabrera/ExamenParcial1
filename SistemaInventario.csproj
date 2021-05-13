@@ -178,26 +178,7 @@
     <Compile Include="Clases\ListaInventario.cs" />
     <Compile Include="Clases\NodoFactura.cs" />
     <Compile Include="Clases\NodoInventario.cs" />
-    <Compile Include="Forms\FormBaseEstilo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormBaseEstilo.Designer.cs">
-      <DependentUpon>FormBaseEstilo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Clases\Factura.cs" />
-    <Compile Include="Clases\Factura2.cs" />
-    <Compile Include="Forms\FormFactura.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormFactura.Designer.cs">
-      <DependentUpon>FormFactura.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\FormFacturaMostrar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormFacturaMostrar.Designer.cs">
-      <DependentUpon>FormFacturaMostrar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Clases\ListaTrabajador.cs" />
     <Compile Include="Clases\NodoTrabajador.cs" />
     <Compile Include="Forms\FrmRegistro.cs">
@@ -253,33 +234,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormTrabajadores.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormTrabajadores.Designer.cs">
-      <DependentUpon>FormTrabajadores.cs</DependentUpon>
-    </Compile>
     <Compile Include="Clases\Inventario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clases\Trabajadores.cs" />
-    <EmbeddedResource Include="Forms\FormBaseEstilo.resx">
-      <DependentUpon>FormBaseEstilo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormFactura.resx">
-      <DependentUpon>FormFactura.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormFacturaMostrar.resx">
-      <DependentUpon>FormFacturaMostrar.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmRegistro.resx">
       <DependentUpon>FrmRegistro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormTrabajadores.resx">
-      <DependentUpon>FormTrabajadores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMenuAdmin.resx">
       <DependentUpon>FormMenuAdmin.cs</DependentUpon>

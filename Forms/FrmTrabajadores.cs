@@ -74,6 +74,7 @@ namespace SistemaInventario
         {
             dgvmostrar.DataSource = null;
             dgvmostrar.DataSource = lista.Mostrar().ToList();
+            dgvmostrar.ClearSelection();
         }
         private void reseteo()
         {
@@ -85,19 +86,14 @@ namespace SistemaInventario
             txtpago.Clear();
             txtseguro.Clear();
             txttelefono.Clear();
-            cbtipo.SelectedIndex = 0;
+            cbtipo.SelectedIndex = -1;
             fechanacimiento.Value = DateTime.Today;
         }
         private void btnagregar_Click(object sender, EventArgs e)
         {
+            BorrarMensaje();
             try
             {
-                //Faltan validaciones
-                //Ahorita no las he activado porque sino hay que ingresar toooodos estos datos y es tedioso para hacer pruebas
-
-                //Creo un objeto del tipo trabajador y lleno los datos de este
-               
-
                 if (validaciones())
                 {
                     Trabajadores trabajador = new Trabajadores();
@@ -110,7 +106,7 @@ namespace SistemaInventario
                     trabajador.Telefono = txttelefono.Text;
                     trabajador.Tipo = cbtipo.SelectedItem.ToString();
                     trabajador.Pago = double.Parse(txtpago.Text);
-                    trabajador.Fecha = fechanacimiento.Value;
+                    trabajador.Fecha = Convert.ToString(fechanacimiento.Value.ToString("yyyy-MM-dd"));
                     //Si el validador == -1 significa que un dato será INGRESADO
                     if (validador == -1)
                     {
@@ -137,27 +133,24 @@ namespace SistemaInventario
                         //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
                         validador = -1;
                         dui = "";
+                        reseteo();
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnborrar_Click(object sender, EventArgs e)
         {
-            //Faltan validaciones
-
             //Pruebo si ha sido seleccionado un dato del datagrid
             if (validador != -1)
             {
                 try
                 {
-                    //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
-
                     //Creo un nuevo objeto del tipo lista
                     ListaTrabajador lista2 = new ListaTrabajador();
 
@@ -174,6 +167,10 @@ namespace SistemaInventario
                     validador = -1;
                     reseteo();
                     dui = "";
+                    txtdui.ReadOnly = false;
+                    txtafp.ReadOnly = false;
+                    txtni.ReadOnly = false;
+                    txtseguro.ReadOnly = false;
                 }
                 catch (Exception ex)
                 {
@@ -182,7 +179,7 @@ namespace SistemaInventario
             }
             else
             {
-                MessageBox.Show("Debe seleccionar una row primero");
+                MessageBox.Show("Debe seleccionar una fila", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -207,7 +204,7 @@ namespace SistemaInventario
                     trabajador.Telefono = sl.GetCellValueAsString(iRow, 7);
                     trabajador.Tipo = sl.GetCellValueAsString(iRow, 8);
                     trabajador.Pago = sl.GetCellValueAsDouble(iRow, 9);
-                    trabajador.Fecha = Convert.ToDateTime(sl.GetCellValueAsString(iRow, 10));
+                    trabajador.Fecha = sl.GetCellValueAsString(iRow, 10);
                     lista.Add(trabajador);
                     iRow++;
                 }
@@ -220,76 +217,109 @@ namespace SistemaInventario
             return lista;
         }
 
+        
         //Validaciones
-
         private bool validaciones()
         {
             validado = true;
             if (txtnombre.TextLength == 0)
             {
                 validado = false;
-                errorProvider1.SetError(txtnombre, "Agregar dato");
+                errorProvider1.SetError(txtnombre, "Ingresar el nombre");
             }
-            if (txtdui.TextLength == 0)
+            if (txtdui.MaskFull) { }
+            else
             {
                 validado = false;
-                errorProvider1.SetError(txtdui, "Agregar dato");
+                errorProvider1.SetError(txtdui, "Ingresar el número de DUI");
             }
-            if (txtni.TextLength == 0)
+
+            if (txtni.MaskFull) { }
+            else
             {
                 validado = false;
-                errorProvider1.SetError(txtnit, "Agregar dato");
+                errorProvider1.SetError(txtni, "Ingresar el número de NIT");
             }
-            if (txtafp.TextLength == 0)
+            if (txttelefono.MaskFull) { }
+            else
             {
                 validado = false;
-                errorProvider1.SetError(txtafp, "Agregar dato");
+                errorProvider1.SetError(txttelefono, "Ingresar el número de NIT");
             }
-            if (txtseguro.TextLength == 0)
+
+            if (txtafp.MaskFull) { }
+            else
             {
                 validado = false;
-                errorProvider1.SetError(txtseguro, "Agregar dato");
+                errorProvider1.SetError(txtafp, "Ingresar el número de AFP");
             }
-            if (txtdireccion.TextLength == 0)
+            
+            if (txtseguro.Text == "")
             {
                 validado = false;
-                errorProvider1.SetError(txtdireccion, "Agregar dato");
+                errorProvider1.SetError(txtseguro, "Ingresar número de seguro");
             }
-            if (txtpago.TextLength == 0)
+            if (txtdireccion.Text == "")
             {
                 validado = false;
-                errorProvider1.SetError(txtpago, "Agregar dato");
+                errorProvider1.SetError(txtdireccion, "Ingresar dirección");
             }
-            if (txttelefono.TextLength == 0)
+            if (txtpago.Text == "")
             {
                 validado = false;
-                errorProvider1.SetError(txttelefono, "Agregar dato");
+                errorProvider1.SetError(txtpago, "Ingresar pago diario");
             }
-           
+            
+            if (cbtipo.Text == "")
+            {
+                validado = false;
+                errorProvider1.SetError(cbtipo, "Seleccionar una opción");
+            }
+            if (fechanacimiento.Value.Date >= DateTime.Now.Date)
+            {
+                validado = false;
+                errorProvider1.SetError(fechanacimiento, "Seleccione una fecha");
+            }
             return validado;
         }
+
+        private void BorrarMensaje()
+        {
+            errorProvider1.SetError(txtnombre, "");
+            errorProvider1.SetError(txtseguro, "");
+            errorProvider1.SetError(txtpago, "");
+            errorProvider1.SetError(txtnit, "");
+            errorProvider1.SetError(txtafp, "");
+            errorProvider1.SetError(txttelefono, "");
+            errorProvider1.SetError(fechanacimiento, "");
+            errorProvider1.SetError(cbtipo, "");
+        }
+
+
         private void txtnombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsLetter(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //para backspace
             else if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //para que admita tecla de espacio
             else if (char.IsSeparator(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //si no cumple nada de lo anterior que no lo deje pasar
             else
             {
                 e.Handled = true;
-                MessageBox.Show("Solo se admiten letras", "validación de texto",
-               MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                errorProvider1.SetError(txtnombre, "En este campo sólo se permiten letras");
             }
         }
 
@@ -298,45 +328,22 @@ namespace SistemaInventario
             if (char.IsNumber(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //para backspace
             else if (char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                BorrarMensaje();
             }
             //si no cumple nada de lo anterior que no lo deje pasar
             else
             {
                 e.Handled = true;
-                MessageBox.Show("Solo se admiten numeros", "validación de numeros",
-               MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                errorProvider1.SetError(txtseguro, "En este campo sólo se permiten numeros");
             }
         }
-
-        private void txtpago_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (char.IsNumber(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            //para backspace
-            else if (char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            //Para punto 
-            else if (char.IsPunctuation(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            //si no cumple nada de lo anterior que no lo deje pasar
-            else
-            {
-                e.Handled = true;
-                MessageBox.Show("Solo se admiten numeros", "validación de texto",
-               MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-        }
+        
 
         private void txtnit_Click(object sender, EventArgs e)
         {
@@ -362,48 +369,16 @@ namespace SistemaInventario
         }
         private void fechanacimiento_DateSelected(object sender, DateRangeEventArgs e)
         {
-            if (fechanacimiento.Value >= DateTime.Now)
+            if (fechanacimiento.Value.Date >= DateTime.Now.Date)
             {
-                MessageBox.Show("Fecha seleccionada no valida");
+                MessageBox.Show("Fecha seleccionada no valida", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
                 fecha_seleccionada = 1;
             }
         }
-
-        private void dgvmostrar_Click(object sender, EventArgs e)
-        {
-            if (dgvmostrar.Rows.Count > 0)
-            {
-                try
-                {
-                    //Le paso los datos del datagrid a los textbox
-                    validador = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
-                    dui = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
-                    txtnombre.Text = dgvmostrar.Rows[validador].Cells[0].Value.ToString();
-                    txtdui.Text = dui;
-                    txtni.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
-                    txtafp.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
-                    txtseguro.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
-                    txtdireccion.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
-                    txttelefono.Text = dgvmostrar.Rows[validador].Cells[6].Value.ToString();
-                    cbtipo.SelectedItem = dgvmostrar.Rows[validador].Cells[7].Value.ToString();
-                    txtpago.Text = dgvmostrar.Rows[validador].Cells[8].Value.ToString();
-                    fechanacimiento.Value = Convert.ToDateTime(dgvmostrar.Rows[validador].Cells[9].Value.ToString());
-                    //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
-                    txtdui.ReadOnly = true;
-                    txtafp.ReadOnly = true;
-                    txtni.ReadOnly = true;
-                    txtseguro.ReadOnly = true;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
-
+        
         private void btnImportar_Click(object sender, EventArgs e)
         {
             ///
@@ -436,7 +411,7 @@ namespace SistemaInventario
                         trabajador.Tipo = item.Tipo;
                         trabajador.Pago = item.Pago;
                         trabajador.Fecha = item.Fecha;
-
+                        
                         //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
                         Queue<Trabajadores> cola = new Queue<Trabajadores>();
                         cola = lista.Mostrar();
@@ -471,7 +446,7 @@ namespace SistemaInventario
                     if (excelVacio == true && idCodigo == false)
                     {
                         ActualizarDataGrid(lista);
-                        MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Archivo importado correctamente", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (excelVacio == true && idCodigo == true)
                     {
@@ -541,17 +516,16 @@ namespace SistemaInventario
                         sl.SetCellValue(iR, 2, row.Cells[1].Value.ToString());
                         sl.SetCellValue(iR, 3, row.Cells[2].Value.ToString());
                         sl.SetCellValue(iR, 4, row.Cells[3].Value.ToString());
-                        sl.SetCellValue(iR, 5, row.Cells[4].Value.ToString());
+                        sl.SetCellValue(iR, 5, Convert.ToInt64(row.Cells[4].Value.ToString()));
                         sl.SetCellValue(iR, 6, row.Cells[5].Value.ToString());
                         sl.SetCellValue(iR, 7, row.Cells[6].Value.ToString());
                         sl.SetCellValue(iR, 8, row.Cells[7].Value.ToString());
                         sl.SetCellValue(iR, 9, double.Parse(row.Cells[8].Value.ToString()));
-                        MessageBox.Show(row.Cells[8].Value.ToString());
                         sl.SetCellValue(iR, 10, row.Cells[9].Value.ToString());
                         iR++;
                     }
                     sl.SaveAs(outputFile);
-                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception e)
                 {
@@ -566,6 +540,72 @@ namespace SistemaInventario
 
         private void FrmTrabajadores_Load(object sender, EventArgs e)
         {
+            BorrarMensaje();
+            fechanacimiento.Value.ToString("yyyy-MM-dd");
+        }
+
+        private void txtpago_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsNumber(e.KeyChar))
+            {
+                e.Handled = false;
+                BorrarMensaje();
+            }
+            //para backspace
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+                BorrarMensaje();
+            }
+            //Para punto 
+            else if (char.IsPunctuation(e.KeyChar))
+            {
+                e.Handled = false;
+                BorrarMensaje();
+            }
+            //si no cumple nada de lo anterior que no lo deje pasar
+            else
+            {
+                e.Handled = true;
+                errorProvider1.SetError(txtpago, "En este campo sólo se permiten numeros");
+            }
+        }
+
+        private void txtdireccion_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvmostrar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvmostrar.Rows.Count > 0 && e.RowIndex != -1)
+            {
+                try
+                {
+                    //Le paso los datos del datagrid a los textbox
+                    validador = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
+                    dui = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
+                    txtnombre.Text = dgvmostrar.Rows[validador].Cells[0].Value.ToString();
+                    txtdui.Text = dui;
+                    txtni.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
+                    txtafp.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
+                    txtseguro.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
+                    txtdireccion.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
+                    txttelefono.Text = dgvmostrar.Rows[validador].Cells[6].Value.ToString();
+                    cbtipo.SelectedItem = dgvmostrar.Rows[validador].Cells[7].Value.ToString();
+                    txtpago.Text = dgvmostrar.Rows[validador].Cells[8].Value.ToString();
+                    fechanacimiento.Value = Convert.ToDateTime(dgvmostrar.Rows[validador].Cells[9].Value.ToString());
+                    //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
+                    txtdui.ReadOnly = true;
+                    txtafp.ReadOnly = true;
+                    txtni.ReadOnly = true;
+                    txtseguro.ReadOnly = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
     }
 }

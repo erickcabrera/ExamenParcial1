@@ -302,7 +302,7 @@
             this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvmostrar.Size = new System.Drawing.Size(543, 399);
             this.dgvmostrar.TabIndex = 17;
-            this.dgvmostrar.SelectionChanged += new System.EventHandler(this.dgvDatosAlumnos_SelectionChanged);
+            this.dgvmostrar.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvmostrar_CellClick);
             this.dgvmostrar.DoubleClick += new System.EventHandler(this.dgvDatosAlumnos_DoubleClick);
             // 
             // panel2
@@ -376,7 +376,6 @@
             this.txtdescripcion.Size = new System.Drawing.Size(229, 48);
             this.txtdescripcion.TabIndex = 49;
             this.txtdescripcion.Text = "";
-            this.txtdescripcion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtdescripcion_KeyPress);
             // 
             // lblruta
             // 

@@ -52,7 +52,7 @@ namespace SistemaInventario
             NodoFactura aux = inicio;
             while (aux != null)
             {
-                if (aux.info_factura.Idfactua == codigo)
+                if (aux.info_factura.Idfactura == codigo)
                 {
                     aux.info_factura = factura;
                 }
@@ -66,15 +66,14 @@ namespace SistemaInventario
             Queue<Factura> cola = new Queue<Factura>();
             NodoFactura aux = inicio;
           
-            /*
              while (aux != null)
             {
-                if (aux.info_factura. != codigo)
+                if (aux.info_factura.Idfactura != codigo)
                 {
                     cola.Enqueue(aux.info_factura);
                 }
                 aux = aux.sgt;
-            }*/
+            }
             return cola;
         }
 

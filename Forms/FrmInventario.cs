@@ -236,26 +236,7 @@ namespace SistemaInventario
         {
             this.WindowState = FormWindowState.Minimized;
         }
-
-        private void dgvDatosAlumnos_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvmostrar.SelectedRows.Count > 0)
-            {
-                try
-                {
-                    reseteo();
-                    btnborrar.Enabled = true;
-                    btnagregar.Enabled = true;
-                    btnEditar.Enabled = false;
-                    codigo = int.Parse(dgvmostrar.CurrentRow.Cells["Codigo"].Value.ToString());
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-        }
-
+        
         private void txtFoto_Click(object sender, EventArgs e)
         {
             openFD.Title = "Seleccione una imagen";
@@ -344,7 +325,7 @@ namespace SistemaInventario
             {
                 if (txtArchivo.TextLength != 0)
                 {
-                    Exportar(dgvmostrar,"D:\\" + txtArchivo.Text + ".xlsx");
+                    Exportar(dgvmostrar,"C:\\" + txtArchivo.Text + ".xlsx");
                 }
                 else
                 {
@@ -433,73 +414,7 @@ namespace SistemaInventario
             }
         }
 
-
-
-
-        public void ExportarDatos(DataGridView gridIn, string outputFile)
-        {
-            //Tambien lo copié de internet. Este exportar en formato .csv, ya que me dio problemas con una libreria al intentar
-            //Exportar el excel de un solo
-
-            //El archivo .csv, lo pueden abrir desde excel y luego guardarlo así, para luego volverlo a importar a este programa
-            //prueba para ver si DataGridView tiene alguna fila
-            try
-            {
-                if (gridIn.RowCount > 0)
-                {
-                    string value = "";
-                    DataGridViewRow dr = new DataGridViewRow();
-                    StreamWriter swOut = new StreamWriter(outputFile);
-
-                    //escribir filas de encabezado en csv
-                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
-                    {
-                        if (i > 0)
-                        {
-                            swOut.Write(",");
-                        }
-                        swOut.Write(gridIn.Columns[i].HeaderText);
-                    }
-
-                    swOut.WriteLine();
-
-                    //escribir filas DataGridView en csv
-                    for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
-                    {
-                        if (j > 0)
-                        {
-                            swOut.WriteLine();
-                        }
-
-                        dr = gridIn.Rows[j];
-
-                        for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
-                        {
-                            if (i > 0)
-                            {
-                                swOut.Write(",");
-                            }
-
-                            value = dr.Cells[i].Value.ToString();
-                            //reemplazar comas con espacios
-                            value = value.Replace(',', ' ');
-                            //reemplazar nuevas líneas incrustadas con espacios
-                            value = value.Replace(Environment.NewLine, " ");
-
-                            swOut.Write(value);
-                        }
-                    }
-                    swOut.Close();
-                }
-                MessageBox.Show("Archivo exportado correctamente");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-        }
-
+        
         private void txtCodigo_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsNumber(e.KeyChar))
@@ -606,44 +521,7 @@ namespace SistemaInventario
         }
 
 
-
-
-        private void txtdescripcion_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (txtdescripcion.TextLength > 0)
-            {
-                btncargar.Enabled = true;
-            }
-            else
-            {
-                btncargar.Enabled = false;
-            }
-
-
-            //condición para validar sólo letras
-            if (char.IsLetter(e.KeyChar))
-            {
-                e.Handled = false;
-                BorrarMensaje();
-            }
-            else if (char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-                BorrarMensaje();
-            }
-            else if (char.IsSeparator(e.KeyChar))
-            {
-                e.Handled = false;
-                BorrarMensaje();
-            }
-            else
-            {
-                e.Handled = true;
-                errorProvider1.SetError(txtdescripcion, "En este campo sólo se permiten letras");
-            }
-        }
-
-
+        
      
         private void btnborrar_Click(object sender, EventArgs e)
         {
@@ -874,6 +752,25 @@ namespace SistemaInventario
 
                 }
 
+            }
+        }
+
+        private void dgvmostrar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvmostrar.SelectedRows.Count > 0 && e.RowIndex != -1)
+            {
+                try
+                {
+                    reseteo();
+                    btnborrar.Enabled = true;
+                    btnagregar.Enabled = true;
+                    btnEditar.Enabled = false;
+                    codigo = int.Parse(dgvmostrar.CurrentRow.Cells["Codigo"].Value.ToString());
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
     }

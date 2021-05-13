@@ -8,13 +8,13 @@ namespace SistemaInventario
 {
     class Factura
     {
-        private int cantidad, idfactua;
-        private float costo;
+        private int cantidad, idfactura;
+        private double costo;
 
-        public int Idfactua
+        public int Idfactura
         {
-            get { return idfactua; }
-            set { idfactua = value; }
+            get { return idfactura; }
+            set { idfactura = value; }
         }
 
         public int Cantidad
@@ -23,7 +23,7 @@ namespace SistemaInventario
             set { cantidad = value; }
         }
       
-        public float Costo
+        public double Costo
         {
             get { return costo; }
             set { costo = value; }
@@ -32,7 +32,7 @@ namespace SistemaInventario
 
         //Metodos traidos de factura 2
 
-        float valor_mano_obra, costo_total;
+        double valor_mano_obra, costo_total;
       
         string descripcion_mano_obra;
 
@@ -44,12 +44,12 @@ namespace SistemaInventario
             set { descripcion_mano_obra = value; }
         }
      
-        public float Valor_mano_obra
+        public double Valor_mano_obra
         {
             get { return valor_mano_obra; }
             set { valor_mano_obra = value; }
         }
-        public float Costo_total
+        public double Costo_total
         {
             get { return costo_total; }
             set { costo_total = value; }

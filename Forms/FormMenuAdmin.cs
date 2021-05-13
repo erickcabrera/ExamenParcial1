@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
-using ExamenParcial1;
 
 namespace SistemaInventario
 {
@@ -88,16 +87,7 @@ namespace SistemaInventario
             this.Hide();
         }
         
-        private void btnFacturas_Click(object sender, EventArgs e)
-        {
-           /* FormFactura form = new FormFactura();
-            form.Show();
-            this.Hide();*/
-
-            FormTrabajadores form = new FormTrabajadores();
-            form.Show();
-            this.Hide();
-        }
+       
 
       
 

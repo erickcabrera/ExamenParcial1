@@ -48,6 +48,7 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.dgvmostrar = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.fechanacimiento = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.cbtipo = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -66,7 +67,6 @@
             this.btnexportar = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.openFD = new System.Windows.Forms.OpenFileDialog();
-            this.fechanacimiento = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBMinimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -275,7 +275,7 @@
             this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvmostrar.Size = new System.Drawing.Size(622, 380);
             this.dgvmostrar.TabIndex = 17;
-            this.dgvmostrar.Click += new System.EventHandler(this.dgvmostrar_Click);
+            this.dgvmostrar.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvmostrar_CellClick);
             // 
             // panel2
             // 
@@ -306,6 +306,14 @@
             this.panel2.Size = new System.Drawing.Size(462, 569);
             this.panel2.TabIndex = 41;
             // 
+            // fechanacimiento
+            // 
+            this.fechanacimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.fechanacimiento.Location = new System.Drawing.Point(216, 388);
+            this.fechanacimiento.Name = "fechanacimiento";
+            this.fechanacimiento.Size = new System.Drawing.Size(229, 20);
+            this.fechanacimiento.TabIndex = 66;
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -319,6 +327,7 @@
             // 
             // cbtipo
             // 
+            this.cbtipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbtipo.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.cbtipo.FormattingEnabled = true;
             this.cbtipo.Items.AddRange(new object[] {
@@ -372,6 +381,7 @@
             this.txtpago.Name = "txtpago";
             this.txtpago.Size = new System.Drawing.Size(229, 27);
             this.txtpago.TabIndex = 7;
+            this.txtpago.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtpago_KeyPress_1);
             // 
             // txtseguro
             // 
@@ -391,6 +401,7 @@
             this.txtdireccion.Name = "txtdireccion";
             this.txtdireccion.Size = new System.Drawing.Size(229, 27);
             this.txtdireccion.TabIndex = 6;
+            this.txtdireccion.TextChanged += new System.EventHandler(this.txtdireccion_TextChanged);
             // 
             // txtafp
             // 
@@ -498,13 +509,6 @@
             // openFD
             // 
             this.openFD.FileName = "openFileDialog1";
-            // 
-            // fechanacimiento
-            // 
-            this.fechanacimiento.Location = new System.Drawing.Point(216, 388);
-            this.fechanacimiento.Name = "fechanacimiento";
-            this.fechanacimiento.Size = new System.Drawing.Size(229, 20);
-            this.fechanacimiento.TabIndex = 66;
             // 
             // FrmTrabajadores
             // 
