@@ -65,11 +65,15 @@ namespace SistemaInventario
             btncargar.Text = "Seleccionar foto...";
         }
 
+        
         private void Alumno_Load(object sender, EventArgs e)
         {
             BorrarMensaje();
             try
             {
+                SLDocument sl = new SLDocument();
+                string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
+                InsertarImportacion(nombrearchivo);
                 btnborrar.Enabled = false;
                 btnEditar.Enabled = false;
             }
@@ -188,7 +192,6 @@ namespace SistemaInventario
                             //COPIAMOS IMAGEN
                             String sourceFile = btncargar.Text;
                             String destinationFile = inventario.Ruta_imagen;
-
                             try
                             {
 
@@ -205,13 +208,29 @@ namespace SistemaInventario
                             {
                                 MessageBox.Show("Error " + ex.Message);
                             }
-
+                            
                             //Actualizo el datagrid mandandole la lista con el nuevo dato ingresado
                             ActualizarDataGrid(lista);
 
                             //Limpio pantalla
                             reseteo();
 
+                            //Actualizamos el archivo
+                            //actualizamos el archivo de inventario
+                            string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
+
+                            try
+                            {
+                                if (File.Exists(nombrearchivo))
+                                {
+                                    File.Delete(nombrearchivo);
+                                    Exportar(dgvmostrar, nombrearchivo);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error " + ex.Message);
+                            }
                         }
                         else
                         {
@@ -377,7 +396,7 @@ namespace SistemaInventario
                 try
                 {
                     SLDocument sl = new SLDocument();
-
+                    
                     int iC = 1;
                     SLStyle style = new SLStyle();
                     style.Font.Bold = true;
@@ -392,14 +411,15 @@ namespace SistemaInventario
                     int iR = 2;
                     foreach (DataGridViewRow row in dgvmostrar.Rows)
                     {
-                        sl.SetCellValue(iR, 1, row.Cells[0].Value.ToString());
+                        sl.SetCellValue(iR, 1, Convert.ToInt32(row.Cells[0].Value.ToString()));
                         sl.SetCellValue(iR, 2, row.Cells[1].Value.ToString());
                         sl.SetCellValue(iR, 3, row.Cells[2].Value.ToString());
                         sl.SetCellValue(iR, 4, Convert.ToDouble(row.Cells[3].Value.ToString()));
                         sl.SetCellValue(iR, 5, Convert.ToDouble(row.Cells[4].Value.ToString()));
-                        sl.SetCellValue(iR, 6, row.Cells[5].Value.ToString());
+                        sl.SetCellValue(iR, 6, Convert.ToInt32(row.Cells[5].Value.ToString()));
                         iR++;
                     }
+
                     sl.SaveAs(outputFile);
                     MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -660,6 +680,23 @@ namespace SistemaInventario
                     //Hago que el validador sea nuevamente -1 y el dui le doy un valor nulo
                     validador = -1;
                     codigo = 0;
+                    
+                    //Actualizamos el archivo
+                    //actualizamos el archivo de inventario
+                    string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
+
+                    try
+                    {
+                        if (File.Exists(nombrearchivo))
+                        {
+                            File.Delete(nombrearchivo);
+                            Exportar(dgvmostrar, nombrearchivo);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error " + ex.Message);
+                    }
                 }
                 catch (Exception Ex)
                 {
@@ -669,6 +706,80 @@ namespace SistemaInventario
             else
             {
                 MessageBox.Show("Debe llenar todos los campos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+
+        private void InsertarImportacion(string ruta)
+        {
+            try
+            {
+                List<Inventario> lst = new List<Inventario>();
+                lst = ImportarDatos(ruta);
+                bool excelVacio = false;
+                bool idCodigo = false;
+                foreach (var item in lst)
+                {
+                    excelVacio = true;
+                    Inventario inventario = new Inventario();
+                    inventario.Codigo = Convert.ToInt32(item.Codigo.ToString());
+                    inventario.Descripcion = item.Descripcion.ToString();
+                    inventario.Ruta_imagen = item.Ruta_imagen.ToString();
+                    inventario.Precio_compra = item.Precio_compra;
+                    inventario.Precio_venta = item.Precio_venta;
+                    inventario.Existencia = Convert.ToInt32(item.Existencia.ToString());
+
+                    //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
+                    Queue<Inventario> cola = new Queue<Inventario>();
+                    cola = lista.Mostrar();
+
+                    if (cola.Count == 0)
+                    {
+                        lista.InsertarF(inventario);
+                    }
+                    else
+                    {
+
+                        if (cola.Contains(item))
+                        {
+
+                        }
+                        foreach (var item2 in cola)
+                        {
+                            if (item2.Codigo == inventario.Codigo)
+                            {
+                                idCodigo = true;
+                                break;
+                            }
+                        }
+                        if (idCodigo == false)
+                        {
+                            lista.InsertarF(inventario);
+                        }
+                    }
+                    //***********************************************************
+                }
+
+                if (excelVacio == true && idCodigo == false)
+                {
+                    ActualizarDataGrid(lista);
+                    MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (excelVacio == true && idCodigo == true)
+                {
+                    ActualizarDataGrid(lista);
+                    MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
 
@@ -682,76 +793,7 @@ namespace SistemaInventario
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    List<Inventario> lst = new List<Inventario>();
-                    lst = ImportarDatos(openFileDialog.FileName);
-                    bool excelVacio = false;
-                    bool idCodigo = false;
-                    foreach (var item in lst)
-                    {
-                        excelVacio = true;
-                        Inventario inventario = new Inventario();
-                        inventario.Codigo = Convert.ToInt32(item.Codigo.ToString());
-                        inventario.Descripcion = item.Descripcion.ToString();
-                        inventario.Ruta_imagen = item.Ruta_imagen.ToString();
-                        inventario.Precio_compra = item.Precio_compra;
-                        inventario.Precio_venta = item.Precio_venta;
-                        inventario.Existencia = Convert.ToInt32(item.Existencia.ToString());
-
-                        //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
-                        Queue<Inventario> cola = new Queue<Inventario>();
-                        cola = lista.Mostrar();
-
-                        if (cola.Count == 0)
-                        {
-                            lista.InsertarF(inventario);
-                        }
-                        else
-                        {
-
-                            if (cola.Contains(item))
-                            {
-
-                            }
-                            foreach (var item2 in cola)
-                            {
-                                if (item2.Codigo == inventario.Codigo)
-                                {
-                                    idCodigo = true;
-                                    break;
-                                }
-                            }
-                            if (idCodigo == false)
-                            {
-                                lista.InsertarF(inventario);
-                            }
-                        }
-                        //***********************************************************
-                    }
-
-                    if (excelVacio == true && idCodigo == false)
-                    {
-                        ActualizarDataGrid(lista);
-                        MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else if (excelVacio == true && idCodigo == true)
-                    {
-                        ActualizarDataGrid(lista);
-                        MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    
-                }
-                catch (Exception Ex)
-                {
-                    MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
+                InsertarImportacion(openFileDialog.FileName);
             }
         }
 

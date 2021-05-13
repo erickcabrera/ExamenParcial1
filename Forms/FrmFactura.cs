@@ -16,6 +16,7 @@ using System.Security.Permissions;
 using System.Security;
 using System.Data.OleDb;
 using SpreadsheetLight;
+using System.Diagnostics;
 
 namespace SistemaInventario
 {
@@ -62,11 +63,58 @@ namespace SistemaInventario
 
         }
 
+        List<Factura> ImportarProductos()
+        {
+            List<Factura> lista = new List<Factura>();
+
+            string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
+
+            try
+            {
+                SLDocument sl = new SLDocument(nombrearchivo);
+
+                int iRow = 2;
+                while (!string.IsNullOrEmpty(sl.GetCellValueAsString(iRow, 1)))
+                {
+                    Factura factura = new Factura();
+                    factura.Idfactura = sl.GetCellValueAsInt32(iRow, 1);
+
+                    lista.Add(factura);
+                    iRow++;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error al importar " + e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return lista;
+        }
+
+        private void llenarCombo()
+        {
+            try
+            {
+                List<Factura> lista = new List<Factura>();
+                lista = ImportarProductos();
+
+                foreach (Factura item in lista)
+                {
+                    cmbProductos.Items.Add(item.Idfactura);
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Error al cargar datos " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+
         private void Alumno_Load(object sender, EventArgs e)
         {
             BorrarMensaje();
             try
             {
+                llenarCombo();
                 btnborrar.Enabled = false;
                 btnEditar.Enabled = false;
             }
@@ -283,8 +331,6 @@ namespace SistemaInventario
                     factura.Valor_mano_obra = sl.GetCellValueAsDouble(iRow, 5);
                     factura.Costo_total = sl.GetCellValueAsDouble(iRow, 6);
                     
-                    
-
                     lista.Add(factura);
                     iRow++;
                 }

@@ -58,6 +58,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.openFD = new System.Windows.Forms.OpenFileDialog();
+            this.cmbProductos = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBMinimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -262,6 +264,8 @@
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.cmbProductos);
             this.panel2.Controls.Add(this.contid);
             this.panel2.Controls.Add(this.btnEditar);
             this.panel2.Controls.Add(this.btnagregar);
@@ -401,6 +405,28 @@
             // 
             this.openFD.FileName = "openFileDialog1";
             // 
+            // cmbProductos
+            // 
+            this.cmbProductos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbProductos.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.cmbProductos.FormattingEnabled = true;
+            this.cmbProductos.Location = new System.Drawing.Point(211, 138);
+            this.cmbProductos.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbProductos.Name = "cmbProductos";
+            this.cmbProductos.Size = new System.Drawing.Size(184, 29);
+            this.cmbProductos.TabIndex = 52;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Black;
+            this.label5.Location = new System.Drawing.Point(4, 140);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(205, 22);
+            this.label5.TabIndex = 53;
+            this.label5.Text = "Codigo de producto:";
+            // 
             // FrmFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -460,5 +486,7 @@
         private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.Label contid;
         private System.Windows.Forms.DataGridView dgvmostrar;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cmbProductos;
     }
 }

@@ -309,6 +309,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Datos\" />
     <Folder Include="usuarios\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

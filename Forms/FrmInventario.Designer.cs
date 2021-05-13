@@ -191,7 +191,7 @@
             // 
             this.txtCodigo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCodigo.Location = new System.Drawing.Point(166, 15);
-            this.txtCodigo.MaxLength = 50;
+            this.txtCodigo.MaxLength = 6;
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(229, 27);
             this.txtCodigo.TabIndex = 1;
