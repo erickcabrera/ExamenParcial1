@@ -40,7 +40,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtCodigo = new System.Windows.Forms.TextBox();
             this.txtexistencia = new System.Windows.Forms.TextBox();
             this.txtpcompra = new System.Windows.Forms.TextBox();
             this.txtpventa = new System.Windows.Forms.TextBox();
@@ -51,6 +50,7 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.dgvmostrar = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.txtCodigo = new System.Windows.Forms.MaskedTextBox();
             this.btnexportar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtArchivo = new System.Windows.Forms.TextBox();
@@ -63,6 +63,7 @@
             this.btnEditar = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.openFD = new System.Windows.Forms.OpenFileDialog();
+            this.btnCancelar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBMinimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -187,16 +188,6 @@
             this.label10.TabIndex = 27;
             this.label10.Text = "Descripción:";
             // 
-            // txtCodigo
-            // 
-            this.txtCodigo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigo.Location = new System.Drawing.Point(166, 15);
-            this.txtCodigo.MaxLength = 6;
-            this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(229, 27);
-            this.txtCodigo.TabIndex = 1;
-            this.txtCodigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
-            // 
             // txtexistencia
             // 
             this.txtexistencia.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -233,9 +224,9 @@
             this.btnagregar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnagregar.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnagregar.ForeColor = System.Drawing.Color.Black;
-            this.btnagregar.Location = new System.Drawing.Point(7, 481);
+            this.btnagregar.Location = new System.Drawing.Point(7, 502);
             this.btnagregar.Name = "btnagregar";
-            this.btnagregar.Size = new System.Drawing.Size(151, 34);
+            this.btnagregar.Size = new System.Drawing.Size(103, 34);
             this.btnagregar.TabIndex = 13;
             this.btnagregar.Text = "Guardar";
             this.btnagregar.UseVisualStyleBackColor = false;
@@ -247,9 +238,9 @@
             this.btnborrar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnborrar.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnborrar.ForeColor = System.Drawing.Color.Black;
-            this.btnborrar.Location = new System.Drawing.Point(399, 480);
+            this.btnborrar.Location = new System.Drawing.Point(287, 501);
             this.btnborrar.Name = "btnborrar";
-            this.btnborrar.Size = new System.Drawing.Size(151, 35);
+            this.btnborrar.Size = new System.Drawing.Size(103, 35);
             this.btnborrar.TabIndex = 14;
             this.btnborrar.Text = "Borrar";
             this.btnborrar.UseVisualStyleBackColor = false;
@@ -261,7 +252,7 @@
             this.btnimportar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnimportar.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnimportar.ForeColor = System.Drawing.Color.Black;
-            this.btnimportar.Location = new System.Drawing.Point(244, 480);
+            this.btnimportar.Location = new System.Drawing.Point(244, 503);
             this.btnimportar.Name = "btnimportar";
             this.btnimportar.Size = new System.Drawing.Size(151, 35);
             this.btnimportar.TabIndex = 15;
@@ -300,7 +291,7 @@
             this.dgvmostrar.ReadOnly = true;
             this.dgvmostrar.RowHeadersWidth = 51;
             this.dgvmostrar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvmostrar.Size = new System.Drawing.Size(543, 399);
+            this.dgvmostrar.Size = new System.Drawing.Size(543, 433);
             this.dgvmostrar.TabIndex = 17;
             this.dgvmostrar.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvmostrar_CellClick);
             this.dgvmostrar.DoubleClick += new System.EventHandler(this.dgvDatosAlumnos_DoubleClick);
@@ -309,6 +300,7 @@
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.Controls.Add(this.txtCodigo);
             this.panel2.Controls.Add(this.btnexportar);
             this.panel2.Controls.Add(this.btnimportar);
             this.panel2.Controls.Add(this.label4);
@@ -324,14 +316,24 @@
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.txtCodigo);
             this.panel2.Controls.Add(this.txtexistencia);
             this.panel2.Controls.Add(this.txtpcompra);
             this.panel2.Controls.Add(this.txtpventa);
             this.panel2.Location = new System.Drawing.Point(12, 66);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(412, 520);
+            this.panel2.Size = new System.Drawing.Size(412, 546);
             this.panel2.TabIndex = 41;
+            // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.txtCodigo.Location = new System.Drawing.Point(165, 8);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCodigo.Mask = "0000000";
+            this.txtCodigo.Name = "txtCodigo";
+            this.txtCodigo.Size = new System.Drawing.Size(229, 27);
+            this.txtCodigo.TabIndex = 1;
+            this.txtCodigo.Tag = "";
             // 
             // btnexportar
             // 
@@ -339,7 +341,7 @@
             this.btnexportar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnexportar.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnexportar.ForeColor = System.Drawing.Color.Black;
-            this.btnexportar.Location = new System.Drawing.Point(8, 479);
+            this.btnexportar.Location = new System.Drawing.Point(8, 502);
             this.btnexportar.Name = "btnexportar";
             this.btnexportar.Size = new System.Drawing.Size(151, 35);
             this.btnexportar.TabIndex = 45;
@@ -352,7 +354,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(3, 436);
+            this.label4.Location = new System.Drawing.Point(3, 459);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(167, 22);
             this.label4.TabIndex = 51;
@@ -361,7 +363,7 @@
             // txtArchivo
             // 
             this.txtArchivo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtArchivo.Location = new System.Drawing.Point(174, 431);
+            this.txtArchivo.Location = new System.Drawing.Point(174, 454);
             this.txtArchivo.MaxLength = 100;
             this.txtArchivo.Name = "txtArchivo";
             this.txtArchivo.Size = new System.Drawing.Size(221, 27);
@@ -390,9 +392,9 @@
             // pbFotoProducto
             // 
             this.pbFotoProducto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbFotoProducto.Location = new System.Drawing.Point(278, 294);
+            this.pbFotoProducto.Location = new System.Drawing.Point(244, 294);
             this.pbFotoProducto.Name = "pbFotoProducto";
-            this.pbFotoProducto.Size = new System.Drawing.Size(116, 114);
+            this.pbFotoProducto.Size = new System.Drawing.Size(151, 153);
             this.pbFotoProducto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFotoProducto.TabIndex = 47;
             this.pbFotoProducto.TabStop = false;
@@ -427,6 +429,7 @@
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Controls.Add(this.btnCancelar);
             this.panel3.Controls.Add(this.btnEditar);
             this.panel3.Controls.Add(this.dgvmostrar);
             this.panel3.Controls.Add(this.btnagregar);
@@ -434,7 +437,7 @@
             this.panel3.Controls.Add(this.btnborrar);
             this.panel3.Location = new System.Drawing.Point(430, 66);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(561, 520);
+            this.panel3.Size = new System.Drawing.Size(561, 546);
             this.panel3.TabIndex = 42;
             // 
             // btnEditar
@@ -443,9 +446,9 @@
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditar.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditar.ForeColor = System.Drawing.Color.Black;
-            this.btnEditar.Location = new System.Drawing.Point(203, 480);
+            this.btnEditar.Location = new System.Drawing.Point(149, 503);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(151, 34);
+            this.btnEditar.Size = new System.Drawing.Size(103, 34);
             this.btnEditar.TabIndex = 18;
             this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = false;
@@ -466,12 +469,26 @@
             // 
             this.openFD.FileName = "openFileDialog1";
             // 
+            // btnCancelar
+            // 
+            this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCancelar.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.ForeColor = System.Drawing.Color.Black;
+            this.btnCancelar.Location = new System.Drawing.Point(435, 501);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(115, 34);
+            this.btnCancelar.TabIndex = 19;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // FrmInventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(990, 598);
+            this.ClientSize = new System.Drawing.Size(990, 624);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -506,7 +523,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.TextBox txtexistencia;
         private System.Windows.Forms.TextBox txtpcompra;
         private System.Windows.Forms.TextBox txtpventa;
@@ -531,5 +547,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtArchivo;
         private System.Windows.Forms.Button btnEditar;
+        private System.Windows.Forms.MaskedTextBox txtCodigo;
+        private System.Windows.Forms.Button btnCancelar;
     }
 }

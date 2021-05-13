@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using SpreadsheetLight;
 
 namespace SistemaInventario
 {
@@ -35,6 +36,22 @@ namespace SistemaInventario
         private void Bienvenida_Load(object sender, EventArgs e)
         {
             timer.Start();
+            //Esto sirve nada más para inicializar el uso de excel y que no tarde mucho
+            try
+            {
+                string nombrearchivo = "..\\..\\Datos\\vacio.xlsx";
+                SLDocument sl = new SLDocument(nombrearchivo);
+
+                int iRow = 2;
+                while (!string.IsNullOrEmpty(sl.GetCellValueAsString(iRow, 1)))
+                {
+                    iRow++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al importar " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             proBar.Minimum = 0;
             proBar.Maximum = 100;
             proBar.Step = 2;
@@ -47,9 +64,11 @@ namespace SistemaInventario
         }
 
         private void timer_Tick_1(object sender, EventArgs e)
-        {                       
+        {
+            
             proBar.PerformStep();
-            proBar.Value = contador;           
+            proBar.Value = contador;
+            
             if (proBar.Value == 100)
             {
                 timer.Stop();

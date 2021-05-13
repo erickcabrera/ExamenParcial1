@@ -56,6 +56,9 @@ namespace SistemaInventario
 
         private void reseteo()
         {
+            txtCodigo.Focus();
+            txtCodigo.ReadOnly = false;
+            txtCodigo.Enabled = true;
             txtdescripcion.Clear();
             txtexistencia.Clear();
             txtpcompra.Clear();
@@ -76,6 +79,8 @@ namespace SistemaInventario
                 InsertarImportacion(nombrearchivo);
                 btnborrar.Enabled = false;
                 btnEditar.Enabled = false;
+                btnCancelar.Enabled = false;
+                pbFotoProducto.Image = Image.FromFile("..\\..\\Imagenes\\subir.png");
             }
             catch (Exception Ex)
             {
@@ -103,6 +108,11 @@ namespace SistemaInventario
         {
             bool validacion = true;
             if (txtCodigo.Text == "")
+            {
+                validacion = false;
+            }
+            if (txtCodigo.MaskFull) { }
+            else
             {
                 validacion = false;
                 errorProvider1.SetError(txtCodigo, "Por favor ingrese el codigo del articulo");
@@ -177,8 +187,8 @@ namespace SistemaInventario
                         inventario.Codigo = int.Parse(txtCodigo.Text);
                         inventario.Descripcion = txtdescripcion.Text;
                         inventario.Existencia = Convert.ToInt32(txtexistencia.Text);
-                        inventario.Precio_compra = Double.Parse(txtpcompra.Text);
-                        inventario.Precio_venta = Double.Parse(txtpventa.Text);
+                        inventario.Precio_compra = Math.Round(Double.Parse(txtpcompra.Text), 2);
+                        inventario.Precio_venta = Math.Round(Double.Parse(txtpventa.Text), 2);
                         inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtCodigo.Text + "-" + txtdescripcion.Text + ".jpg");
                         
                         //Si el validador == -1 significa que un dato será INGRESADO
@@ -326,7 +336,7 @@ namespace SistemaInventario
                     btnEditar.Enabled = true;
                     btnborrar.Enabled = false;
                     btnagregar.Enabled = false;
-
+                    btnCancelar.Enabled = true;
                     //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
                     txtCodigo.ReadOnly = true;
                 }
@@ -421,7 +431,10 @@ namespace SistemaInventario
                     }
 
                     sl.SaveAs(outputFile);
-                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (outputFile != "..\\..\\Datos\\productos.xlsx")
+                    {
+                        MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -586,10 +599,27 @@ namespace SistemaInventario
                         //Reinicio los validadores
                         validador = -1;
                         reseteo();
-                        txtCodigo.ReadOnly = false;
                         codigo = 0;
                         btnagregar.Enabled = true;
                         btnEditar.Enabled = false;
+                        btnborrar.Enabled = false;
+
+                        //Actualizamos el archivo
+                        //actualizamos el archivo de inventario
+                        string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
+
+                        try
+                        {
+                            if (File.Exists(nombrearchivo))
+                            {
+                                File.Delete(nombrearchivo);
+                                Exportar(dgvmostrar, nombrearchivo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error " + ex.Message);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -621,8 +651,8 @@ namespace SistemaInventario
                     inventario.Codigo = int.Parse(txtCodigo.Text);
                     inventario.Descripcion = txtdescripcion.Text;
                     inventario.Existencia = Convert.ToInt32(txtexistencia.Text);
-                    inventario.Precio_compra = float.Parse(txtpcompra.Text);
-                    inventario.Precio_venta = float.Parse(txtpventa.Text);
+                    inventario.Precio_compra = Math.Round(Double.Parse(txtpcompra.Text), 2);
+                    inventario.Precio_venta = Math.Round(Double.Parse(txtpventa.Text), 2);
                     inventario.Ruta_imagen = "..\\..\\Imagenes\\" + (txtCodigo.Text + "-" + txtdescripcion.Text + ".jpg");
 
                     
@@ -760,21 +790,27 @@ namespace SistemaInventario
                     //***********************************************************
                 }
 
-                if (excelVacio == true && idCodigo == false)
+                if (ruta != "..\\..\\Datos\\productos.xlsx")
                 {
-                    ActualizarDataGrid(lista);
-                    MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else if (excelVacio == true && idCodigo == true)
-                {
-                    ActualizarDataGrid(lista);
-                    MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (excelVacio == true && idCodigo == false)
+                    {
+                        ActualizarDataGrid(lista);
+                        MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (excelVacio == true && idCodigo == true)
+                    {
+                        ActualizarDataGrid(lista);
+                        MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ActualizarDataGrid(lista);
                 }
-
             }
             catch (Exception Ex)
             {
@@ -804,9 +840,12 @@ namespace SistemaInventario
                 try
                 {
                     reseteo();
+                    btnCancelar.Enabled = true;
                     btnborrar.Enabled = true;
-                    btnagregar.Enabled = true;
+                    btnagregar.Enabled = false;
                     btnEditar.Enabled = false;
+                    txtCodigo.Enabled = true;
+                    txtCodigo.ReadOnly = false;
                     codigo = int.Parse(dgvmostrar.CurrentRow.Cells["Codigo"].Value.ToString());
                 }
                 catch (Exception)
@@ -814,6 +853,16 @@ namespace SistemaInventario
                     throw;
                 }
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            reseteo();
+            btnagregar.Enabled = true;
+            btnEditar.Enabled = false;
+            btnborrar.Enabled = false;
+            btnCancelar.Enabled = false;
+            dgvmostrar.ClearSelection();
         }
     }
 }
