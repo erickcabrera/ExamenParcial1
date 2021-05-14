@@ -74,7 +74,6 @@ namespace SistemaInventario
             BorrarMensaje();
             try
             {
-                SLDocument sl = new SLDocument();
                 string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
                 InsertarImportacion(nombrearchivo);
                 btnborrar.Enabled = false;
@@ -796,6 +795,23 @@ namespace SistemaInventario
                     {
                         ActualizarDataGrid(lista);
                         MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        
+                        //Actualizamos el archivo
+                        //actualizamos el archivo de inventario
+                        string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
+
+                        try
+                        {
+                            if (File.Exists(nombrearchivo))
+                            {
+                                File.Delete(nombrearchivo);
+                                Exportar(dgvmostrar, nombrearchivo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error " + ex.Message);
+                        }
                     }
                     else if (excelVacio == true && idCodigo == true)
                     {

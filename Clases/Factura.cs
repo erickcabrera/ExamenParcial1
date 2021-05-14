@@ -10,6 +10,7 @@ namespace SistemaInventario
     {
         private int cantidad, idfactura;
         private double costo;
+        private string producto;
 
         public int Idfactura
         {
@@ -28,7 +29,12 @@ namespace SistemaInventario
             get { return costo; }
             set { costo = value; }
         }
-     
+
+        public string Producto
+        {
+            get { return producto; }
+            set { producto = value; }
+        }
 
         //Metodos traidos de factura 2
 

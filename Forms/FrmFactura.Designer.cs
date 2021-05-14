@@ -36,11 +36,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.picBSalir = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.txtCantidad = new System.Windows.Forms.TextBox();
-            this.txtCrepuesto = new System.Windows.Forms.TextBox();
             this.txtValormano = new System.Windows.Forms.TextBox();
             this.btnagregar = new System.Windows.Forms.Button();
             this.btnborrar = new System.Windows.Forms.Button();
@@ -48,6 +46,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbProductos = new System.Windows.Forms.ComboBox();
             this.contid = new System.Windows.Forms.Label();
             this.btnEditar = new System.Windows.Forms.Button();
             this.txtdescripcion = new System.Windows.Forms.RichTextBox();
@@ -58,8 +58,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.openFD = new System.Windows.Forms.OpenFileDialog();
-            this.cmbProductos = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtCrepuesto = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBMinimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -139,23 +139,12 @@
             this.label2.TabIndex = 27;
             this.label2.Text = "Cantidad respuestos:";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(4, 48);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(168, 22);
-            this.label3.TabIndex = 27;
-            this.label3.Text = "Costos repuestos:";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(4, 96);
+            this.label6.Location = new System.Drawing.Point(3, 106);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(175, 22);
             this.label6.TabIndex = 27;
@@ -166,7 +155,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(4, 194);
+            this.label10.Location = new System.Drawing.Point(4, 211);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(121, 22);
             this.label10.TabIndex = 27;
@@ -175,27 +164,17 @@
             // txtCantidad
             // 
             this.txtCantidad.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCantidad.Location = new System.Drawing.Point(211, 10);
+            this.txtCantidad.Location = new System.Drawing.Point(210, 5);
             this.txtCantidad.MaxLength = 50;
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(183, 27);
             this.txtCantidad.TabIndex = 1;
             this.txtCantidad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
             // 
-            // txtCrepuesto
-            // 
-            this.txtCrepuesto.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCrepuesto.Location = new System.Drawing.Point(211, 52);
-            this.txtCrepuesto.MaxLength = 50;
-            this.txtCrepuesto.Name = "txtCrepuesto";
-            this.txtCrepuesto.Size = new System.Drawing.Size(184, 27);
-            this.txtCrepuesto.TabIndex = 2;
-            this.txtCrepuesto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtexistencia_KeyPress);
-            // 
             // txtValormano
             // 
             this.txtValormano.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValormano.Location = new System.Drawing.Point(211, 91);
+            this.txtValormano.Location = new System.Drawing.Point(210, 101);
             this.txtValormano.MaxLength = 100;
             this.txtValormano.Name = "txtValormano";
             this.txtValormano.Size = new System.Drawing.Size(184, 27);
@@ -284,6 +263,29 @@
             this.panel2.Size = new System.Drawing.Size(412, 585);
             this.panel2.TabIndex = 41;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Black;
+            this.label5.Location = new System.Drawing.Point(4, 150);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(95, 22);
+            this.label5.TabIndex = 53;
+            this.label5.Text = "Producto";
+            // 
+            // cmbProductos
+            // 
+            this.cmbProductos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbProductos.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.cmbProductos.FormattingEnabled = true;
+            this.cmbProductos.Location = new System.Drawing.Point(210, 143);
+            this.cmbProductos.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbProductos.Name = "cmbProductos";
+            this.cmbProductos.Size = new System.Drawing.Size(184, 29);
+            this.cmbProductos.TabIndex = 52;
+            this.cmbProductos.SelectedIndexChanged += new System.EventHandler(this.cmbProductos_SelectedIndexChanged);
+            // 
             // contid
             // 
             this.contid.AutoSize = true;
@@ -313,7 +315,7 @@
             // txtdescripcion
             // 
             this.txtdescripcion.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtdescripcion.Location = new System.Drawing.Point(166, 194);
+            this.txtdescripcion.Location = new System.Drawing.Point(166, 211);
             this.txtdescripcion.MaxLength = 100;
             this.txtdescripcion.Name = "txtdescripcion";
             this.txtdescripcion.Size = new System.Drawing.Size(229, 205);
@@ -405,27 +407,27 @@
             // 
             this.openFD.FileName = "openFileDialog1";
             // 
-            // cmbProductos
+            // label3
             // 
-            this.cmbProductos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbProductos.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.cmbProductos.FormattingEnabled = true;
-            this.cmbProductos.Location = new System.Drawing.Point(211, 138);
-            this.cmbProductos.Margin = new System.Windows.Forms.Padding(2);
-            this.cmbProductos.Name = "cmbProductos";
-            this.cmbProductos.Size = new System.Drawing.Size(184, 29);
-            this.cmbProductos.TabIndex = 52;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(4, 62);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(168, 22);
+            this.label3.TabIndex = 27;
+            this.label3.Text = "Costos repuestos:";
             // 
-            // label5
+            // txtCrepuesto
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(4, 140);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(205, 22);
-            this.label5.TabIndex = 53;
-            this.label5.Text = "Codigo de producto:";
+            this.txtCrepuesto.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCrepuesto.Location = new System.Drawing.Point(210, 57);
+            this.txtCrepuesto.MaxLength = 50;
+            this.txtCrepuesto.Name = "txtCrepuesto";
+            this.txtCrepuesto.ReadOnly = true;
+            this.txtCrepuesto.Size = new System.Drawing.Size(184, 27);
+            this.txtCrepuesto.TabIndex = 2;
+            this.txtCrepuesto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtexistencia_KeyPress);
             // 
             // FrmFactura
             // 
@@ -462,11 +464,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox picBSalir;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtCantidad;
-        private System.Windows.Forms.TextBox txtCrepuesto;
         private System.Windows.Forms.TextBox txtValormano;
         private System.Windows.Forms.Button btnagregar;
         private System.Windows.Forms.Button btnborrar;
@@ -488,5 +488,7 @@
         private System.Windows.Forms.DataGridView dgvmostrar;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbProductos;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtCrepuesto;
     }
 }

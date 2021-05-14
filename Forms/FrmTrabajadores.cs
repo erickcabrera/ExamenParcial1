@@ -136,6 +136,22 @@ namespace SistemaInventario
                         reseteo();
                     }
 
+                    //Actualizamos el archivo
+                    //actualizamos el archivo de inventario
+                    string nombrearchivo = "..\\..\\Datos\\trabajadores.xlsx";
+                    try
+                    {
+                        if(File.Exists(nombrearchivo))
+                        {
+                            File.Delete(nombrearchivo);
+                            Exportar(dgvmostrar, nombrearchivo);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error " + ex.Message);
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -171,6 +187,22 @@ namespace SistemaInventario
                     txtafp.ReadOnly = false;
                     txtni.ReadOnly = false;
                     txtseguro.ReadOnly = false;
+
+                    //Actualizamos el archivo
+                    //actualizamos el archivo de inventario
+                    string nombrearchivo = "..\\..\\Datos\\trabajadores.xlsx";
+                    try
+                    {
+                        if(File.Exists(nombrearchivo))
+                        {
+                            File.Delete(nombrearchivo);
+                            Exportar(dgvmostrar, nombrearchivo);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error " + ex.Message);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -381,8 +413,6 @@ namespace SistemaInventario
         
         private void btnImportar_Click(object sender, EventArgs e)
         {
-            ///
-
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Filter = "Excel | *.xls;*.xlsx;",
@@ -391,83 +421,109 @@ namespace SistemaInventario
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    List<Trabajadores> lst = new List<Trabajadores>();
-                    lst = ImportarDatos(openFileDialog.FileName);
-                    bool excelVacio = false;
-                    bool idCodigo = false;
-                    foreach (var item in lst)
-                    {
-                        excelVacio = true;
-                        Trabajadores trabajador = new Trabajadores();
-                        trabajador.Nombre = item.Nombre;
-                        trabajador.Dui = item.Dui;
-                        trabajador.Nit = item.Nit;
-                        trabajador.Afp = item.Afp;
-                        trabajador.Seguro = item.Seguro;
-                        trabajador.Direccion = item.Direccion;
-                        trabajador.Telefono = item.Telefono;
-                        trabajador.Tipo = item.Tipo;
-                        trabajador.Pago = item.Pago;
-                        trabajador.Fecha = item.Fecha;
-                        
-                        //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
-                        Queue<Trabajadores> cola = new Queue<Trabajadores>();
-                        cola = lista.Mostrar();
+                insertarImportacion(openFileDialog.FileName);
+            }
+        }
 
-                        if (cola.Count == 0)
+        public void insertarImportacion(string ruta)
+        {
+            try
+            {
+                List<Trabajadores> lst = new List<Trabajadores>();
+                lst = ImportarDatos(ruta);
+                bool excelVacio = false;
+                bool idCodigo = false;
+                foreach (var item in lst)
+                {
+                    excelVacio = true;
+                    Trabajadores trabajador = new Trabajadores();
+                    trabajador.Nombre = item.Nombre;
+                    trabajador.Dui = item.Dui;
+                    trabajador.Nit = item.Nit;
+                    trabajador.Afp = item.Afp;
+                    trabajador.Seguro = item.Seguro;
+                    trabajador.Direccion = item.Direccion;
+                    trabajador.Telefono = item.Telefono;
+                    trabajador.Tipo = item.Tipo;
+                    trabajador.Pago = item.Pago;
+                    trabajador.Fecha = item.Fecha;
+
+                    //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
+                    Queue<Trabajadores> cola = new Queue<Trabajadores>();
+                    cola = lista.Mostrar();
+
+                    if (cola.Count == 0)
+                    {
+                        lista.InsertarF(trabajador);
+                    }
+                    else
+                    {
+
+                        if (cola.Contains(item))
+                        {
+
+                        }
+                        foreach (var item2 in cola)
+                        {
+                            if (item2.Dui == trabajador.Dui)
+                            {
+                                idCodigo = true;
+                                break;
+                            }
+                        }
+                        if (idCodigo == false)
                         {
                             lista.InsertarF(trabajador);
                         }
-                        else
-                        {
-
-                            if (cola.Contains(item))
-                            {
-
-                            }
-                            foreach (var item2 in cola)
-                            {
-                                if (item2.Dui == trabajador.Dui)
-                                {
-                                    idCodigo = true;
-                                    break;
-                                }
-                            }
-                            if (idCodigo == false)
-                            {
-                                lista.InsertarF(trabajador);
-                            }
-                        }
-                        //***********************************************************
                     }
+                    //***********************************************************
+                }
 
+                if (ruta != "..\\..\\Datos\\trabajadores.xlsx")
+                {
                     if (excelVacio == true && idCodigo == false)
                     {
                         ActualizarDataGrid(lista);
                         MessageBox.Show("Archivo importado correctamente", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //Actualizamos el archivo
+                        //actualizamos el archivo de inventario
+                        string nombrearchivo = "..\\..\\Datos\\trabajadores.xlsx";
+                        try
+                        {
+                            if (File.Exists(nombrearchivo))
+                            {
+                                File.Delete(nombrearchivo);
+                                Exportar(dgvmostrar, nombrearchivo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error " + ex.Message);
+                        }
                     }
                     else if (excelVacio == true && idCodigo == true)
                     {
                         ActualizarDataGrid(lista);
-                        MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Archivo importado correctamente, pero algunos registros se omitieron porque el codigo ya existe", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
                         MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
                 }
-                catch (Exception Ex)
+                else
                 {
-                    MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                    ActualizarDataGrid(lista);
                 }
 
             }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-        }
+            }
+        } 
+
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
@@ -525,7 +581,10 @@ namespace SistemaInventario
                         iR++;
                     }
                     sl.SaveAs(outputFile);
-                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (outputFile != "..\\..\\Datos\\trabajadores.xlsx")
+                    {
+                        MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuena!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -541,6 +600,8 @@ namespace SistemaInventario
         private void FrmTrabajadores_Load(object sender, EventArgs e)
         {
             BorrarMensaje();
+            string nombrearchivo = "..\\..\\Datos\\trabajadores.xlsx";
+            insertarImportacion(nombrearchivo);
             fechanacimiento.Value.ToString("yyyy-MM-dd");
         }
 

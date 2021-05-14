@@ -56,17 +56,15 @@ namespace SistemaInventario
 
         private void reseteo()
         {
-
             txtCrepuesto.Clear();
             txtValormano.Clear();
             txtdescripcion.Clear(); txtCantidad.Clear();
-
+            cmbProductos.SelectedIndex = -1;
         }
 
-        List<Factura> ImportarProductos()
+        List<Inventario> ImportarProductos()
         {
-            List<Factura> lista = new List<Factura>();
-
+            List<Inventario> lista = new List<Inventario>();
             string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
 
             try
@@ -76,10 +74,11 @@ namespace SistemaInventario
                 int iRow = 2;
                 while (!string.IsNullOrEmpty(sl.GetCellValueAsString(iRow, 1)))
                 {
-                    Factura factura = new Factura();
-                    factura.Idfactura = sl.GetCellValueAsInt32(iRow, 1);
+                    Inventario inventario = new Inventario();
 
-                    lista.Add(factura);
+                    inventario.Descripcion = sl.GetCellValueAsString(iRow, 2);
+
+                    lista.Add(inventario);
                     iRow++;
                 }
             }
@@ -94,12 +93,12 @@ namespace SistemaInventario
         {
             try
             {
-                List<Factura> lista = new List<Factura>();
+                List<Inventario> lista = new List<Inventario>();
                 lista = ImportarProductos();
 
-                foreach (Factura item in lista)
+                foreach (Inventario item in lista)
                 {
-                    cmbProductos.Items.Add(item.Idfactura);
+                    cmbProductos.Items.Add(item.Descripcion);
                 }
             }
             catch (Exception Ex)
@@ -114,6 +113,8 @@ namespace SistemaInventario
             BorrarMensaje();
             try
             {
+                string nombrearchivo = "..\\..\\Datos\\facturas.xlsx";
+                InsertarImportacion(nombrearchivo);
                 llenarCombo();
                 btnborrar.Enabled = false;
                 btnEditar.Enabled = false;
@@ -164,6 +165,12 @@ namespace SistemaInventario
                 errorProvider1.SetError(txtdescripcion, "Por favor ingrese una descripción del articulo");
             }
 
+            if (cmbProductos.Text == "")
+            {
+                validacion = false;
+                errorProvider1.SetError(txtdescripcion, "Por favor seleccione un producto");
+            }
+
             return validacion;
         }
 
@@ -177,14 +184,13 @@ namespace SistemaInventario
 
             errorProvider1.SetError(txtCantidad, "");
             errorProvider1.SetError(txtdescripcion, "");
-
+            errorProvider1.SetError(cmbProductos, "");
         }
 
 
 
         private void btnGuardarA_Click(object sender, EventArgs e)
         {
-
             contid.Text = Convert.ToString(Convert.ToInt32(contid.Text) + 1);
             //validaciones
             BorrarMensaje();
@@ -203,11 +209,10 @@ namespace SistemaInventario
                     factura.Cantidad = int.Parse(txtCantidad.Text);
                     factura.Costo = double.Parse(txtCrepuesto.Text);
                     factura.Valor_mano_obra = double.Parse(txtValormano.Text);
-                    factura.Costo_total = Math.Round((factura.Costo + factura.Valor_mano_obra) * factura.Cantidad, 2);
+                    factura.Costo_total = Math.Round((factura.Costo * factura.Cantidad ) + factura.Valor_mano_obra, 2);
                     factura.Descripcion_mano_obra = txtdescripcion.Text;
-
+                    factura.Producto = cmbProductos.Text;
                     //Si el validador == -1 significa que un dato será INGRESADO
-
 
                     //De ser así, ocupo el método InsertarF y le mando el objeto de tipo trabajador
                     lista.InsertarF(factura);
@@ -216,6 +221,22 @@ namespace SistemaInventario
 
                     //Limpio pantalla
                     reseteo();
+
+                    //Actualizamos el archivo
+                    //actualizamos el archivo de inventario
+                    string nombrearchivo = "..\\..\\Datos\\facturas.xlsx";
+                    try
+                    {
+                        if (File.Exists(nombrearchivo))
+                        {
+                            File.Delete(nombrearchivo);
+                            Exportar(dgvmostrar, nombrearchivo);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error " + ex.Message);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -239,58 +260,82 @@ namespace SistemaInventario
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
+                InsertarImportacion(openFileDialog.FileName);
+            }
+        }
+
+        public void InsertarImportacion(string ruta)
+        {
+            try
+            {
+                List<Factura> lst = new List<Factura>();
+                lst = ImportarDatos(ruta);
+                bool excelVacio = false;
+                bool idCodigo = false;
+                foreach (var item in lst)
                 {
-                    List<Factura> lst = new List<Factura>();
-                    lst = ImportarDatos(openFileDialog.FileName);
-                    bool excelVacio = false;
-                    bool idCodigo = false;
-                    foreach (var item in lst)
+                    excelVacio = true;
+                    Factura factura = new Factura();
+                    factura.Idfactura = Convert.ToInt32(item.Idfactura.ToString());
+                    factura.Cantidad = Convert.ToInt32(item.Cantidad.ToString());
+                    factura.Costo = Convert.ToDouble(item.Costo.ToString());
+                    factura.Valor_mano_obra = Convert.ToDouble(item.Valor_mano_obra.ToString());
+                    factura.Costo_total = Convert.ToDouble(item.Costo_total.ToString());
+                    factura.Descripcion_mano_obra = item.Descripcion_mano_obra.ToString();
+                    factura.Producto = item.Producto.ToString();
+
+
+                    //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
+                    Queue<Factura> cola = new Queue<Factura>();
+                    cola = lista.Mostrar();
+
+                    if (cola.Count == 0)
                     {
-                        excelVacio = true;
-                        Factura factura = new Factura();
-                        factura.Idfactura = Convert.ToInt32(item.Idfactura.ToString());
-                        factura.Cantidad = Convert.ToInt32(item.Cantidad.ToString());
-                        factura.Costo = Convert.ToDouble(item.Costo.ToString());
-                        factura.Valor_mano_obra = Convert.ToDouble(item.Valor_mano_obra.ToString());
-                        factura.Costo_total = Convert.ToDouble(item.Costo_total.ToString());
-                        factura.Descripcion_mano_obra = item.Descripcion_mano_obra.ToString();
-                        
+                        lista.InsertarF(factura);
+                    }
+                    else
+                    {
 
-                        //Esto es para validar que no se ingrese un registro con codigo ya existente en la lista
-                        Queue<Factura> cola = new Queue<Factura>();
-                        cola = lista.Mostrar();
+                        if (cola.Contains(item))
+                        {
 
-                        if (cola.Count == 0)
+                        }
+                        foreach (var item2 in cola)
+                        {
+                            if (item2.Idfactura == factura.Idfactura)
+                            {
+                                idCodigo = true;
+                                break;
+                            }
+                        }
+                        if (idCodigo == false)
                         {
                             lista.InsertarF(factura);
                         }
-                        else
-                        {
-
-                            if (cola.Contains(item))
-                            {
-
-                            }
-                            foreach (var item2 in cola)
-                            {
-                                if (item2.Idfactura == factura.Idfactura)
-                                {
-                                    idCodigo = true;
-                                    break;
-                                }
-                            }
-                            if (idCodigo == false)
-                            {
-                                lista.InsertarF(factura);
-                            }
-                        }
                     }
+                }
 
+                if (ruta != "..\\..\\Datos\\facturas.xlsx")
+                {
                     if (excelVacio == true && idCodigo == false)
                     {
                         ActualizarDataGrid(lista);
                         MessageBox.Show("Archivo importado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //Actualizamos el archivo
+                        //actualizamos el archivo de inventario
+                        string nombrearchivo = "..\\..\\Datos\\facturas.xlsx";
+                        try
+                        {
+                            if (File.Exists(nombrearchivo))
+                            {
+                                File.Delete(nombrearchivo);
+                                Exportar(dgvmostrar, nombrearchivo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error " + ex.Message);
+                        }
                     }
                     else if (excelVacio == true && idCodigo == true)
                     {
@@ -301,13 +346,15 @@ namespace SistemaInventario
                     {
                         MessageBox.Show("El archivo agregado no contiene datos", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
                 }
-                catch (Exception Ex)
+                else
                 {
-                    MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                    ActualizarDataGrid(lista);
                 }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Error al importar  " + Ex.Message, "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
         }
@@ -327,10 +374,11 @@ namespace SistemaInventario
                     factura.Idfactura = sl.GetCellValueAsInt32(iRow, 1);
                     factura.Cantidad = sl.GetCellValueAsInt32(iRow, 2);
                     factura.Costo = sl.GetCellValueAsDouble(iRow, 3);
-                    factura.Descripcion_mano_obra = sl.GetCellValueAsString(iRow, 4);
-                    factura.Valor_mano_obra = sl.GetCellValueAsDouble(iRow, 5);
-                    factura.Costo_total = sl.GetCellValueAsDouble(iRow, 6);
-                    
+                    factura.Producto = sl.GetCellValueAsString(iRow, 4);
+                    factura.Descripcion_mano_obra = sl.GetCellValueAsString(iRow, 5);
+                    factura.Valor_mano_obra = sl.GetCellValueAsDouble(iRow, 6);
+                    factura.Costo_total = sl.GetCellValueAsDouble(iRow, 7);
+
                     lista.Add(factura);
                     iRow++;
                 }
@@ -444,13 +492,17 @@ namespace SistemaInventario
                         sl.SetCellValue(iR, 2, Convert.ToInt32(row.Cells[1].Value.ToString()));
                         sl.SetCellValue(iR, 3, Convert.ToDouble(row.Cells[2].Value.ToString()));
                         sl.SetCellValue(iR, 4, row.Cells[3].Value.ToString());
-                        sl.SetCellValue(iR, 5, Convert.ToDouble(row.Cells[4].Value.ToString()));
+                        sl.SetCellValue(iR, 5, row.Cells[4].Value.ToString());
                         sl.SetCellValue(iR, 6, Convert.ToDouble(row.Cells[5].Value.ToString()));
+                        sl.SetCellValue(iR, 7, Convert.ToDouble(row.Cells[6].Value.ToString()));
 
                         iR++;
                     }
                     sl.SaveAs(outputFile);
-                    MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (outputFile != "..\\..\\Datos\\facturas.xlsx")
+                    {
+                        MessageBox.Show("Archivo exportado correctamente", "¡Enhorabuea!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -499,8 +551,9 @@ namespace SistemaInventario
                         factura.Cantidad = int.Parse(txtCantidad.Text);
                         factura.Costo = Convert.ToDouble(txtCrepuesto.Text);
                         factura.Valor_mano_obra = Double.Parse(txtValormano.Text);
-                        factura.Costo_total = Math.Round((factura.Costo + factura.Valor_mano_obra) * factura.Cantidad,2); 
+                        factura.Costo_total = Math.Round((factura.Costo * factura.Cantidad) + factura.Valor_mano_obra, 2);
                         factura.Descripcion_mano_obra = txtdescripcion.Text;
+                        factura.Producto = cmbProductos.Text;
                         //Esto lo tenía para ver que el dato correcto se estaba borrando  MessageBox.Show(dui);
 
                         //Creo un nuevo objeto del tipo lista
@@ -513,8 +566,22 @@ namespace SistemaInventario
                         codigo = 0;
                         btnagregar.Enabled = true;
                         btnEditar.Enabled = false;
-                    
 
+                        //Actualizamos el archivo
+                        //actualizamos el archivo de inventario
+                        string nombrearchivo = "..\\..\\Datos\\facturas.xlsx";
+                        try
+                        {
+                            if (File.Exists(nombrearchivo))
+                            {
+                                File.Delete(nombrearchivo);
+                                Exportar(dgvmostrar, nombrearchivo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error " + ex.Message);
+                        }
 
                     }
                     catch (Exception ex)
@@ -538,51 +605,59 @@ namespace SistemaInventario
         {
             if (dgvmostrar.Rows.Count > 0)
             {
-                try
+                
+                if (FormLogin.user == "ADMIN")
                 {
-                    btnagregar.Enabled = false;
-                    btnEditar.Enabled = true;
-                    string Chosen_file2 = "";
-                    //Le paso los datos del datagrid a los textbox
-                    validador = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
-                    contid.Text = dgvmostrar.Rows[validador].Cells[0].Value.ToString();
-                    txtCantidad.Text = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
-                    txtCrepuesto.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
-                    txtValormano.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
+                    try
+                    {
+                        btnagregar.Enabled = false;
+                        btnEditar.Enabled = true;
+                        string Chosen_file2 = "";
+                        //Le paso los datos del datagrid a los textbox
+                        validador = dgvmostrar.Rows.IndexOf(dgvmostrar.SelectedRows[0]);
+                        contid.Text = dgvmostrar.Rows[validador].Cells[0].Value.ToString();
+                        txtCantidad.Text = dgvmostrar.Rows[validador].Cells[1].Value.ToString();
+                        txtCrepuesto.Text = dgvmostrar.Rows[validador].Cells[2].Value.ToString();
+                        cmbProductos.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
+                        txtdescripcion.Text = dgvmostrar.Rows[validador].Cells[4].Value.ToString();
+                        txtValormano.Text = dgvmostrar.Rows[validador].Cells[5].Value.ToString();
 
-                    txtdescripcion.Text = dgvmostrar.Rows[validador].Cells[3].Value.ToString();
 
-                    btnEditar.Enabled = true;
-                    btnborrar.Enabled = false;
-                    btnagregar.Enabled = false;
+                        btnEditar.Enabled = true;
+                        btnborrar.Enabled = false;
+                        btnagregar.Enabled = false;
 
-                    //lblruta.Text = Chosen_file2;
+                        //lblruta.Text = Chosen_file2;
 
-                    //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error doble click: " + ex.Message);
+                        //Hago que estos datos no puedan ser modificados, porque son los identificadores unicos de cada trabajador
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error doble click: " + ex.Message);
+                    }
                 }
             }
         }
 
         private void dgvmostrar_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvmostrar.SelectedRows.Count > 0 && e.RowIndex != -1)
+            if (FormLogin.user == "ADMIN")
             {
-                try
+                if (dgvmostrar.SelectedRows.Count > 0 && e.RowIndex != -1)
                 {
-                    reseteo();
-                    btnborrar.Enabled = true;
-                    btnagregar.Enabled = false;
-                    btnEditar.Enabled = false;
-                    codigo = int.Parse(dgvmostrar.CurrentRow.Cells["Idfactura"].Value.ToString());
+                    try
+                    {
+                        reseteo();
+                        btnborrar.Enabled = true;
+                        btnagregar.Enabled = false;
+                        btnEditar.Enabled = false;
+                        codigo = int.Parse(dgvmostrar.CurrentRow.Cells["Idfactura"].Value.ToString());
 
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
                 }
             }
         }
@@ -618,6 +693,22 @@ namespace SistemaInventario
                         codigo = 0;
                         btnagregar.Enabled = true;
                         btnEditar.Enabled = false;
+
+                        //Actualizamos el archivo
+                        //actualizamos el archivo de inventario
+                        string nombrearchivo = "..\\..\\Datos\\facturas.xlsx";
+                        try
+                        {
+                            if (File.Exists(nombrearchivo))
+                            {
+                                File.Delete(nombrearchivo);
+                                Exportar(dgvmostrar, nombrearchivo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error " + ex.Message);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -634,6 +725,31 @@ namespace SistemaInventario
             else
             {
                 MessageBox.Show("Debe seleccionar una fila", "¡Cuidado!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void cmbProductos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string nombrearchivo = "..\\..\\Datos\\productos.xlsx";
+
+            try
+            {
+                SLDocument sl = new SLDocument(nombrearchivo);
+
+                int iRow = 2;
+                while (!string.IsNullOrEmpty(sl.GetCellValueAsString(iRow, 1)))
+                {
+                    Inventario inventario = new Inventario();
+                    if (cmbProductos.Text == sl.GetCellValueAsString(iRow, 2))
+                    {
+                        txtCrepuesto.Text = Convert.ToString(sl.GetCellValueAsDouble(iRow, 5));
+                    }
+                    iRow++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al importar " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
