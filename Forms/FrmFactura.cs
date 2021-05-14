@@ -191,7 +191,31 @@ namespace SistemaInventario
 
         private void btnGuardarA_Click(object sender, EventArgs e)
         {
-            contid.Text = Convert.ToString(Convert.ToInt32(contid.Text) + 1);
+            SLDocument sl = new SLDocument();
+
+            int iC = 1;
+            SLStyle style = new SLStyle();
+            style.Font.Bold = true;
+
+            foreach (DataGridViewColumn column in dgvmostrar.Columns)
+            {
+                sl.SetCellValue(1, iC, column.HeaderText.ToString());
+                sl.SetCellStyle(1, iC, style);
+                iC++;
+            }
+
+            int contIdFac = 0;
+            foreach (DataGridViewRow row in dgvmostrar.Rows)
+            {
+                sl.SetCellValue(contIdFac, 1, Convert.ToInt32(row.Cells[0].Value.ToString()));
+                contIdFac++;
+            }
+
+            //ASIGNAMOS EL VALOR DE ID DE MANERA CORRECTA
+            contid.Text = Convert.ToString(contIdFac + 1);
+
+
+
             //validaciones
             BorrarMensaje();
             if (validaciones())
@@ -751,6 +775,11 @@ namespace SistemaInventario
             {
                 MessageBox.Show("Error al importar " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void contid_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -132,7 +132,12 @@ namespace SistemaInventario
         {
             string contra = txtContra.Text;
             string usuario = txtUsuario.Text.ToUpper();
-            if (txtUsuario.Text.Length == 0 && txtContra.Text.Length == 0)
+            if (txtUsuario.Text.Length == 0)
+            {
+                MessageBox.Show("Debes ingresar un usuario", "ADVERTENCIA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            else if(txtContra.Text.Length == 0)
             {
                 MessageBox.Show("Debes completar informacion", "ADVERTENCIA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -163,6 +168,11 @@ namespace SistemaInventario
             FrmMenu frm = new FrmMenu();
             frm.Show();
             this.Hide();
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

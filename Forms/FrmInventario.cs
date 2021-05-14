@@ -131,6 +131,7 @@ namespace SistemaInventario
                 validacion = false;
                 errorProvider1.SetError(txtpventa, "Por favor ingrese el precio de venta del articulo");
             }
+
             if (txtdescripcion.Text == "")
             {
                 validacion = false;
